@@ -45,10 +45,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { LandingComponent } from './pages/landing/landing.component';
+import { DefaultToolbarComponent } from './shared/components/default-toolbar/default-toolbar.component';
+import { ToolbarWithSigninComponent } from './shared/components/toolbar-with-signin/toolbar-with-signin.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LandingComponent,
+    DefaultToolbarComponent,
+    ToolbarWithSigninComponent
   ],
   imports: [
     BrowserModule,
