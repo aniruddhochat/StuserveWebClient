@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,6 +15,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ReactiveFormsModule } from '@angular/forms';
 // Material Navigation
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -48,16 +50,23 @@ import { MatTableModule } from '@angular/material/table';
 import { LandingComponent } from './pages/landing/landing.component';
 import { DefaultToolbarComponent } from './shared/components/default-toolbar/default-toolbar.component';
 import { ToolbarWithSigninComponent } from './shared/components/toolbar-with-signin/toolbar-with-signin.component';
+import { SignInComponent } from './pages/sign-in/sign-in.component';
+import { SignUpConsumerComponent } from './pages/sign-up-consumer/sign-up-consumer.component';
+import { SignUpProviderComponent } from './pages/sign-up-provider/sign-up-provider.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
     DefaultToolbarComponent,
-    ToolbarWithSigninComponent
+    ToolbarWithSigninComponent,
+    SignInComponent,
+    SignUpConsumerComponent,
+    SignUpProviderComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     MatAutocompleteModule,
@@ -94,7 +103,8 @@ import { ToolbarWithSigninComponent } from './shared/components/toolbar-with-sig
     MatTooltipModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

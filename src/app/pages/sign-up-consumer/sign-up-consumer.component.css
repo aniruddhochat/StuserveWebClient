@@ -1,0 +1,10 @@
+
+#container {
+    width: 60vw;
+    margin: auto;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
