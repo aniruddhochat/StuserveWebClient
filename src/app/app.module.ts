@@ -53,6 +53,7 @@ import { ToolbarWithSigninComponent } from './shared/components/toolbar-with-sig
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { SignUpConsumerComponent } from './pages/sign-up-consumer/sign-up-consumer.component';
 import { SignUpProviderComponent } from './pages/sign-up-provider/sign-up-provider.component';
+import { SignUpTypeSelectComponent } from './shared/components/sign-up-type-select/sign-up-type-select.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { SignUpProviderComponent } from './pages/sign-up-provider/sign-up-provid
     ToolbarWithSigninComponent,
     SignInComponent,
     SignUpConsumerComponent,
-    SignUpProviderComponent
+    SignUpProviderComponent,
+    SignUpTypeSelectComponent
   ],
   imports: [
     BrowserModule,

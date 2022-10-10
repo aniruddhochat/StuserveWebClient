@@ -1,0 +1,18 @@
+
+<div id="container">
+    <p id="header">Select Which Type of Account</p>
+
+    <p class="button-label">
+        A consumer account will allow you to search over a wide range of 
+        hosted services and rentals. You will be able to find low-priced 
+        services provided by your fellow students with ease, and even handle 
+        the payments through our app!</p>
+    <button class="button-raised-filled" height="100" color="red" mat-raised-button [routerLink]="'/signup-consumer'" (click)="consumerClick()">Consumer Sign Up</button>
+
+    <p class="button-label">
+        A seller or provider account will allow you to make and customize 
+        postings for any services or rentals you would like to advertise. 
+        Our platform will help you reach every student in the student body!</p>
+    <button class="button-raised-filled" height="100" color="red" mat-raised-button [routerLink]="'/signup-provider'" (click)="providerClick()">Provider Sign Up</button>
+</div>
+

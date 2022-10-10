@@ -1,10 +1,25 @@
 
 #container {
-    width: 60vw;
+    width: 50vw;
     margin: auto;
+    padding: 50px;
 }
 
 .form-row {
     display: flex;
     justify-content: space-between;
+}
+
+#header {
+    text-align: center;
+    font-size: 35px;
+}
+
+#form-container {
+    padding: 50px;
+}
+
+.form-section-header {
+    border-bottom: grey 1px solid;
+    font-size: 20px;
 }
