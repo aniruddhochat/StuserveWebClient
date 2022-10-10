@@ -1,0 +1,39 @@
+
+
+#container {
+    width: 30vw;
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10vh;
+}
+
+#card-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#card-subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: grey;
+}
+
+#form-fields-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.field-caption {
+    text-align: left; 
+    width: 75%;
+}
+
+.link {
+    text-align: center;
+    color: blue;
+}

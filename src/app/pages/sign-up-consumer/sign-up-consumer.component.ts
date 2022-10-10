@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ApiClientService } from 'src/app/services/api-client.service';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-sign-up-consumer',
@@ -21,7 +21,7 @@ export class SignUpConsumerComponent implements OnInit {
   })
 
   addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
   interests: string[] = [];
 
   constructor(private apiClient: ApiClientService) { }
@@ -32,7 +32,7 @@ export class SignUpConsumerComponent implements OnInit {
 
 
   add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+    const value = (event.value || '').trim().toLowerCase();
     // Add the input string
     if (value) {
       this.interests.push(value);
@@ -56,6 +56,7 @@ export class SignUpConsumerComponent implements OnInit {
     //     this.formData.controls.emailControl.value,)
     // }
     console.log(this.formData);
+    console.log(this.interests);
   }
 
 }
