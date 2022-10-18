@@ -1,16 +1,23 @@
 
-#sideNav {
-    height: 90vh;
+
+#card {
+    margin: 25px;
+    min-height: 75vh;
 }
 
-#navContainer {
-    padding: 15px;
+#container {
+    padding: 50px;
 }
 
-#navHeader {
-    color: white;
-    background-color: var(--IU-red);
-    font-weight: bold;
-    border-bottom: 1px solid grey;
-    padding: 10px;
+#header {
+    font-size: 30px;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid lightgrey;
+}
+
+#options-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }

@@ -1,0 +1,36 @@
+
+
+#sideNav {
+    height: 90vh;
+}
+
+#menu-icon {
+    transform: scale(1.5);
+}
+
+#menu-button {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#navContainer {
+    padding: 15px;
+    width: 10vw;
+    display: flex;
+    flex-direction: column;
+}
+
+#navHeader {
+    color: white;
+    background-color: var(--IU-red);
+    font-weight: bold;
+    border-bottom: 1px solid grey;
+    padding: 10px;
+    text-align: center;
+}
+
+.navButton {
+    font-size: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}

@@ -126,7 +126,7 @@ export class SignUpConsumerComponent implements OnInit {
                     panelClass: ['green-snackbar'],
                    }).afterDismissed().subscribe(() => {
                     // After the success snackbar disappears, then navigate the user to the consumer home page
-                    this.router.navigateByUrl("home-consumer");
+                    this.router.navigateByUrl("home");
                     // Now set is loading to false
                     this.isLoading = false;
                    });

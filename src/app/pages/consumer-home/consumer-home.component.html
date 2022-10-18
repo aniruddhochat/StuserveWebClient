@@ -1,17 +1,50 @@
 
-<!-- Include the custom toolbar with profile component -->
-<app-toolbar-with-profile></app-toolbar-with-profile>
 
-<mat-sidenav-container id="sideNav">
-    <mat-sidenav #sidenav mode="side" [(opened)]="sideNavOpened">
-        <p id="navHeader">NAVIGATION</p>
-        <div id="navContainer">
-           <p>HOME</p>
-           <p>FOR YOU</p>
+<mat-card id="card">
+    <div id="container">
+        <p id="header">Find Services & Rentals</p>
+        <!-- Filtering/Sorting/Searching Section -->
+        <div id="options-container">
+            <button style="width: 5%; height: 60px;" mat-button (click)="openFiltering()"><mat-icon>filter_list</mat-icon></button>
+            <mat-form-field style="width: 20%" appearance="outline">
+                <mat-label>Sort By</mat-label>
+                <mat-select>
+                    <mat-option value="popular">Popular</mat-option>
+                    <mat-option value="recent">Recent</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field style="width: 20%" appearance="outline">
+                <mat-label>Type</mat-label>
+                <mat-select>
+                    <mat-option value="both">Both</mat-option>
+                    <mat-option value="services">Services</mat-option>
+                    <mat-option value="rentals">Rentals</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field style="width: 50%;" appearance="outline">
+                <mat-label>Search</mat-label>
+                <input matInput placeholder="Type keyword...">
+                <mat-icon matPrefix>search</mat-icon>
+            </mat-form-field>
         </div>
-    </mat-sidenav>
-  
-    <mat-sidenav-content>
-      <button mat-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+        <!-- Services Section -->
+        <mat-accordion *ngFor="let service of tempServices">
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{service.name}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    <div style="display: flex; width: 100%; justify-content: space-between;">
+                        <p>{{service.providerName}}</p>
+                        <p style="color: green;">${{service.cost}}</p>
+                    </div>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <p style="color: grey;">ID: {{service.id}}</p>
+            <p>{{service.description}}</p>
+                <button mat-raised-button color="primary" (click)="viewService(service)">View Details</button>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</mat-card>

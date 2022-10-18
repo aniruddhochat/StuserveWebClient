@@ -57,6 +57,9 @@ import { SignUpTypeSelectComponent } from './shared/components/sign-up-type-sele
 import { ConsumerHomeComponent } from './pages/consumer-home/consumer-home.component';
 import { ToolbarWithProfileComponent } from './shared/components/toolbar-with-profile/toolbar-with-profile.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { FilterPopupComponent } from './shared/components/filter-popup/filter-popup.component';
+import { ServiceViewComponent } from './pages/service-view/service-view.component';
+import { SideNavComponent } from './shared/components/side-nav/side-nav.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +72,10 @@ import { NgxMaskModule } from 'ngx-mask';
     SignUpProviderComponent,
     SignUpTypeSelectComponent,
     ConsumerHomeComponent,
-    ToolbarWithProfileComponent
+    ToolbarWithProfileComponent,
+    FilterPopupComponent,
+    ServiceViewComponent,
+    SideNavComponent
   ],
   imports: [
     BrowserModule,

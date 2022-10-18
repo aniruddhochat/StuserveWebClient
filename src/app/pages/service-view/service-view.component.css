@@ -1,0 +1,26 @@
+
+
+#card {
+    margin: auto;
+    width: 50vw;
+    min-height: 75vh;
+}
+
+#container {
+    margin-top: 50px; 
+    padding: 50px;
+}
+
+#header {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    position:absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 35px;
+    border-bottom: 1px solid lightgrey;
+    background-color: var(--IU-red);
+    color: white;
+}
