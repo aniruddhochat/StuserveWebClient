@@ -30,6 +30,7 @@ export class SignUpConsumerComponent implements OnInit {
   })
 
   username: string = "";
+  hidePassword: boolean = true;
 
   isLoading: boolean = false;
 

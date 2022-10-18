@@ -13,6 +13,8 @@ export class SignInComponent implements OnInit {
 
   isLoading: boolean = false;
 
+  hidePassword: boolean = true;
+
   formData = new FormGroup({
     usernameControl: new FormControl(''),
     passwordControl: new FormControl('')

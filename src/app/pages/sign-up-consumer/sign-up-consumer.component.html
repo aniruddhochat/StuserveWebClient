@@ -26,26 +26,38 @@
                 <div class="form-row">
                     <mat-form-field style="width: 45%" appearance="fill">
                         <mat-label>Email</mat-label>
-                        <input required formControlName="emailControl" matInput>
+                        <input email required formControlName="emailControl" matInput>
                         <mat-error *ngIf="formData.controls['emailControl'].hasError('required')">Email is required</mat-error>
+                        <mat-error *ngIf="formData.controls['emailControl'].hasError('email')">Email is invalid</mat-error>
                     </mat-form-field>
                     <mat-form-field style="width: 45%" appearance="fill">
                         <mat-label>Phone #</mat-label>
-                        <input mask="(000) 000-0000" required formControlName="phoneControl" matInput>
+                        <input mask="(000) 000-0000" [minlength]="10" required formControlName="phoneControl" matInput>
                         <mat-error *ngIf="formData.controls['phoneControl'].hasError('required')">Phone number is required</mat-error>
+                        <mat-error *ngIf="formData.controls['phoneControl'].hasError('minlength')">Phone number is too short</mat-error>
                     </mat-form-field>
                 </div>
 
                 <div class="form-row">
                     <mat-form-field style="width: 45%" appearance="fill">
                         <mat-label>School Year</mat-label>
-                        <input required formControlName="yearControl" matInput>
+                        <mat-select required formControlName="yearControl">
+                            <mat-option value="freshman">Freshman</mat-option>
+                            <mat-option value="sophomore">Sophomore</mat-option>
+                            <mat-option value="junior">Junior</mat-option>
+                            <mat-option value="senior">Senior</mat-option>
+                            <mat-option value="other">Other</mat-option>
+                          </mat-select>
                         <mat-error *ngIf="formData.controls['yearControl'].hasError('required')">School Year is required</mat-error>
                     </mat-form-field>
                 </div>
                 
                 
                 <p class="form-section-header" style="margin-top: 50px;">Account Information</p>
+
+                <div style="display: flex; justify-content: right;">
+                    <mat-icon style="transform: scale(0.75);" matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </div>
 
                 <div class="form-row">
                     <div style="width: 45%">
@@ -54,7 +66,7 @@
                     </div>
                     <mat-form-field style="width: 45%" appearance="fill">
                         <mat-label>Password</mat-label>
-                        <input required formControlName="passwordControl" matInput>
+                        <input [type]="hidePassword ? 'password' : 'text'" required formControlName="passwordControl" matInput>
                         <mat-error *ngIf="formData.controls['passwordControl'].hasError('required')">Password is required</mat-error>
                     </mat-form-field>
                 </div>

@@ -13,9 +13,12 @@
                     <input required formControlName="usernameControl" matInput placeholder="Type response...">
                     <mat-error *ngIf="formData.controls['usernameControl'].hasError('required')">Username/Email is required</mat-error>
                 </mat-form-field>
-                <p class="field-caption">Password:</p>
+                <div style="display: flex; justify-content: space-between; width: 75%;">
+                    <p>Password:</p>
+                    <mat-icon style="transform: scale(0.75);" matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </div>
                 <mat-form-field style="width: 75%" appearance="fill">
-                    <input required formControlName="passwordControl" matInput placeholder="Type response...">
+                    <input [type]="hidePassword ? 'password' : 'text'" required formControlName="passwordControl" matInput placeholder="Type response...">
                     <mat-error *ngIf="formData.controls['passwordControl'].hasError('required')">Password is required</mat-error>
                 </mat-form-field>
             </div>
