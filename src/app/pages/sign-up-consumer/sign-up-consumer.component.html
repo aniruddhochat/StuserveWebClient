@@ -31,7 +31,7 @@
                     </mat-form-field>
                     <mat-form-field style="width: 45%" appearance="fill">
                         <mat-label>Phone #</mat-label>
-                        <input required formControlName="phoneControl" matInput>
+                        <input mask="(000) 000-0000" required formControlName="phoneControl" matInput>
                         <mat-error *ngIf="formData.controls['phoneControl'].hasError('required')">Phone number is required</mat-error>
                     </mat-form-field>
                 </div>
@@ -48,11 +48,10 @@
                 <p class="form-section-header" style="margin-top: 50px;">Account Information</p>
 
                 <div class="form-row">
-                    <mat-form-field style="width: 45%" appearance="fill">
-                        <mat-label>Username</mat-label>
-                        <input required formControlName="usernameControl" matInput>
-                        <mat-error *ngIf="formData.controls['usernameControl'].hasError('required')">Username is required</mat-error>
-                    </mat-form-field>
+                    <div style="width: 45%">
+                        <p class="form-item-replica"><span style="font-weight: bold;">Username: </span><span>{{username}}</span></p>
+                        <button #generateUsernameButton mat-raised-button type="button" (click)="generateUsername()">Generate Username</button>
+                    </div>
                     <mat-form-field style="width: 45%" appearance="fill">
                         <mat-label>Password</mat-label>
                         <input required formControlName="passwordControl" matInput>
@@ -63,7 +62,7 @@
                 <!-- Does not actually bind to a form control, because it is a list value and not a single value.
                         Instead, it is binding to a normal class variable that is handled seperatley from the form
                         We can do this becuase we do not need validators on the list input -->
-                <div class="form-row">
+                <div class="form-row" style="margin-top: 50px;">
                     <mat-form-field style="width: 45%" class="interests-chip-list" appearance="fill">
                         <mat-label>Interests</mat-label>
                         <mat-chip-list #chipList aria-label="Interests selection">
@@ -83,7 +82,9 @@
                     </mat-form-field>
                 </div>
                 
-                <button mat-button style="margin-top: 50px;">Submit</button>
+                <button *ngIf="!isLoading" mat-button style="margin-top: 50px;">Submit</button>
+
+                <mat-spinner *ngIf="isLoading" style="margin: auto"></mat-spinner>
             </form>
         </mat-card-content>
     </mat-card>  

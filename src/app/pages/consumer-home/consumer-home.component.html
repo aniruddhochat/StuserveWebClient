@@ -1,0 +1,17 @@
+
+<!-- Include the custom toolbar with profile component -->
+<app-toolbar-with-profile></app-toolbar-with-profile>
+
+<mat-sidenav-container id="sideNav">
+    <mat-sidenav #sidenav mode="side" [(opened)]="sideNavOpened">
+        <p id="navHeader">NAVIGATION</p>
+        <div id="navContainer">
+           <p>HOME</p>
+           <p>FOR YOU</p>
+        </div>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <button mat-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

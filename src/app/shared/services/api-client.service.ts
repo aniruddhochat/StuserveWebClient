@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { RandomUsername } from '../models/random-username.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiClientService {
+
+  username: string = "";
+  loggedIn: boolean = false;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -17,7 +21,7 @@ export class ApiClientService {
       lname: lname_
     };
     // Call the API, and return the observable
-    return this.httpClient.post(environment.apiUrl + "/v1/auth/generateUsername", body);
+    return this.httpClient.post<RandomUsername>(environment.apiUrl + "/v1/auth/generateUsername", body);
   }
 
   createNewAccount(fname_: string, lname_: string, email_: string, phone_: string, username_: string, password_: string) {

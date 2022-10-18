@@ -1,0 +1,16 @@
+
+#sideNav {
+    height: 90vh;
+}
+
+#navContainer {
+    padding: 15px;
+}
+
+#navHeader {
+    color: white;
+    background-color: var(--IU-red);
+    font-weight: bold;
+    border-bottom: 1px solid grey;
+    padding: 10px;
+}

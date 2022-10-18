@@ -15,7 +15,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Material Navigation
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -54,6 +54,9 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { SignUpConsumerComponent } from './pages/sign-up-consumer/sign-up-consumer.component';
 import { SignUpProviderComponent } from './pages/sign-up-provider/sign-up-provider.component';
 import { SignUpTypeSelectComponent } from './shared/components/sign-up-type-select/sign-up-type-select.component';
+import { ConsumerHomeComponent } from './pages/consumer-home/consumer-home.component';
+import { ToolbarWithProfileComponent } from './shared/components/toolbar-with-profile/toolbar-with-profile.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -64,11 +67,14 @@ import { SignUpTypeSelectComponent } from './shared/components/sign-up-type-sele
     SignInComponent,
     SignUpConsumerComponent,
     SignUpProviderComponent,
-    SignUpTypeSelectComponent
+    SignUpTypeSelectComponent,
+    ConsumerHomeComponent,
+    ToolbarWithProfileComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
     HttpClientModule,
     AppRoutingModule,
     MatAutocompleteModule,
@@ -106,7 +112,8 @@ import { SignUpTypeSelectComponent } from './shared/components/sign-up-type-sele
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
