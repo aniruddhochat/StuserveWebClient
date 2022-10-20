@@ -54,12 +54,13 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { SignUpConsumerComponent } from './pages/sign-up-consumer/sign-up-consumer.component';
 import { SignUpProviderComponent } from './pages/sign-up-provider/sign-up-provider.component';
 import { SignUpTypeSelectComponent } from './shared/components/sign-up-type-select/sign-up-type-select.component';
-import { ConsumerHomeComponent } from './pages/consumer-home/consumer-home.component';
+import { MainViewComponent } from './pages/main-view/main-view.component';
 import { ToolbarWithProfileComponent } from './shared/components/toolbar-with-profile/toolbar-with-profile.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { FilterPopupComponent } from './shared/components/filter-popup/filter-popup.component';
-import { ServiceViewComponent } from './pages/service-view/service-view.component';
 import { SideNavComponent } from './shared/components/side-nav/side-nav.component';
+import { ConsumerForYouComponent } from './pages/consumer-for-you/consumer-for-you.component';
+import { ServiceDetailsComponent } from './pages/service-details/service-details.component';
 
 @NgModule({
   declarations: [
@@ -71,11 +72,12 @@ import { SideNavComponent } from './shared/components/side-nav/side-nav.componen
     SignUpConsumerComponent,
     SignUpProviderComponent,
     SignUpTypeSelectComponent,
-    ConsumerHomeComponent,
+    MainViewComponent,
     ToolbarWithProfileComponent,
     FilterPopupComponent,
-    ServiceViewComponent,
-    SideNavComponent
+    ServiceDetailsComponent,
+    SideNavComponent,
+    ConsumerForYouComponent,
   ],
   imports: [
     BrowserModule,

@@ -6,11 +6,11 @@ import { FilterData } from 'src/app/shared/models/filter-data';
 import { Service } from 'src/app/shared/models/service.model';
 
 @Component({
-  selector: 'app-consumer-home',
-  templateUrl: './consumer-home.component.html',
-  styleUrls: ['./consumer-home.component.css']
+  selector: 'app-main-view',
+  templateUrl: './main-view.component.html',
+  styleUrls: ['./main-view.component.css']
 })
-export class ConsumerHomeComponent implements OnInit {
+export class MainViewComponent implements OnInit {
 
   sideNavOpened: boolean = false;
   filterData: FilterData = {temp1: "Test1", temp2: "Test2"};
@@ -81,6 +81,6 @@ export class ConsumerHomeComponent implements OnInit {
    * @param selectedService The service data to send to the service details page
    */
   viewService(selectedService: Service) {
-    this.router.navigate(['/home/service-view'], {state: selectedService});
+    this.router.navigate(['/home/service-details'], {state: selectedService});
   }
 }

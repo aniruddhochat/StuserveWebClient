@@ -15,10 +15,10 @@ export class SideNavComponent implements OnInit {
   }
 
   navigateHome() {
-    this.router.navigate(['home-consumer'], {relativeTo: this.route});
+    this.router.navigate(['main-view'], {relativeTo: this.route});
   }
 
   navigateForYou() {
-
+    this.router.navigate(['consumer-foryou'], {relativeTo: this.route});
   }
 }

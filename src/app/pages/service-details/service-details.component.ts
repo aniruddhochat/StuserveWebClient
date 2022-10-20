@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { Service } from 'src/app/shared/models/service.model';
 
 @Component({
-  selector: 'app-service-view',
-  templateUrl: './service-view.component.html',
-  styleUrls: ['./service-view.component.css']
+  selector: 'app-service-details',
+  templateUrl: './service-details.component.html',
+  styleUrls: ['./service-details.component.css']
 })
-export class ServiceViewComponent implements OnInit {
+export class ServiceDetailsComponent implements OnInit {
   // Holds the service object for this page
   service: Service = null!;
   

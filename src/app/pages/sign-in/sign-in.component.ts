@@ -38,14 +38,14 @@ export class SignInComponent implements OnInit {
           console.log(res);
           // Set the username in the API service, and set is logged in to true
           this.apiClient.username = this.formData.controls.usernameControl.value!;
-          this.apiClient.loggedIn = true;
+          this.apiClient.authenticated = true;
           // Display failure snackbar
           this.snackBar.open("Login Success", "", {
             duration: 1000,
             panelClass: ['green-snackbar'],
           }).afterDismissed().subscribe(() => {
             // Now after the snack bar is dismissed, navigate the user to the consumer home page
-            this.router.navigateByUrl("home");
+            this.router.navigateByUrl("home/main-view");
             // Done loading
             this.isLoading = false;
           });

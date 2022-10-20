@@ -9,7 +9,7 @@ import { RandomUsername } from '../models/random-username.model';
 export class ApiClientService {
 
   username: string = "";
-  loggedIn: boolean = false;
+  authenticated: boolean = false;
 
   constructor(private httpClient: HttpClient) { }
 

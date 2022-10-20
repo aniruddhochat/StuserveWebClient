@@ -119,14 +119,14 @@ export class SignUpConsumerComponent implements OnInit {
                 setTimeout(() => {
                    // Set API service username, and set is logged in to true
                    this.apiClient.username = this.username;
-                   this.apiClient.loggedIn = true;
+                   this.apiClient.authenticated = true;
                    // Display success snackba, then navigate to consumer home page
                    this.snackBar.open("SignUp Successful", "", {
                     duration: 1000,
                     panelClass: ['green-snackbar'],
                    }).afterDismissed().subscribe(() => {
                     // After the success snackbar disappears, then navigate the user to the consumer home page
-                    this.router.navigateByUrl("home");
+                    this.router.navigateByUrl("home/main-view");
                     // Now set is loading to false
                     this.isLoading = false;
                    });

@@ -13,8 +13,8 @@ export class AuthenticatedGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(!this.apiClient.loggedIn) {this.router.navigateByUrl("")};
-    return this.apiClient.loggedIn;
+    if(!this.apiClient.authenticated) {this.router.navigateByUrl("")};
+    return this.apiClient.authenticated;
   }
   
 }
