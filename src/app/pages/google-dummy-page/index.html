@@ -1,0 +1,74 @@
+<html>
+
+
+<head>
+  
+  <meta charset="utf-8">
+  <title>Project8WebClient</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+  <base href="/">
+  <meta name="google-signin-client_id" content="611497855697-cqpkr26bntm2kalipo0jnob4a8s4rs4h.apps.googleusercontent.com">  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <meta name="google-signin-client_id" content="611497855697-cqpkr26bntm2kalipo0jnob4a8s4rs4h.apps.googleusercontent.com">
+
+  <style>
+  .data {display: none;}
+  .g-signin2{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -150px;
+	margin-left: -150px;
+  }
+
+
+
+  </style>
+</head>
+
+
+<body>
+  <script src="https://accounts.google.com/gsi/client"></script>
+
+  
+  
+
+
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+  
+
+  <div class="data">
+	<p>Name</p>
+	<p id="name" class ="alert alert-success"></p>
+  </div>
+
+
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+  <script>
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      $("#name").text(profile.getName());
+      $(".data").css("display", "block");
+      $(".g-signin2").css("display", "none");
+    } 
+
+    function signOut(){
+	var auth2 = gapi.auth2.getAuthInstance();
+	auth2.signOut().then(function(){
+
+	});
+
+    }
+  </script>
+
+
+
+</body>
+</html>
