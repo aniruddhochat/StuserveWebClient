@@ -51,6 +51,30 @@
                         <mat-error *ngIf="formData.controls['yearControl'].hasError('required')">School Year is required</mat-error>
                     </mat-form-field>
                 </div>
+
+                <p class="form-section-header" style="margin-top: 50px;">Location</p>
+
+                <div class="form-row">
+                    <mat-form-field style="width: 45%" appearance="fill">
+                        <mat-label>Street Address</mat-label>
+                        <textarea required formControlName="addressControl" matInput></textarea>
+                        <mat-error *ngIf="formData.controls['addressControl'].hasError('required')">Street Address is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field style="width: 45%" appearance="fill">
+                        <mat-label>City</mat-label>
+                        <input required formControlName="cityControl" matInput>
+                        <mat-error *ngIf="formData.controls['cityControl'].hasError('required')">City is required</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field style="width: 45%" appearance="fill">
+                        <mat-label>Zipcode</mat-label>
+                        <input mask="00000" required formControlName="pincodeControl" [minlength]="5" matInput>
+                        <mat-error *ngIf="formData.controls['pincodeControl'].hasError('required')">Pincode is required</mat-error>
+                        <mat-error *ngIf="formData.controls['pincodeControl'].hasError('minlength')">Pincode is too short</mat-error>
+                    </mat-form-field>
+                </div>
                 
                 
                 <p class="form-section-header" style="margin-top: 50px;">Account Information</p>
@@ -61,7 +85,7 @@
 
                 <div class="form-row">
                     <div style="width: 45%">
-                        <p class="form-item-replica"><span style="font-weight: bold;">Username: </span><span>{{username}}</span></p>
+                        <p class="form-item-replica"><span style="color: grey;">Username: </span><span>{{username}}</span></p>
                         <button #generateUsernameButton mat-raised-button type="button" color="primary" (click)="generateUsername()">Generate Username</button>
                     </div>
                     <mat-form-field style="width: 45%" appearance="fill">
@@ -72,30 +96,11 @@
                     </mat-form-field>
                 </div>
 
+                
                 <div class="form-row" style="margin-top: 25px;">
-                    <mat-form-field style="width: 45%" appearance="fill">
-                        <mat-label>Street Address</mat-label>
-                        <input required formControlName="addressControl" matInput>
-                        <mat-error *ngIf="formData.controls['addressControl'].hasError('required')">Street Address is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field style="width: 45%" appearance="fill">
-                        <mat-label>Zipcode</mat-label>
-                        <input mask="00000" required formControlName="zipcodeControl" matInput [minlength]="5">
-                        <mat-error *ngIf="formData.controls['zipcodeControl'].hasError('required')">Zipcode is required</mat-error>
-                        <mat-error *ngIf="formData.controls['zipcodeControl'].hasError('minlength')">Zipcode is too short</mat-error>
-                    </mat-form-field>
-                </div>
-
-                <!-- Does not actually bind to a form control, because it is a list value and not a single value.
+                    <!-- Does not actually bind to a form control, because it is a list value and not a single value.
                         Instead, it is binding to a normal class variable that is handled seperatley from the form
                         We can do this becuase we do not need validators on the list input -->
-                <div class="form-row" style="margin-top: 25px;">
-                    <mat-form-field style="width: 45%" appearance="fill">
-                        <mat-label>Pincode</mat-label>
-                        <input mask="00000" required formControlName="pincodeControl" [minlength]="5" matInput>
-                        <mat-error *ngIf="formData.controls['pincodeControl'].hasError('required')">Pincode is required</mat-error>
-                        <mat-error *ngIf="formData.controls['pincodeControl'].hasError('minlength')">Pincode is too short</mat-error>
-                    </mat-form-field>
                     <mat-form-field style="width: 45%" class="interests-chip-list" appearance="fill">
                         <mat-label>Interests</mat-label>
                         <mat-chip-list #chipList aria-label="Interests selection">

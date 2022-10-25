@@ -4,7 +4,7 @@
 
 
 <div id="container">
-    <p id="header">Provider Sign Up</p>
+    <p id="header">Provider Sign up</p>
 
     <mat-card id="form-container">
         <p class="form-section-header">Personal Information</p>
@@ -26,42 +26,81 @@
                 <div class="form-row">
                     <mat-form-field style="width: 45%" appearance="fill">
                         <mat-label>Email</mat-label>
-                        <input required formControlName="emailControl" matInput>
+                        <input email required formControlName="emailControl" matInput>
                         <mat-error *ngIf="formData.controls['emailControl'].hasError('required')">Email is required</mat-error>
+                        <mat-error *ngIf="formData.controls['emailControl'].hasError('email')">Email is invalid</mat-error>
                     </mat-form-field>
                     <mat-form-field style="width: 45%" appearance="fill">
                         <mat-label>Phone #</mat-label>
-                        <input required formControlName="phoneControl" matInput>
+                        <input mask="(000) 000-0000" [minlength]="10" required formControlName="phoneControl" matInput>
                         <mat-error *ngIf="formData.controls['phoneControl'].hasError('required')">Phone number is required</mat-error>
+                        <mat-error *ngIf="formData.controls['phoneControl'].hasError('minlength')">Phone number is too short</mat-error>
                     </mat-form-field>
                 </div>
 
                 <div class="form-row">
                     <mat-form-field style="width: 45%" appearance="fill">
                         <mat-label>School Year</mat-label>
-                        <input required formControlName="yearControl" matInput>
+                        <mat-select required formControlName="yearControl">
+                            <mat-option value="freshman">Freshman</mat-option>
+                            <mat-option value="sophomore">Sophomore</mat-option>
+                            <mat-option value="junior">Junior</mat-option>
+                            <mat-option value="senior">Senior</mat-option>
+                            <mat-option value="other">Other</mat-option>
+                          </mat-select>
                         <mat-error *ngIf="formData.controls['yearControl'].hasError('required')">School Year is required</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <p class="form-section-header" style="margin-top: 50px;">Location</p>
+                
+                <div class="form-row">
+                    <mat-form-field style="width: 45%" appearance="fill">
+                        <mat-label>Street Address</mat-label>
+                        <textarea required formControlName="addressControl" matInput></textarea>
+                        <mat-error *ngIf="formData.controls['addressControl'].hasError('required')">Street Address is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field style="width: 45%" appearance="fill">
+                        <mat-label>City</mat-label>
+                        <input required formControlName="cityControl" matInput>
+                        <mat-error *ngIf="formData.controls['cityControl'].hasError('required')">City is required</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field style="width: 45%" appearance="fill">
+                        <mat-label>Zipcode</mat-label>
+                        <input mask="00000" required formControlName="pincodeControl" [minlength]="5" matInput>
+                        <mat-error *ngIf="formData.controls['pincodeControl'].hasError('required')">Pincode is required</mat-error>
+                        <mat-error *ngIf="formData.controls['pincodeControl'].hasError('minlength')">Pincode is too short</mat-error>
                     </mat-form-field>
                 </div>
                 
                 
                 <p class="form-section-header" style="margin-top: 50px;">Account Information</p>
 
+                <div style="display: flex; justify-content: right;">
+                    <mat-icon style="transform: scale(0.75);" matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </div>
+
                 <div class="form-row">
-                    <mat-form-field style="width: 45%" appearance="fill">
-                        <mat-label>Username</mat-label>
-                        <input required formControlName="usernameControl" matInput>
-                        <mat-error *ngIf="formData.controls['usernameControl'].hasError('required')">Username is required</mat-error>
-                    </mat-form-field>
+                    <div style="width: 45%">
+                        <p class="form-item-replica"><span style="color: grey;">Username: </span><span>{{username}}</span></p>
+                        <button #generateUsernameButton mat-raised-button type="button" color="primary" (click)="generateUsername()">Generate Username</button>
+                    </div>
                     <mat-form-field style="width: 45%" appearance="fill">
                         <mat-label>Password</mat-label>
-                        <input required formControlName="passwordControl" matInput>
+                        <input [type]="hidePassword ? 'password' : 'text'" required [minlength]="8" formControlName="passwordControl" matInput>
                         <mat-error *ngIf="formData.controls['passwordControl'].hasError('required')">Password is required</mat-error>
+                        <mat-error *ngIf="formData.controls['passwordControl'].hasError('minlength')">Password is too short</mat-error>
                     </mat-form-field>
                 </div>
-                
-                <button mat-button style="margin-top: 50px;">Submit</button>
+
+                <button *ngIf="!isLoading" mat-button style="margin-top: 50px;">Submit</button>
+
+                <mat-spinner *ngIf="isLoading" style="margin: auto"></mat-spinner>
             </form>
-        </mat-card-content> 
-    </mat-card> 
+        </mat-card-content>
+    </mat-card>  
 </div>
+

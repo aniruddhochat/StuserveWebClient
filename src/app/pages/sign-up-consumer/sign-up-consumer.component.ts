@@ -29,7 +29,7 @@ export class SignUpConsumerComponent implements OnInit {
     yearControl: new FormControl(''),
     passwordControl: new FormControl(''),
     addressControl: new FormControl(''),
-    zipcodeControl: new FormControl(''),
+    cityControl: new FormControl(''),
     pincodeControl: new FormControl(''),
   })
 
@@ -105,7 +105,7 @@ export class SignUpConsumerComponent implements OnInit {
         && this.formData.controls.passwordControl.value
         && this.formData.controls.yearControl.value
         && this.formData.controls.addressControl.value
-        && this.formData.controls.zipcodeControl.value
+        && this.formData.controls.cityControl.value
         && this.formData.controls.pincodeControl.value) {
         // Now make sure the user has generated a username value
         if(this.username != "") {
@@ -127,7 +127,7 @@ export class SignUpConsumerComponent implements OnInit {
             schoolyear: this.formData.controls.yearControl.value,
             address: this.formData.controls.addressControl.value,
             pincode: this.formData.controls.pincodeControl.value,
-            currlocation: this.formData.controls.zipcodeControl.value
+            currlocation: this.formData.controls.cityControl.value
           };
           console.log(JSON.stringify(newAccount));
           // Call API to post account creation
