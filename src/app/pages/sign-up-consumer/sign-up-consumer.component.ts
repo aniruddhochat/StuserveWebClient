@@ -7,6 +7,7 @@ import { ApiClientService } from 'src/app/shared/services/api-client.service';
 import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { ConsumerAccount } from 'src/app/shared/models/consumer-account.model';
 
 @Component({
   selector: 'app-sign-up-consumer',
@@ -73,17 +74,18 @@ export class SignUpConsumerComponent implements OnInit {
   generateUsername() {
     let first = this.formData.controls.fnameControl.value;
     let last = this.formData.controls.lnameControl.value;
-    if(first && last && first != "" && last != "") {
-      this.apiClient.generateRandomUsername(first, last).subscribe({
-        next: (res: RandomUsername) => {
-          this.username = res.data;
-        }, error: (err: any) => {
-          alert("Error generating username");
-        }
-      })
-    } else {
-      alert("Must first enter: First name, Last name");
-    }
+    this.username = Math.random()*1000 + "";
+    // if(first && last && first != "" && last != "") {
+    //   this.apiClient.generateRandomUsername(first, last).subscribe({
+    //     next: (res: RandomUsername) => {
+    //       this.username = res.data;
+    //     }, error: (err: any) => {
+    //       alert("Error generating username");
+    //     }
+    //   })
+    // } else {
+    //   alert("Must first enter: First name, Last name");
+    // }
   }
 
   /**
@@ -97,7 +99,8 @@ export class SignUpConsumerComponent implements OnInit {
         && this.formData.controls.lnameControl.value
         && this.formData.controls.emailControl.value
         && this.formData.controls.phoneControl.value
-        && this.formData.controls.passwordControl.value) {
+        && this.formData.controls.passwordControl.value
+        && this.formData.controls.yearControl.value) {
         // Now make sure the user has generated a username value
         if(this.username != "") {
           // Start loading API
@@ -106,14 +109,22 @@ export class SignUpConsumerComponent implements OnInit {
           this.formData.disable();
           this.interestList.disabled = true;
           this.usernameButton.disabled = true;
+          // Create new consumer account object
+          let newAccount: ConsumerAccount = {
+            interests: [],
+            username: this.username,
+            fname: this.formData.controls.fnameControl.value,
+            lname: this.formData.controls.lnameControl.value,
+            email: this.formData.controls.emailControl.value,
+            password: this.formData.controls.passwordControl.value,
+            phone: this.formData.controls.phoneControl.value,
+            schoolyear: this.formData.controls.yearControl.value,
+            address: '',
+            pincode: '',
+            currlocation: ''
+          };
           // Call API to post account creation
-          this.apiClient.createNewAccount(
-            this.formData.controls.fnameControl.value,
-            this.formData.controls.lnameControl.value,
-            this.formData.controls.emailControl.value,
-            this.formData.controls.phoneControl.value,
-            this.username,
-            this.formData.controls.passwordControl.value).subscribe({
+          this.apiClient.registerConsumer(newAccount).subscribe({
               next: (res: any) => {
                 // Done loading (2 second timeout to show the progress spinner)
                 setTimeout(() => {
@@ -131,7 +142,7 @@ export class SignUpConsumerComponent implements OnInit {
                     this.isLoading = false;
                    });
                 }, 1000);
-              }, error: (err) => {
+              }, error: (err: any) => {
                 // Done loading
                 this.isLoading = false;
                 alert("Something went wrong posting the account");

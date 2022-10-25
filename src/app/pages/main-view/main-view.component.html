@@ -28,7 +28,7 @@
             </mat-form-field>
         </div>
         <!-- Services Section -->
-        <mat-accordion *ngFor="let service of tempServices">
+        <mat-accordion *ngFor="let service of services">
             <mat-expansion-panel hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -36,12 +36,12 @@
                 </mat-panel-title>
                 <mat-panel-description>
                     <div style="display: flex; width: 100%; justify-content: space-between;">
-                        <p>{{service.providerName}}</p>
-                        <p style="color: green;">${{service.cost}}</p>
+                        <p>{{service.user}}</p>
+                        <p><b>Rating: </b>{{service.ratings}}/5</p>
                     </div>
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            <p style="color: grey;">ID: {{service.id}}</p>
+            <p style="color: grey;">Category: {{service.category}}</p>
             <p>{{service.description}}</p>
                 <button mat-raised-button color="primary" (click)="viewService(service)">View Details</button>
             </mat-expansion-panel>

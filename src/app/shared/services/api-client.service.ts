@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { RandomUsername } from '../models/random-username.model';
+import { ConsumerAccount } from '../models/consumer-account.model';
+import { ProviderAccount } from '../models/provider-account.model';
+import { Service } from '../models/service.model';
+import { ServicesRequest } from '../models/services-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,41 +14,42 @@ export class ApiClientService {
 
   username: string = "";
   authenticated: boolean = false;
+  isProvider: boolean = false;
 
   constructor(private httpClient: HttpClient) { }
 
-
-  generateRandomUsername(fname_: string, lname_: string) {
-    // Generate the body object from the parameters
-    let body = {
-      fname: fname_,
-      lname: lname_
-    };
+  registerConsumer(account: ConsumerAccount) {
     // Call the API, and return the observable
-    return this.httpClient.post<RandomUsername>(environment.apiUrl + "/v1/auth/generateUsername", body);
+    return this.httpClient.post(environment.apiUrl + "/v1/register", account);
   }
 
-  createNewAccount(fname_: string, lname_: string, email_: string, phone_: string, username_: string, password_: string) {
-    // Generate the body object from the parameters
-    let body = {
-      fname: fname_,
-      lname: lname_,
-      email: email_,
-      phone: phone_,
-      username: username_,
-      password: password_
-    };
+  registerProvider(account: ProviderAccount) {
     // Call the API, and return the observable
-    return this.httpClient.post(environment.apiUrl + "/v1/auth/register", body);
+    return this.httpClient.post(environment.apiUrl + "/v1/registerprovider", account);
   }
 
-  loginUser(email_: string, password_: string) {
+  loginConsumer(email_: string, password_: string) {
     // Generate the body object from the parameters
     let body = {
       email: email_,
       password: password_
     };
     // Call the API, and return the observable
-    return this.httpClient.post(environment.apiUrl + "/v1/auth/login", body);
+    return this.httpClient.post(environment.apiUrl + "/v1/login", body);
+  }
+
+  loginProvider(email_: string, password_: string) {
+    // Generate the body object from the parameters
+    let body = {
+      email: email_,
+      password: password_
+    };
+    // Call the API, and return the observable
+    return this.httpClient.post(environment.apiUrl + "/v1/loginprovider", body);
+  }
+
+  getServices() {
+    // Call the API, and return the observable
+    return this.httpClient.get<ServicesRequest>(environment.apiUrl + "/v1/services");
   }
 }

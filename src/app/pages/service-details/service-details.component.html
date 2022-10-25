@@ -2,10 +2,13 @@
 <mat-card id="card">
     <p id="header">Service Details</p>
     <div id="container">
-        <p><b>Service ID: </b>{{service.id}}</p>
-        <p><b>Service Name: </b>{{service.name}}</p>
-        <p><b>Service Provider: </b>{{service.providerName}}</p>
-        <p><b>Service Description: </b>{{service.description}}</p>
-        <p><b>Service Cost: </b>{{service.cost}}</p>
+        <p><b>Name: </b>{{service.name}}</p>
+        <p><b>Provider: </b>{{service.user}}</p>
+        <p><b>Description: </b>{{service.description}}</p>
+        <p><b>Cost: </b>{{service.price}}</p>
+        <p><b>Location: </b>{{service.location}}</p>
+        <p><b>Ratings: </b>{{service.ratings}}</p>
+        <p><b># of Reviews: </b>{{service.numOfReviews}}</p>
+        <p><b>Reviews List Obj: </b>{{service.reviews}}</p>
     </div>
 </mat-card>

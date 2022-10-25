@@ -2,8 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterPopupComponent } from 'src/app/shared/components/filter-popup/filter-popup.component';
-import { FilterData } from 'src/app/shared/models/filter-data';
 import { Service } from 'src/app/shared/models/service.model';
+import { ServicesRequest } from 'src/app/shared/models/services-request.model';
+import { ApiClientService } from 'src/app/shared/services/api-client.service';
+
+export interface FilterData {
+  temp1: string;
+  temp2: string;
+}
 
 @Component({
   selector: 'app-main-view',
@@ -14,46 +20,35 @@ export class MainViewComponent implements OnInit {
 
   sideNavOpened: boolean = false;
   filterData: FilterData = {temp1: "Test1", temp2: "Test2"};
+  services: Service[] = [];
 
-  /****************************************************
-   ****        TEMPORARY SERVICE OBJECTS           ****
-   ****************************************************/
-  tempServices: Service[] = [
-    {
-      id: 1,
-      name: "Landscaping",
-      description: "Professional landscaping work in the Bloomington area. Everything from lawnmowing to bush trimming at low costs. All equiptment required is already provided.",
-      providerName: "John Synder",
-      cost: 80
-    },
-    {
-      id: 2,
-      name: "Math Tutoring",
-      description: "Hello, I am a Senior majoring in Mathmatics looking to gain some experience in teaching. I wish to become a College proffesor in mathmatics after I graduate. I currently have TA'd in numerous crucial Mathmatics courses, so I am just hoping to expand my strong portfolio by helping out my fellow colleagues.",
-      providerName: "Rachel Fisher",
-      cost: 20
-    },
-    {
-      id: 3,
-      name: "Dog Sitting",
-      description: "I am currently studying and training to be a Veterinarian and dog trainer. I have a lot of free time on my hands, and would like to use my expertise to gain some extra money on the side. Message me for availability, and I will take good care of your dogs.",
-      providerName: "Elizabeth Reed",
-      cost: 40
-    },
-    {
-      id: 4,
-      name: "Haircuts",
-      description: "My name in Todd Parish, I currently work part time at a barbershop here in Bloomington alongside finish my degree in Cosmotology school. I offer low prices and flexible availability. I currently operate out of my own house, but present the option to come to you if preferred. Message me for details.",
-      providerName: "Todd Parish",
-      cost: 10
-    },
-  ];
-  // **************************************************
-
-
-  constructor(public dialog: MatDialog, private router: Router) { }
+  constructor(public dialog: MatDialog, private router: Router, private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
+    this.loadServices();
+  }
+
+
+  loadServices() {
+    // reset services array
+    this.services = [];
+    // Call API to get all services in the DB
+    this.apiClient.getServices().subscribe({
+      next: (res: ServicesRequest) => {
+        // Check successful variable
+        if(res.success) {
+          // Succesfully got the services, now set the services variable
+          this.services = res.services;
+        } else {
+          alert("Services request variable shows non-successful");
+          this.services = res.services;
+        }
+      }, error: (err: any) => {
+        // Error retrieving services
+        alert("error getting services");
+        console.log(err);
+      }
+    });
   }
 
   /**

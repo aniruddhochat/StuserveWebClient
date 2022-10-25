@@ -23,6 +23,11 @@
                 </mat-form-field>
             </div>
 
+            <mat-radio-group id="radio-group" aria-label="Select an option" [value]="accountType" (change)="radioGroupValueChanged($event)">
+                <mat-radio-button value="consumer">Consumer</mat-radio-button>
+                <mat-radio-button value="provider">Provider</mat-radio-button>
+            </mat-radio-group>
+
             <div *ngIf="!isLoading">
                 <div style="display: flex; justify-content: center; margin-top: 25px; margin-bottom: 50px;">
                     <button color="primary" style="width: 75%!important;" height="100" mat-raised-button>Login</button>
