@@ -66,15 +66,36 @@
                     </div>
                     <mat-form-field style="width: 45%" appearance="fill">
                         <mat-label>Password</mat-label>
-                        <input [type]="hidePassword ? 'password' : 'text'" required formControlName="passwordControl" matInput>
+                        <input [type]="hidePassword ? 'password' : 'text'" required [minlength]="8" formControlName="passwordControl" matInput>
                         <mat-error *ngIf="formData.controls['passwordControl'].hasError('required')">Password is required</mat-error>
+                        <mat-error *ngIf="formData.controls['passwordControl'].hasError('minlength')">Password is too short</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row" style="margin-top: 25px;">
+                    <mat-form-field style="width: 45%" appearance="fill">
+                        <mat-label>Street Address</mat-label>
+                        <input required formControlName="addressControl" matInput>
+                        <mat-error *ngIf="formData.controls['addressControl'].hasError('required')">Street Address is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field style="width: 45%" appearance="fill">
+                        <mat-label>Zipcode</mat-label>
+                        <input mask="00000" required formControlName="zipcodeControl" matInput [minlength]="5">
+                        <mat-error *ngIf="formData.controls['zipcodeControl'].hasError('required')">Zipcode is required</mat-error>
+                        <mat-error *ngIf="formData.controls['zipcodeControl'].hasError('minlength')">Zipcode is too short</mat-error>
                     </mat-form-field>
                 </div>
 
                 <!-- Does not actually bind to a form control, because it is a list value and not a single value.
                         Instead, it is binding to a normal class variable that is handled seperatley from the form
                         We can do this becuase we do not need validators on the list input -->
-                <div class="form-row" style="margin-top: 50px;">
+                <div class="form-row" style="margin-top: 25px;">
+                    <mat-form-field style="width: 45%" appearance="fill">
+                        <mat-label>Pincode</mat-label>
+                        <input mask="00000" required formControlName="pincodeControl" [minlength]="5" matInput>
+                        <mat-error *ngIf="formData.controls['pincodeControl'].hasError('required')">Pincode is required</mat-error>
+                        <mat-error *ngIf="formData.controls['pincodeControl'].hasError('minlength')">Pincode is too short</mat-error>
+                    </mat-form-field>
                     <mat-form-field style="width: 45%" class="interests-chip-list" appearance="fill">
                         <mat-label>Interests</mat-label>
                         <mat-chip-list #chipList aria-label="Interests selection">

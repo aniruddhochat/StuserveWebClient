@@ -28,6 +28,9 @@ export class SignUpConsumerComponent implements OnInit {
     phoneControl: new FormControl(''),
     yearControl: new FormControl(''),
     passwordControl: new FormControl(''),
+    addressControl: new FormControl(''),
+    zipcodeControl: new FormControl(''),
+    pincodeControl: new FormControl(''),
   })
 
   username: string = "";
@@ -74,7 +77,7 @@ export class SignUpConsumerComponent implements OnInit {
   generateUsername() {
     let first = this.formData.controls.fnameControl.value;
     let last = this.formData.controls.lnameControl.value;
-    this.username = Math.random()*1000 + "";
+    this.username = Math.random() + "";
     // if(first && last && first != "" && last != "") {
     //   this.apiClient.generateRandomUsername(first, last).subscribe({
     //     next: (res: RandomUsername) => {
@@ -100,7 +103,10 @@ export class SignUpConsumerComponent implements OnInit {
         && this.formData.controls.emailControl.value
         && this.formData.controls.phoneControl.value
         && this.formData.controls.passwordControl.value
-        && this.formData.controls.yearControl.value) {
+        && this.formData.controls.yearControl.value
+        && this.formData.controls.addressControl.value
+        && this.formData.controls.zipcodeControl.value
+        && this.formData.controls.pincodeControl.value) {
         // Now make sure the user has generated a username value
         if(this.username != "") {
           // Start loading API
@@ -119,10 +125,11 @@ export class SignUpConsumerComponent implements OnInit {
             password: this.formData.controls.passwordControl.value,
             phone: this.formData.controls.phoneControl.value,
             schoolyear: this.formData.controls.yearControl.value,
-            address: '',
-            pincode: '',
-            currlocation: ''
+            address: this.formData.controls.addressControl.value,
+            pincode: this.formData.controls.pincodeControl.value,
+            currlocation: this.formData.controls.zipcodeControl.value
           };
+          console.log(JSON.stringify(newAccount));
           // Call API to post account creation
           this.apiClient.registerConsumer(newAccount).subscribe({
               next: (res: any) => {
