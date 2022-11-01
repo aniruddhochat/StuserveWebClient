@@ -8,6 +8,7 @@ import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ConsumerAccount } from 'src/app/shared/models/consumer-account.model';
+import { ConsumerRequest } from 'src/app/shared/models/consumer-request.model';
 
 @Component({
   selector: 'app-sign-up-consumer',
@@ -132,27 +133,42 @@ export class SignUpConsumerComponent implements OnInit {
           console.log(JSON.stringify(newAccount));
           // Call API to post account creation
           this.apiClient.registerConsumer(newAccount).subscribe({
-              next: (res: any) => {
+              next: (res: ConsumerRequest) => {
                 // Done loading (2 second timeout to show the progress spinner)
                 setTimeout(() => {
-                   // Set API service username, and set is logged in to true
-                   this.apiClient.username = this.username;
-                   this.apiClient.authenticated = true;
-                   // Display success snackba, then navigate to consumer home page
-                   this.snackBar.open("SignUp Successful", "", {
-                    duration: 1000,
-                    panelClass: ['green-snackbar'],
-                   }).afterDismissed().subscribe(() => {
-                    // After the success snackbar disappears, then navigate the user to the consumer home page
-                    this.router.navigateByUrl("home/main-view");
-                    // Now set is loading to false
+                   // Make sure the request sent back a success
+                   if(res.success) {
+                    // Set the user account variable in the api client
+                    this.apiClient.consumerAccount = res.user;
+                    this.apiClient.password = this.formData.controls.passwordControl.value!;
+                    // Display success snackba, then navigate to consumer home page
+                    this.snackBar.open("SignUp Successful", "", {
+                      duration: 1000,
+                      panelClass: ['green-snackbar'],
+                    }).afterDismissed().subscribe(() => {
+                      // After the success snackbar disappears, then navigate the user to the consumer home page
+                      this.router.navigateByUrl("home/consumer-home");
+                      // Now set is loading to false
+                      this.isLoading = false;
+                    });
+                   } else {
+                    // Request did not send back a success, so alert user
+                    console.log("API request success variable returned false");
+                    // Done loading
                     this.isLoading = false;
-                   });
+                    // Display failure snackbar
+                    this.snackBar.open("Failure Logging In", "", {
+                      duration: 2000,
+                      panelClass: ['red-snackbar'],
+                    });
+                  }
                 }, 1000);
               }, error: (err: any) => {
                 // Done loading
                 this.isLoading = false;
-                alert("Something went wrong posting the account");
+                // Alert user of error
+                console.log(err);
+                alert("Something went wrong posting the account, check console for details.");
                 // Display failure snackbar
                 this.snackBar.open("SignUp Failure", "", {
                   duration: 2000,

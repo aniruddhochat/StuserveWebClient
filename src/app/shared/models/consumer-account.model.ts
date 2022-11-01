@@ -5,6 +5,7 @@ export interface ConsumerAccount {
     }[],
     interests?: string[],
     username: string,
+    _id?: string,
     fname: string,
     lname: string,
     email: string,

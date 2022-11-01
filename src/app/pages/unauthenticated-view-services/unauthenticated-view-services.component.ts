@@ -1,24 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FilterPopupComponent } from 'src/app/shared/components/filter-popup/filter-popup.component';
 import { Service } from 'src/app/shared/models/service.model';
 import { ServicesRequest } from 'src/app/shared/models/services-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
-
-export interface FilterData {
-  temp1: string;
-  temp2: string;
-}
+import { FilterData } from '../consumer-view-all/consumer-view-all.component';
 
 @Component({
-  selector: 'app-main-view',
-  templateUrl: './main-view.component.html',
-  styleUrls: ['./main-view.component.css']
+  selector: 'app-unauthenticated-view-services',
+  templateUrl: './unauthenticated-view-services.component.html',
+  styleUrls: ['./unauthenticated-view-services.component.css']
 })
-export class MainViewComponent implements OnInit {
+export class UnauthenticatedViewServicesComponent implements OnInit {
 
-  sideNavOpened: boolean = false;
   filterData: FilterData = {temp1: "Test1", temp2: "Test2"};
   services: Service[] = [];
 
@@ -71,11 +66,14 @@ export class MainViewComponent implements OnInit {
     });
   }
 
+
+  
   /**
    * Navigate to the service details page
    * @param selectedService The service data to send to the service details page
    */
-  viewService(selectedService: Service) {
-    this.router.navigate(['/home/service-details'], {state: selectedService});
-  }
+  // viewService(selectedService: Service) {
+  //   this.router.navigate(['/home/service-details'], {state: selectedService});
+  // }
+
 }

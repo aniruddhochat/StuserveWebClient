@@ -28,6 +28,11 @@
         <div style="display: flex; justify-content: center; margin-top: 25px;">
             <button color="primary" height="100" mat-raised-button (click)="signUpClick()">Join Now!</button>
         </div>
+
+        <!-- View Services and Rentals section -->
+        <div style="display: flex; justify-content: center; margin-top: 50px;">
+            <button height="100" mat-raised-button [routerLink]="'unauthenticated-view-all'">View all services/rentals</button>
+        </div>
     </div>
     <div id="right-container">
         <img src="assets/happy-students.jpg">

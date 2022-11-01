@@ -54,13 +54,17 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { SignUpConsumerComponent } from './pages/sign-up-consumer/sign-up-consumer.component';
 import { SignUpProviderComponent } from './pages/sign-up-provider/sign-up-provider.component';
 import { SignUpTypeSelectComponent } from './shared/components/sign-up-type-select/sign-up-type-select.component';
-import { MainViewComponent } from './pages/main-view/main-view.component';
+import { ConsumerViewAllComponent } from './pages/consumer-view-all/consumer-view-all.component';
 import { ToolbarWithProfileComponent } from './shared/components/toolbar-with-profile/toolbar-with-profile.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { FilterPopupComponent } from './shared/components/filter-popup/filter-popup.component';
 import { SideNavComponent } from './shared/components/side-nav/side-nav.component';
-import { ConsumerForYouComponent } from './pages/consumer-for-you/consumer-for-you.component';
+import { ConsumerHomeComponent } from './pages/consumer-home/consumer-home.component';
 import { ServiceDetailsComponent } from './pages/service-details/service-details.component';
+import { ProviderHomeComponent } from './pages/provider-home/provider-home.component';
+import { AddServiceComponent } from './pages/add-service/add-service.component';
+import { UnauthenticatedViewServicesComponent } from './pages/unauthenticated-view-services/unauthenticated-view-services.component';
+import { PostedServicePopupComponent } from './shared/components/posted-service-popup/posted-service-popup.component';
 
 @NgModule({
   declarations: [
@@ -72,12 +76,16 @@ import { ServiceDetailsComponent } from './pages/service-details/service-details
     SignUpConsumerComponent,
     SignUpProviderComponent,
     SignUpTypeSelectComponent,
-    MainViewComponent,
+    ConsumerViewAllComponent,
     ToolbarWithProfileComponent,
     FilterPopupComponent,
     ServiceDetailsComponent,
     SideNavComponent,
-    ConsumerForYouComponent,
+    ConsumerHomeComponent,
+    ProviderHomeComponent,
+    AddServiceComponent,
+    UnauthenticatedViewServicesComponent,
+    PostedServicePopupComponent,
   ],
   imports: [
     BrowserModule,

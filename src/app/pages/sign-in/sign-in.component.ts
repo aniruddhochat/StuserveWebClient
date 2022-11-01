@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { ConsumerRequest } from 'src/app/shared/models/consumer-request.model';
+import { ProviderRequest } from 'src/app/shared/models/provider-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
 
 @Component({
@@ -43,22 +45,33 @@ export class SignInComponent implements OnInit {
         this.isLoading = true;
         // Now attempt to log the user in
         this.apiClient.loginConsumer(this.formData.controls.usernameControl.value!, this.formData.controls.passwordControl.value!).subscribe({
-          next: (res: any) => {
-            // Succesful login
-            console.log(res);
-            // Set the username in the API service, and set is logged in to true
-            this.apiClient.username = this.formData.controls.usernameControl.value!;
-            this.apiClient.authenticated = true;
-            // Display failure snackbar
-            this.snackBar.open("Login Success", "", {
-              duration: 1000,
-              panelClass: ['green-snackbar'],
-            }).afterDismissed().subscribe(() => {
-              // Now after the snack bar is dismissed, navigate the user to the consumer home page
-              this.router.navigateByUrl("home/main-view");
+          next: (res: ConsumerRequest) => {
+            // Make sure the request sends back a success
+            if(res.success) {
+              // Set the user account in the api client service
+              this.apiClient.consumerAccount = res.user;
+              this.apiClient.password = this.formData.controls.passwordControl.value!;
+              // Display failure snackbar
+              this.snackBar.open("Login Success", "", {
+                duration: 1000,
+                panelClass: ['green-snackbar'],
+              }).afterDismissed().subscribe(() => {
+                // Now after the snack bar is dismissed, navigate the user to the consumer home page
+                this.router.navigateByUrl("home/consumer-home");
+                // Done loading
+                this.isLoading = false;
+              });
+            } else {
+              // Request did not send back a success, so alert user
+              console.log("API request success variable returned false");
               // Done loading
               this.isLoading = false;
-            });
+              // Display failure snackbar
+              this.snackBar.open("Failure Logging In", "", {
+                duration: 2000,
+                panelClass: ['red-snackbar'],
+              });
+            }
           }, error: (err: any) => {
             // Failed login
             console.log(err);
@@ -78,24 +91,33 @@ export class SignInComponent implements OnInit {
         this.isLoading = true;
         // Now attempt to log the user in
         this.apiClient.loginProvider(this.formData.controls.usernameControl.value!, this.formData.controls.passwordControl.value!).subscribe({
-          next: (res: any) => {
-            // Succesful login
-            console.log(res);
-            // Set the username in the API service, and set is logged in to true
-            this.apiClient.username = this.formData.controls.usernameControl.value!;
-            this.apiClient.authenticated = true;
-            // Set provider boolean to true to tell the application that the authenticated account is a provider
-            this.apiClient.isProvider = true;
-            // Display failure snackbar
-            this.snackBar.open("Login Success", "", {
-              duration: 1000,
-              panelClass: ['green-snackbar'],
-            }).afterDismissed().subscribe(() => {
-              // Now after the snack bar is dismissed, navigate the user to the consumer home page
-              this.router.navigateByUrl("home/main-view");
+          next: (res: ProviderRequest) => {
+            // Make sure the request sends back a success
+            if(res.success) {
+              // Set the user account in the api client service
+              this.apiClient.providerAccount = res.user;
+              this.apiClient.password = this.formData.controls.passwordControl.value!;
+              // Display failure snackbar
+              this.snackBar.open("Login Success", "", {
+                duration: 1000,
+                panelClass: ['green-snackbar'],
+              }).afterDismissed().subscribe(() => {
+                // Now after the snack bar is dismissed, navigate the user to the consumer home page
+                this.router.navigateByUrl("home/provider-home");
+                // Done loading
+                this.isLoading = false;
+              });
+            } else {
+              // Request did not send back a success, so alert user
+              console.log("API request success variable returned false");
               // Done loading
               this.isLoading = false;
-            });
+              // Display failure snackbar
+              this.snackBar.open("Failure Logging In", "", {
+                duration: 2000,
+                panelClass: ['red-snackbar'],
+              });
+            }
           }, error: (err: any) => {
             // Failed login
             console.log(err);

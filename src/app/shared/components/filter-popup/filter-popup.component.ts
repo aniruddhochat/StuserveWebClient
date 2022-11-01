@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FilterData } from 'src/app/pages/main-view/main-view.component';
+import { FilterData } from 'src/app/pages/consumer-view-all/consumer-view-all.component';
 
 @Component({
   selector: 'app-filter-popup',

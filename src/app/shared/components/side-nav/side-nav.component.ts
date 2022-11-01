@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiClientService } from '../../services/api-client.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -9,16 +10,26 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SideNavComponent implements OnInit {
   sideNavOpened: boolean = false;
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute, public apiClient: ApiClientService) { }
 
   ngOnInit(): void {
   }
 
   navigateHome() {
-    this.router.navigate(['main-view'], {relativeTo: this.route});
+    // Check if provider or consumer to naviagte to correct home page
+    if(this.apiClient.consumerAccount) {
+      this.router.navigate(['consumer-home'], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['provider-home'], {relativeTo: this.route});
+    }
+    
   }
 
-  navigateForYou() {
-    this.router.navigate(['consumer-foryou'], {relativeTo: this.route});
+  navigateViewAll() {
+    this.router.navigate(['consumer-view-all'], {relativeTo: this.route});
+  }
+
+  navigateAddService() {
+    this.router.navigate(['add-service'], {relativeTo: this.route});
   }
 }
