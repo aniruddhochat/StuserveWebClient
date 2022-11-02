@@ -1,1 +1,10 @@
-<p>posted-service-popup works!</p>
+
+
+<h1 mat-dialog-title>SUCCESSFULLY POSTED SERVICE</h1>
+<div mat-dialog-content>
+  <p>Would you like to post another Service?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button cdkFocusInitial (click)="onYesClick()">Yes</button>
+</div>

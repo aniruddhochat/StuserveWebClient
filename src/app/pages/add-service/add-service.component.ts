@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatChipInputEvent, MatChipList } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { PostedServicePopupComponent } from 'src/app/shared/components/posted-service-popup/posted-service-popup.component';
 import { Service } from 'src/app/shared/models/service.model';
 import { SingleServiceRequest } from 'src/app/shared/models/single-service-request.model';
@@ -32,7 +33,7 @@ export class AddServiceComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
   tags: string[] = [];
 
-  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, public dialog: MatDialog) { }
+  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, public dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -99,11 +100,24 @@ export class AddServiceComponent implements OnInit {
                 if(res.success) {
                   // Done loading
                   this.isLoading = false;
-                 // Present popup to inform user that the service was succesfully posted, and prompt if they would like to enter another
-                 let dialogRef = this.dialog.open(PostedServicePopupComponent, {
-                  height: 'fit-content',
-                  width: '750px',
-                });
+                  // Present popup to inform user that the service was succesfully posted, and prompt if they would like to enter another
+                  let dialogRef = this.dialog.open(PostedServicePopupComponent, {
+                    height: 'fit-content',
+                    width: '750px',
+                  });
+                  // Close dialog and grab selections
+                  dialogRef.afterClosed().subscribe((result: boolean) => {
+                    if(result) {
+                      // If the result is true, then the user selected to post another service
+                      // So enable all form components and remain on page
+                      this.formData.enable();
+                      this.tagList.disabled = false;
+                    } else {
+                      // If reesult boolean is false, then the user selected to not enter another service
+                      // So just navigate the user to the provider home page
+                      this.router.navigateByUrl("home/provider-home");
+                    }
+                  });
                 } else {
                   // Request did not send back a success, so alert user
                   console.log("API request success variable returned false");

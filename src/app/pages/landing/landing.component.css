@@ -1,21 +1,22 @@
 
-#container {
+#top-container {
     margin-left: 50px;
     margin-right: 50px;
     margin-top: 100px;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 50px;
 }
 
-#left-container {
+#left-top-container {
     width: 50%;
 }
 
-#right-container {
+#right-top-container {
     width: 40%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
 }
 
@@ -46,4 +47,34 @@
 
 #why-us-list {
     color: var(--IU-red);
+}
+
+#bottom-container {
+    padding-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-bottom: 100px;
+    border-top: 1px solid lightgrey;
+}
+
+#services-header {
+    font-size: 35px;
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--IU-red);
+    font-weight: bold;
+}
+
+.services-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.service-card {
+    margin-top: 25px;
+    width: 30%;
+}
+
+.na-service-content {
+    color: lightgrey;
 }

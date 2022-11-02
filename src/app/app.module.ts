@@ -65,6 +65,7 @@ import { ProviderHomeComponent } from './pages/provider-home/provider-home.compo
 import { AddServiceComponent } from './pages/add-service/add-service.component';
 import { UnauthenticatedViewServicesComponent } from './pages/unauthenticated-view-services/unauthenticated-view-services.component';
 import { PostedServicePopupComponent } from './shared/components/posted-service-popup/posted-service-popup.component';
+import { GoogleSignInComponent } from './pages/google-sign-in/google-sign-in.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { PostedServicePopupComponent } from './shared/components/posted-service-
     AddServiceComponent,
     UnauthenticatedViewServicesComponent,
     PostedServicePopupComponent,
+    GoogleSignInComponent,
   ],
   imports: [
     BrowserModule,

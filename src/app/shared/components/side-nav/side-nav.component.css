@@ -8,7 +8,12 @@
     transform: scale(1.5);
 }
 
-#menu-button {
+#menu-button-container {
+    background-color: #FAFAFA;
+    position: sticky;
+    position: -webkit-sticky; /* Safari */
+    top: 0;
+    z-index: 1;
     padding-top: 5px;
     padding-bottom: 5px;
 }

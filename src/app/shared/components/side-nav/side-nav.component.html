@@ -12,7 +12,9 @@
         </div>
     </mat-sidenav>
     <mat-sidenav-content>
-        <button id="menu-button" mat-button (click)="sidenav.toggle()"><mat-icon id="menu-icon">menu</mat-icon></button>
+        <div id="menu-button-container">
+            <button id="menu-button" mat-button (click)="sidenav.toggle()"><mat-icon id="menu-icon">menu</mat-icon></button>
+        </div>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>

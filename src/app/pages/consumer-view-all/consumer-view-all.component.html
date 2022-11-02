@@ -8,8 +8,8 @@
             <button style="width: 5%; height: 60px;" mat-button (click)="openFiltering()"><mat-icon>filter_list</mat-icon></button>
             <mat-form-field style="width: 20%" appearance="outline">
                 <mat-label>Sort By</mat-label>
-                <mat-select>
-                    <mat-option value="popular">Popular</mat-option>
+                <mat-select (selectionChange)="sortChange($event)" value="recent">
+                    <mat-option value="ratings">Ratings</mat-option>
                     <mat-option value="recent">Recent</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -36,7 +36,8 @@
                 </mat-panel-title>
                 <mat-panel-description>
                     <div style="display: flex; width: 100%; justify-content: space-between;">
-                        <p>{{service.user}}</p>
+                        <p>{{getUser(service.user)?.email}}</p>
+                        <p>{{service.createdAt| date:'short'}}</p>
                         <p><b>Rating: </b>{{service.ratings}}/5</p>
                     </div>
                 </mat-panel-description>

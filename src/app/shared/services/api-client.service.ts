@@ -12,6 +12,7 @@ import { map, Observable, of } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { validateHorizontalPosition } from '@angular/cdk/overlay';
 import { SingleServiceRequest } from '../models/single-service-request.model';
+import { ProvidersRequest } from '../models/providers-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -105,5 +106,16 @@ export class ApiClientService {
   postServiceAdmin(service: Service) {
     // Call the API, and return the observable
     return this.httpClient.post<SingleServiceRequest>(environment.apiUrl + "/v1/admin/service/new", service);
+  }
+
+
+  // getProviderDetailsAdmin(providerID: string) {
+  //   // Call the API, and return the observable
+  //   return this.httpClient.get<ProviderRequest>(environment.apiUrl + "/v1/admin/provider/" + providerID);
+  // }
+
+  getAllProvidersAdmin() {
+    // Call the API, and return the observable
+    return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/admin/provider/");
   }
 }

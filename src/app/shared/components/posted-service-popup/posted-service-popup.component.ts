@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { FilterData } from 'src/app/pages/consumer-view-all/consumer-view-all.component';
 
 @Component({
   selector: 'app-posted-service-popup',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostedServicePopupComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialogRef: MatDialogRef<PostedServicePopupComponent>,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
 
+  onNoClick(): void {
+    // Close the popup
+    this.dialogRef.close(false);
+  }
+
+  onYesClick(): void {
+    // Close the popup
+    this.dialogRef.close(true);
+  }
 }

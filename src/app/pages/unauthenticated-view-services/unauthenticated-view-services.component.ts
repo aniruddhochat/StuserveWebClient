@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FilterPopupComponent } from 'src/app/shared/components/filter-popup/filter-popup.component';
+import { ProviderAccount } from 'src/app/shared/models/provider-account.model';
+import { ProviderRequest } from 'src/app/shared/models/provider-request.model';
+import { ProvidersRequest } from 'src/app/shared/models/providers-request.model';
 import { Service } from 'src/app/shared/models/service.model';
 import { ServicesRequest } from 'src/app/shared/models/services-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
@@ -16,31 +19,49 @@ export class UnauthenticatedViewServicesComponent implements OnInit {
 
   filterData: FilterData = {temp1: "Test1", temp2: "Test2"};
   services: Service[] = [];
+  providers: ProviderAccount[] = [];
 
   constructor(public dialog: MatDialog, private router: Router, private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
-    this.loadServices();
+    this.loadData();
   }
 
 
-  loadServices() {
-    // reset services array
+  loadData() {
+    // reset arrays
     this.services = [];
+    this.providers = [];
     // Call API to get all services in the DB
     this.apiClient.getServices().subscribe({
       next: (res: ServicesRequest) => {
         // Check successful variable
         if(res.success) {
           // Succesfully got the services, now set the services variable
-          this.services = res.services;
+          this.services = res.services.sort((a, b) => {return b.createdAt! < a.createdAt! ? 1 : -1});;
+          // Now call API to get all providers
+          this.apiClient.getAllProvidersAdmin().subscribe({
+            next: (res2: ProvidersRequest) => {
+              // Check successful variable
+              if(res2.success) {
+                // Success, so set the providers array to the result 
+                this.providers = res2.providers;
+              } else {
+                alert("Providers request variable shows non-successful");
+                //this.providers = res2.providers;
+              }
+            }, error: (err: any) => {
+              alert("Error getting providers. See the console for more details");
+              console.log(err);
+            }
+          });
         } else {
           alert("Services request variable shows non-successful");
-          this.services = res.services;
+          //this.services = res.services;
         }
       }, error: (err: any) => {
         // Error retrieving services
-        alert("error getting services");
+        alert("Error getting services. See the console for more details");
         console.log(err);
       }
     });
@@ -66,14 +87,16 @@ export class UnauthenticatedViewServicesComponent implements OnInit {
     });
   }
 
+  getUser(userID: string) {
+    return this.providers.find(p => p._id == userID);
+  }
 
-  
-  /**
-   * Navigate to the service details page
-   * @param selectedService The service data to send to the service details page
-   */
-  // viewService(selectedService: Service) {
-  //   this.router.navigate(['/home/service-details'], {state: selectedService});
-  // }
 
+  sortChange(e: any) {
+    if(e.value == "ratings") {
+      this.services.sort((a, b) => {return b.ratings - a.ratings});
+    } else if(e.value == "recent") {
+      this.services.sort((a, b) => {return b.createdAt! < a.createdAt! ? 1 : -1});
+    }
+  }
 }

@@ -17,5 +17,6 @@ export interface Service {
         rating: number,
         comment: string
     }[],
-    user: string
+    user: string,
+    createdAt?: Date
 }
