@@ -1,3 +1,4 @@
+import { P } from '@angular/cdk/keycodes';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -18,53 +19,17 @@ import { FilterData } from '../consumer-view-all/consumer-view-all.component';
 export class UnauthenticatedViewServicesComponent implements OnInit {
 
   filterData: FilterData = {temp1: "Test1", temp2: "Test2"};
-  services: Service[] = [];
-  providers: ProviderAccount[] = [];
+  sortedServices: Service[] = [];
 
   constructor(public dialog: MatDialog, private router: Router, private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
-    this.loadData();
+    this.loadServices();
   }
 
 
-  loadData() {
-    // reset arrays
-    this.services = [];
-    this.providers = [];
-    // Call API to get all services in the DB
-    this.apiClient.getServices().subscribe({
-      next: (res: ServicesRequest) => {
-        // Check successful variable
-        if(res.success) {
-          // Succesfully got the services, now set the services variable
-          this.services = res.services.sort((a, b) => {return b.createdAt! < a.createdAt! ? 1 : -1});;
-          // Now call API to get all providers
-          this.apiClient.getAllProvidersAdmin().subscribe({
-            next: (res2: ProvidersRequest) => {
-              // Check successful variable
-              if(res2.success) {
-                // Success, so set the providers array to the result 
-                this.providers = res2.providers;
-              } else {
-                alert("Providers request variable shows non-successful");
-                //this.providers = res2.providers;
-              }
-            }, error: (err: any) => {
-              alert("Error getting providers. See the console for more details");
-              console.log(err);
-            }
-          });
-        } else {
-          alert("Services request variable shows non-successful");
-          //this.services = res.services;
-        }
-      }, error: (err: any) => {
-        // Error retrieving services
-        alert("Error getting services. See the console for more details");
-        console.log(err);
-      }
-    });
+  loadServices() {
+    this.sortedServices = this.apiClient.services;
   }
 
   /**
@@ -88,15 +53,32 @@ export class UnauthenticatedViewServicesComponent implements OnInit {
   }
 
   getUser(userID: string) {
-    return this.providers.find(p => p._id == userID);
+    return this.apiClient.providers.find(p => p._id == userID);
   }
 
 
   sortChange(e: any) {
     if(e.value == "ratings") {
-      this.services.sort((a, b) => {return b.ratings - a.ratings});
+      this.sortedServices.sort((a, b) => {return b.ratings - a.ratings});
     } else if(e.value == "recent") {
-      this.services.sort((a, b) => {return b.createdAt! < a.createdAt! ? 1 : -1});
+      this.sortedServices.sort((a, b) => {return b.createdAt! < a.createdAt! ? 1 : -1});
     }
+  }
+
+
+  searchChange(e: any) {
+    this.apiClient.getServices().subscribe({
+      next: (res: ServicesRequest) => {
+        // Make sure request returned success
+        if(res.success) {
+          this.sortedServices = res.services.filter(p => {return p.name.toLowerCase().trim().includes(e.target.value.toLowerCase().trim())});
+        } else {
+          alert("Request returned unsuccessful when attempting to filter the services.")
+        }
+      }, error: (err: any) => {
+        alert("Error occured getting the services to filter. See console for details.")
+        console.log(err);
+      }
+    })
   }
 }

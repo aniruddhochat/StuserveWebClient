@@ -66,6 +66,7 @@ import { AddServiceComponent } from './pages/add-service/add-service.component';
 import { UnauthenticatedViewServicesComponent } from './pages/unauthenticated-view-services/unauthenticated-view-services.component';
 import { PostedServicePopupComponent } from './shared/components/posted-service-popup/posted-service-popup.component';
 import { GoogleSignInComponent } from './pages/google-sign-in/google-sign-in.component';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -131,9 +132,23 @@ import { GoogleSignInComponent } from './pages/google-sign-in/google-sign-in.com
     MatSortModule,
     MatTableModule,
     ReactiveFormsModule,
+    SocialLoginModule,
     NgxMaskModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('155525793614-udf6ng70351hlvmtmfveafe83hpngl90.apps.googleusercontent.com'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

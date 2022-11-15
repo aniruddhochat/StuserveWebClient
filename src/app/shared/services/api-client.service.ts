@@ -25,8 +25,55 @@ export class ApiClientService {
   consumerAccount: ConsumerAccount = null!;
   providerAccount: ProviderAccount = null!;
   password: string = "";
+  providers: ProviderAccount[] = [];
+  services: Service[] = [];
+  // Starts as true because the initial data loading will always be invoked at the startup of the application
+  isLoading: boolean = true;
+  // This is used to hold if the application has finished atleast one initializeData() call successfully
+  hasDoneInitialSetup: boolean = false;
 
   constructor(private httpClient: HttpClient) { }
+
+  initializeData() {
+    this.isLoading = true;
+    this.getServices().subscribe({
+      next: (res1) => {
+        // Make sure API returned success
+        if(res1.success) {
+          this.getAllProviderDetails().subscribe({
+            next: (res2) => {
+              // Make sure API returned success
+              if(res2.success) {
+                // Set global variables
+                this.services = res1.services;
+                this.providers = res2.providers;
+                // Done loading 
+                this.isLoading = false;
+                // Set initialze data to true
+                this.hasDoneInitialSetup = true;
+              } else {
+                alert("Error initializing application data. The error occured when attempting to load all providers details. The API result returned an unsuccessful");
+                // Done loading 
+                this.isLoading = false;
+              }
+            }, error: (err) => {
+              alert("Error initializing application data. The error occured when attempting to load all providers details. Check the console for error details");
+              // Done loading 
+              this.isLoading = false;
+            }
+          })
+        } else {
+          alert("Error initializing application data. The error occured when attempting to load all services. The API result returned an unsuccessful");
+          // Done loading 
+          this.isLoading = false;
+        }
+      }, error: (err) => {
+        alert("Error initializing application data. The error occured when attempting to load all services. Check the console for error details");
+        // Done loading 
+        this.isLoading = false;
+      }
+    })
+  }
 
   registerConsumer(account: ConsumerAccount) {
     // Call the API, and return the observable
@@ -114,8 +161,19 @@ export class ApiClientService {
   //   return this.httpClient.get<ProviderRequest>(environment.apiUrl + "/v1/admin/provider/" + providerID);
   // }
 
-  getAllProvidersAdmin() {
+  // getAllProvidersAdmin() {
+  //   // Call the API, and return the observable
+  //   return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/admin/provider/");
+  // }
+
+
+  getProviderDetails(providerID: string) {
     // Call the API, and return the observable
-    return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/admin/provider/");
+    return this.httpClient.get<ProviderRequest>(environment.apiUrl + "/v1/providerdetails/" + providerID);
+  }
+
+  getAllProviderDetails() {
+    // Call the API, and return the observable
+    return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/providerdetails");
   }
 }

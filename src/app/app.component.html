@@ -1,2 +1,4 @@
 
-<router-outlet></router-outlet>
+<router-outlet *ngIf="this.apiClient.hasDoneInitialSetup"></router-outlet>
+
+<mat-spinner *ngIf="!this.apiClient.hasDoneInitialSetup" style="position: fixed;"></mat-spinner>

@@ -1,3 +1,4 @@
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,11 +23,19 @@ export class SignInComponent implements OnInit {
   formData = new FormGroup({
     usernameControl: new FormControl(''),
     passwordControl: new FormControl('')
-  })
+  });
 
-  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router) { }
+  socialUser!: SocialUser;
+  isLoggedin?: boolean;
+
+  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private socialAuthService: SocialAuthService) { }
 
   ngOnInit(): void {
+    this.socialAuthService.authState.subscribe((user) => {
+      this.socialUser = user;
+      this.isLoggedin = user != null;
+      console.log(this.socialUser);
+    });
   }
 
 
@@ -95,7 +104,7 @@ export class SignInComponent implements OnInit {
             // Make sure the request sends back a success
             if(res.success) {
               // Set the user account in the api client service
-              this.apiClient.providerAccount = res.user;
+              this.apiClient.providerAccount = res.provider;
               this.apiClient.password = this.formData.controls.passwordControl.value!;
               // Display failure snackbar
               this.snackBar.open("Login Success", "", {
@@ -136,6 +145,11 @@ export class SignInComponent implements OnInit {
         alert("Error reading what type of account sign in to perform");
       }
     }
+  }
+
+
+  loginWithGoogle(): void {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
 }

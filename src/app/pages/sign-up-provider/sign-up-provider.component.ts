@@ -105,7 +105,7 @@ export class SignUpProviderComponent implements OnInit {
                   // Make sure the request returns a success
                   if(res.success) {
                     // Set the user account variable in the api client
-                    this.apiClient.providerAccount = res.user;
+                    this.apiClient.providerAccount = res.provider;
                     this.apiClient.password = this.formData.controls.passwordControl.value!;
                     // Display success snackba, then navigate to consumer home page
                     this.snackBar.open("SignUp Successful", "", {

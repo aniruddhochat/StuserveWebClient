@@ -29,8 +29,9 @@
             </mat-radio-group>
 
             <div *ngIf="!isLoading">
-                <div style="display: flex; justify-content: center; margin-top: 25px; margin-bottom: 50px;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; margin-top: 25px; margin-bottom: 50px;">
                     <button color="primary" style="width: 75%!important;" height="100" mat-raised-button>Login</button>
+                    <button style="margin-top: 25px;" (click)="loginWithGoogle()" mat-raised-button>Login with Google</button>
                 </div>
                 <p class="link">Forgot password?</p>
                 <p class="link">Privacy</p>

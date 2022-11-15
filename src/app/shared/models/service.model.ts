@@ -3,6 +3,7 @@ export interface Service {
     description: string,
     price: number,
     ratings: number,
+    tags: string[],
     images: 
     {
         public_id: string,

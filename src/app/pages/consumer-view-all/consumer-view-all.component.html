@@ -23,28 +23,28 @@
             </mat-form-field>
             <mat-form-field style="width: 50%;" appearance="outline">
                 <mat-label>Search</mat-label>
-                <input matInput placeholder="Type keyword...">
+                <input (keyup)="searchChange($event)" matInput placeholder="Type keyword...">
                 <mat-icon matPrefix>search</mat-icon>
             </mat-form-field>
         </div>
         <!-- Services Section -->
-        <mat-accordion *ngFor="let service of services">
+        <mat-accordion *ngFor="let service of sortedServices">
             <mat-expansion-panel hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  {{service.name}}
+                    {{service.name}}
                 </mat-panel-title>
                 <mat-panel-description>
                     <div style="display: flex; width: 100%; justify-content: space-between;">
-                        <p>{{getUser(service.user)?.email}}</p>
+                        <p><span style="color: black;">Rating: </span>{{service.ratings}}/5</p>
+                        <p>{{service.category}}</p>
                         <p>{{service.createdAt| date:'short'}}</p>
-                        <p><b>Rating: </b>{{service.ratings}}/5</p>
                     </div>
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            <p style="color: grey;">Category: {{service.category}}</p>
+            <p style="color: grey; font-style: italic;">{{getUser(service.user)?.email}}</p>
             <p>{{service.description}}</p>
-                <button mat-raised-button color="primary" (click)="viewService(service)">View Details</button>
+            <button mat-raised-button color="primary" (click)="viewService(service)">View Details</button>
             </mat-expansion-panel>
         </mat-accordion>
     </div>
