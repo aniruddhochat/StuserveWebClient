@@ -67,6 +67,7 @@ import { UnauthenticatedViewServicesComponent } from './pages/unauthenticated-vi
 import { PostedServicePopupComponent } from './shared/components/posted-service-popup/posted-service-popup.component';
 import { GoogleSignInComponent } from './pages/google-sign-in/google-sign-in.component';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { ServiceEditComponent } from './pages/service-edit/service-edit.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, So
     UnauthenticatedViewServicesComponent,
     PostedServicePopupComponent,
     GoogleSignInComponent,
+    ServiceEditComponent,
   ],
   imports: [
     BrowserModule,

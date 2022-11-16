@@ -2,9 +2,27 @@
 
 <mat-card id="card">
     <div id="container">
-        <p id="header">Provider Home</p>
+        <p id="header">Your Services & Rentals</p>
         <mat-card-content>
-            
+            <!-- Services Section -->
+        <mat-accordion *ngFor="let service of services">
+            <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{service.name}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <div style="display: flex; width: 100%; justify-content: space-between;">
+                            <p><span style="color: black;">Rating: </span>{{service.ratings}}/5</p>
+                            <p>{{service.category}}</p>
+                            <p>{{service.createdAt| date:'short'}}</p>
+                        </div>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>{{service.description}}</p>
+                <button mat-raised-button (click)="viewService(service)">Edit</button>
+            </mat-expansion-panel>
+        </mat-accordion>
         </mat-card-content>
     </div>
 </mat-card>

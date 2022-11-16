@@ -15,6 +15,7 @@ import { SingleServiceRequest } from '../models/single-service-request.model';
 import { ProvidersRequest } from '../models/providers-request.model';
 import { CategoryRequest } from '../models/category-request.model';
 import { Category } from '../models/category.model';
+import { ResolveEnd } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -172,6 +173,18 @@ export class ApiClientService {
     // Call the API, and return the observable
     return this.httpClient.post<SingleServiceRequest>(environment.apiUrl + "/v1/admin/service/new", service);
   }
+
+
+  updateService(service: Service) {
+    let serviceID = service._id;
+    // Make sure the service id exists on the service object
+    if(!serviceID || serviceID.length == 0) {
+      alert("Invalid service ID");
+    }
+    // Call the API, and return the observable
+    return this.httpClient.put<SingleServiceRequest>(environment.apiUrl + "/v1/admin/service/" + serviceID, service);
+  }
+  
 
 
   // getProviderDetailsAdmin(providerID: string) {
