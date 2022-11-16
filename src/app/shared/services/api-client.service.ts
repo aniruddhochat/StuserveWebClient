@@ -212,4 +212,17 @@ export class ApiClientService {
     // Call the API, and return the observable
     return this.httpClient.get<CategoryRequest>(environment.apiUrl + "/v1/getcategory");
   }
+
+
+  putReview(_serviceId: string, _rating: number, _comment: string) {
+    let body = {
+      serviceId: _serviceId,
+      rating: _rating.toFixed(),
+      comment: _comment,
+      user: this.consumerAccount._id,
+      name: ""
+    }
+    // Call the API, and return the observable
+    return this.httpClient.put<{success: boolean}>(environment.apiUrl + "/v1/review", body);
+  }
 }

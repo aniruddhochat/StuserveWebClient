@@ -68,6 +68,7 @@ import { PostedServicePopupComponent } from './shared/components/posted-service-
 import { GoogleSignInComponent } from './pages/google-sign-in/google-sign-in.component';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { ServiceEditComponent } from './pages/service-edit/service-edit.component';
+import { ReviewPopupComponent } from './shared/components/review-popup/review-popup.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { ServiceEditComponent } from './pages/service-edit/service-edit.componen
     PostedServicePopupComponent,
     GoogleSignInComponent,
     ServiceEditComponent,
+    ReviewPopupComponent,
   ],
   imports: [
     BrowserModule,

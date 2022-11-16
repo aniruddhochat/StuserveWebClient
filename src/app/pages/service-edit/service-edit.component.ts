@@ -105,6 +105,7 @@ export class ServiceEditComponent implements OnInit {
                     duration: 1000,
                     panelClass: ['green-snackbar'],
                   }).afterDismissed().subscribe(() => {
+                    this.apiClient.initializeData();
                     // Done loading
                     this.isLoading = false;
                     // Navigate to home page

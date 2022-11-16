@@ -1,0 +1,23 @@
+
+<h1>Review</h1>
+<div id="container">
+    <form *ngIf="!isLoading" [formGroup]="formData" (ngSubmit)="onSubmit()">
+        <mat-form-field style="width: 100%" appearance="outline">
+            <mat-label>Rating</mat-label>
+            <input required type="number" formControlName="rating" max="5" matInput>
+            <mat-error *ngIf="formData.controls['rating'].hasError('required')">Rating is required</mat-error>
+            <mat-error *ngIf="formData.controls['rating'].hasError('max')">Rating is too high</mat-error>
+            <mat-hint>Out of 5</mat-hint>
+        </mat-form-field>
+        <mat-form-field style="width: 100%" appearance="outline">
+            <mat-label>Comments</mat-label>
+            <textarea required formControlName="comment" matInput></textarea>
+            <mat-error *ngIf="formData.controls['comment'].hasError('required')">Comment is required</mat-error>
+        </mat-form-field>
+        <div mat-dialog-actions>
+            <button mat-button color="primary">Submit</button>
+        </div>
+    </form>
+
+    <mat-spinner *ngIf="isLoading" style="margin: auto"></mat-spinner>
+</div>

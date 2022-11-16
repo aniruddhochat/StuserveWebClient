@@ -86,11 +86,11 @@ export class AddServiceComponent implements OnInit {
             description: this.formData.controls.descriptionControl.value,
             type: this.formData.controls.typeControl.value,
             price: parseInt(this.formData.controls.priceControl.value),
-            ratings: Math.floor(Math.random() * 5), // Currently in place because the API does not have a ratings endpoint ready
+            ratings: 0,
             tags: this.tags,
             images: [],
             category: this.formData.controls.categoryControl.value,
-            numOfReviews: Math.ceil(Math.random() * 5) + "", // Currently in place because the API does not have a reviews endpoint ready
+            numOfReviews: '0', 
             location: this.formData.controls.locationControl.value,
             reviews: [], // Currently empty because the API does not have a reviews endpoint ready
             user: this.apiClient.providerAccount._id!
