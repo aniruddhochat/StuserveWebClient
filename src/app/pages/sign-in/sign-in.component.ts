@@ -25,16 +25,15 @@ export class SignInComponent implements OnInit {
     passwordControl: new FormControl('')
   });
 
-  socialUser!: SocialUser;
   isLoggedin?: boolean;
 
   constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private socialAuthService: SocialAuthService) { }
 
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
-      this.socialUser = user;
+      this.apiClient.socialUser = user;
       this.isLoggedin = user != null;
-      console.log(this.socialUser);
+      console.log(this.apiClient.socialUser);
     });
   }
 

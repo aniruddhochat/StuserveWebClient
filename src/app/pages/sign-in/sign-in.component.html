@@ -31,10 +31,11 @@
             <div *ngIf="!isLoading">
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; margin-top: 25px; margin-bottom: 50px;">
                     <button color="primary" style="width: 75%!important;" height="100" mat-raised-button>Login</button>
-                    <button style="margin-top: 25px;" (click)="loginWithGoogle()" mat-raised-button>Login with Google</button>
+                    <!-- <asl-google-signin-button style="margin-top: 50px">GOOGLE</asl-google-signin-button> -->
                 </div>
                 <p class="link">Forgot password?</p>
                 <p class="link">Privacy</p>
+                <asl-google-signin-button style="margin-right: 10px">GOOGLE</asl-google-signin-button>
             </div>
             <mat-spinner *ngIf="isLoading" style="margin-left: auto; margin-right: auto; margin-top: 50px; margin-bottom: 50px;" class="red-spinner"></mat-spinner>
         </form>

@@ -16,6 +16,7 @@ import { ProvidersRequest } from '../models/providers-request.model';
 import { CategoryRequest } from '../models/category-request.model';
 import { Category } from '../models/category.model';
 import { ResolveEnd } from '@angular/router';
+import { SocialUser } from '../models/social-user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,7 @@ export class ApiClientService {
   //authenticatedProvider: boolean = false;
   consumerAccount: ConsumerAccount = null!;
   providerAccount: ProviderAccount = null!;
+  socialUser: SocialUser = null!;
   password: string = "";
   providers: ProviderAccount[] = [];
   services: Service[] = [];
