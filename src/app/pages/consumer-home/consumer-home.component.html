@@ -3,7 +3,35 @@
     <div id="container">
         <p id="header">FOR YOU</p>
         <mat-card-content>
-            
+            <p class="section-header">Interests</p>
+            <mat-chip-list #chipList aria-label="Interests selection">
+                <mat-chip *ngFor="let tag of apiClient.consumerAccount.interests">
+                    {{tag}}
+                </mat-chip>
+            </mat-chip-list>
+
+            <!-- Services Section -->
+            <p class="section-header">Related Services</p>
+            <mat-accordion *ngFor="let service of filteredServices">
+                <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                    {{service.name}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <div style="display: flex; width: 100%; justify-content: space-between;">
+                            <p><span style="color: black;">Rating: </span>{{service.ratings}}/5</p>
+                            <p>{{service.category}}</p>
+                            <!-- <p>{{service.createdAt| date:'short'}}</p> -->
+                            <p style="font-style:italic">{{getInterestsAligned(service.tags)}}</p>
+                        </div>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- <p style="color: grey; font-style: italic;">{{getUser(service.user)?.email}}</p> -->
+                <p>{{service.description}}</p>
+                <!-- <button mat-raised-button color="primary" (click)="viewService(service)">View Details</button> -->
+                </mat-expansion-panel>
+            </mat-accordion>
         </mat-card-content>
     </div>
 </mat-card>

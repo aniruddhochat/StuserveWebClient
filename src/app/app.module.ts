@@ -69,6 +69,7 @@ import { GoogleSignInComponent } from './pages/google-sign-in/google-sign-in.com
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { ServiceEditComponent } from './pages/service-edit/service-edit.component';
 import { ReviewPopupComponent } from './shared/components/review-popup/review-popup.component';
+import { EditProfileConsumerComponent } from './pages/edit-profile-consumer/edit-profile-consumer.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { ReviewPopupComponent } from './shared/components/review-popup/review-po
     GoogleSignInComponent,
     ServiceEditComponent,
     ReviewPopupComponent,
+    EditProfileConsumerComponent,
   ],
   imports: [
     BrowserModule,
