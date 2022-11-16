@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { FilterData } from 'src/app/pages/consumer-view-all/consumer-view-all.component';
 
 @Component({
   selector: 'app-posted-service-popup',

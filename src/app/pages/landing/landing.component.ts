@@ -14,7 +14,8 @@ import { ApiClientService } from 'src/app/shared/services/api-client.service';
 })
 export class LandingComponent implements OnInit {
 
-  topSixServices: Service[] = [];
+  topServices: Service[] = [];
+  topRentals: Service[] = [];
   providerDetails: ProviderAccount[] = [];
 
   isLoading: boolean = false;
@@ -23,10 +24,15 @@ export class LandingComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTopServices();
+    this.loadTopRentals();
   }
 
   loadTopServices() {
-    this.topSixServices = this.apiClient.services.slice().sort((a, b) => {return b.ratings - a.ratings}).slice(0, 6);
+    this.topServices = this.apiClient.services.filter(p => p.type == "service").sort((a, b) => {return b.ratings - a.ratings}).slice(0, 3);
+  }
+
+  loadTopRentals() {
+    this.topRentals = this.apiClient.services.filter(p => p.type == "rental").sort((a, b) => {return b.ratings - a.ratings}).slice(0, 3);
   }
 
   signUpClick() {

@@ -104,7 +104,7 @@ export class SignInComponent implements OnInit {
             // Make sure the request sends back a success
             if(res.success) {
               // Set the user account in the api client service
-              this.apiClient.providerAccount = res.provider;
+              this.apiClient.providerAccount = res.user;
               this.apiClient.password = this.formData.controls.passwordControl.value!;
               // Display failure snackbar
               this.snackBar.open("Login Success", "", {

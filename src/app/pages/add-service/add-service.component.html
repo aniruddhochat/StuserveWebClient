@@ -11,9 +11,19 @@
                         <input required formControlName="nameControl" matInput>
                         <mat-error *ngIf="formData.controls['nameControl'].hasError('required')">Service Name is required</mat-error>
                     </mat-form-field>
-                    <mat-form-field style="width: 49%" appearance="outline">
+                    <mat-form-field style="width: 24%" appearance="outline">
+                        <mat-label>Type</mat-label>
+                        <mat-select formControlName="typeControl" required>
+                            <mat-option value="service">Service</mat-option>
+                            <mat-option value="rental">Rental</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formData.controls['typeControl'].hasError('required')">Must select a type</mat-error>
+                    </mat-form-field>
+                    <mat-form-field style="width: 24%" appearance="outline">
                         <mat-label>Category</mat-label>
-                        <input required formControlName="categoryControl" matInput>
+                        <mat-select formControlName="categoryControl" required>
+                            <mat-option *ngFor="let option of this.apiClient.categories" [value]="option.name">{{option.name}}</mat-option>
+                        </mat-select>
                         <mat-error *ngIf="formData.controls['categoryControl'].hasError('required')">Category is required</mat-error>
                     </mat-form-field>
                 </div>
@@ -24,24 +34,23 @@
                     <mat-error *ngIf="formData.controls['descriptionControl'].hasError('required')">Description is required</mat-error>
                 </mat-form-field>
 
+                <mat-form-field style="width: 100%" appearance="outline">
+                    <mat-label>Location</mat-label>
+                    <input required formControlName="locationControl" matInput>
+                    <mat-error *ngIf="formData.controls['locationControl'].hasError('required')">Location is required</mat-error>
+                    <mat-hint>(Address of the service location)</mat-hint>
+                </mat-form-field>
+
                 <div class="form-row">
-                    <mat-form-field style="width: 49%" appearance="outline">
-                        <mat-label>Location</mat-label>
-                        <input required formControlName="locationControl" matInput>
-                        <mat-error *ngIf="formData.controls['locationControl'].hasError('required')">Location is required</mat-error>
-                        <mat-hint>(Currently just put city)</mat-hint>
-                    </mat-form-field>
                     <mat-form-field style="width: 49%" appearance="outline">
                         <mat-label>Price</mat-label>
                         <input required mask="0*" formControlName="priceControl" matInput>
                         <mat-error *ngIf="formData.controls['priceControl'].hasError('required')">Price is required</mat-error>
                     </mat-form-field>
-                </div>
 
-                <div class="form-row" style="margin-top: 25px;">
                     <!-- Does not actually bind to a form control, because it is a list value and not a single value.
-                        Instead, it is binding to a normal class variable that is handled seperatley from the form
-                        We can do this becuase we do not need validators on the list input -->
+                    Instead, it is binding to a normal class variable that is handled seperatley from the form
+                    We can do this becuase we do not need validators on the list input -->
                     <mat-form-field style="width: 49%" class="tags-chip-list" appearance="outline">
                         <mat-label>Tags</mat-label>
                         <mat-chip-list #chipList aria-label="Tags selection">

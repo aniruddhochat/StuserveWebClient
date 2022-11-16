@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FilterData } from 'src/app/pages/consumer-view-all/consumer-view-all.component';
+import { FilterData } from '../../models/filter-data.model';
+import { ApiClientService } from '../../services/api-client.service';
 
 @Component({
   selector: 'app-filter-popup',
@@ -9,7 +10,7 @@ import { FilterData } from 'src/app/pages/consumer-view-all/consumer-view-all.co
 })
 export class FilterPopupComponent implements OnInit {
 
-  constructor(
+  constructor(public apiClient: ApiClientService,
     public dialogRef: MatDialogRef<FilterPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: FilterData,
   ) {}
@@ -18,7 +19,8 @@ export class FilterPopupComponent implements OnInit {
   }
 
   onNoClick(): void {
+    // Reset values
+    this.data.category = "";
     this.dialogRef.close();
   }
-
 }

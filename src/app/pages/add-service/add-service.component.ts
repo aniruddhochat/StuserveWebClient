@@ -21,6 +21,7 @@ export class AddServiceComponent implements OnInit {
 
   formData = new FormGroup({
     nameControl: new FormControl(''),
+    typeControl: new FormControl(''),
     categoryControl: new FormControl(''),
     descriptionControl: new FormControl(''),
     locationControl: new FormControl(''),
@@ -33,7 +34,7 @@ export class AddServiceComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
   tags: string[] = [];
 
-  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, public dialog: MatDialog, private router: Router) { }
+  constructor(public apiClient: ApiClientService, private snackBar: MatSnackBar, public dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -69,6 +70,7 @@ export class AddServiceComponent implements OnInit {
     if(this.formData.valid) {
       // Now make sure all the form controls have values
       if(this.formData.controls.nameControl.value
+        && this.formData.controls.typeControl.value
         && this.formData.controls.categoryControl.value
         && this.formData.controls.descriptionControl.value
         && this.formData.controls.locationControl.value
@@ -82,9 +84,10 @@ export class AddServiceComponent implements OnInit {
           let newService: Service = {
             name: this.formData.controls.nameControl.value,
             description: this.formData.controls.descriptionControl.value,
+            type: this.formData.controls.typeControl.value,
             price: parseInt(this.formData.controls.priceControl.value),
             ratings: Math.floor(Math.random() * 5), // Currently in place because the API does not have a ratings endpoint ready
-            tags: [],
+            tags: this.tags,
             images: [],
             category: this.formData.controls.categoryControl.value,
             numOfReviews: Math.ceil(Math.random() * 5) + "", // Currently in place because the API does not have a reviews endpoint ready
@@ -112,6 +115,8 @@ export class AddServiceComponent implements OnInit {
                       // If the result is true, then the user selected to post another service
                       // So enable all form components and remain on page
                       this.formData.enable();
+                      this.formData.reset();
+                      this.tags = [];
                       this.tagList.disabled = false;
                     } else {
                       // If reesult boolean is false, then the user selected to not enter another service

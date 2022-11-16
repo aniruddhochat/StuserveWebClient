@@ -15,10 +15,10 @@
             </mat-form-field>
             <mat-form-field style="width: 20%" appearance="outline">
                 <mat-label>Type</mat-label>
-                <mat-select>
-                    <mat-option value="both">Both</mat-option>
-                    <mat-option value="services">Services</mat-option>
-                    <mat-option value="rentals">Rentals</mat-option>
+                <mat-select (selectionChange)="typeChange($event)" value="typeSelected">
+                    <mat-option value="">Both</mat-option>
+                    <mat-option value="service">Services</mat-option>
+                    <mat-option value="rental">Rentals</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field style="width: 50%;" appearance="outline">

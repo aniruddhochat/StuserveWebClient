@@ -1,6 +1,7 @@
 export interface Service {
     name: string,
     description: string,
+    type: string,
     price: number,
     ratings: number,
     tags: string[],

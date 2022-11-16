@@ -13,6 +13,8 @@ import { forkJoin } from 'rxjs';
 import { validateHorizontalPosition } from '@angular/cdk/overlay';
 import { SingleServiceRequest } from '../models/single-service-request.model';
 import { ProvidersRequest } from '../models/providers-request.model';
+import { CategoryRequest } from '../models/category-request.model';
+import { Category } from '../models/category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +29,7 @@ export class ApiClientService {
   password: string = "";
   providers: ProviderAccount[] = [];
   services: Service[] = [];
+  categories: Category[] = [];
   // Starts as true because the initial data loading will always be invoked at the startup of the application
   isLoading: boolean = true;
   // This is used to hold if the application has finished atleast one initializeData() call successfully
@@ -44,13 +47,28 @@ export class ApiClientService {
             next: (res2) => {
               // Make sure API returned success
               if(res2.success) {
-                // Set global variables
-                this.services = res1.services;
-                this.providers = res2.providers;
-                // Done loading 
-                this.isLoading = false;
-                // Set initialze data to true
-                this.hasDoneInitialSetup = true;
+                this.getCategories().subscribe({
+                  next: (res3) => {
+                    // Make sure API returned success
+                    if(res3.success) {
+                      // Set global variables
+                      this.services = res1.services;
+                      this.providers = res2.providers;
+                      this.categories = res3.category;
+                      // Done loading 
+                      this.isLoading = false;
+                      // Set initialze data to true
+                      this.hasDoneInitialSetup = true;
+                    } else {
+                      // Done loading 
+                      this.isLoading = false;
+                    }
+                  }, error: (err) => {
+                    alert("Error initializing application data. The error occured when attempting to load all category objects. Check the console for error details");
+                    // Done loading 
+                    this.isLoading = false;
+                  }
+                })
               } else {
                 alert("Error initializing application data. The error occured when attempting to load all providers details. The API result returned an unsuccessful");
                 // Done loading 
@@ -175,5 +193,10 @@ export class ApiClientService {
   getAllProviderDetails() {
     // Call the API, and return the observable
     return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/providerdetails");
+  }
+
+  getCategories() {
+    // Call the API, and return the observable
+    return this.httpClient.get<CategoryRequest>(environment.apiUrl + "/v1/getcategory");
   }
 }

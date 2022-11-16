@@ -118,7 +118,7 @@ export class SignUpConsumerComponent implements OnInit {
           this.usernameButton.disabled = true;
           // Create new consumer account object
           let newAccount: ConsumerAccount = {
-            interests: [],
+            interests: this.interests,
             username: this.username,
             fname: this.formData.controls.fnameControl.value,
             lname: this.formData.controls.lnameControl.value,

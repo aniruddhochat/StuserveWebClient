@@ -39,95 +39,97 @@
 
 
 
-<!-- Display top 3 rated services -->
-<div *ngIf="!isLoading" id="bottom-container">
-    <p id="services-header">TOP SERVICES</p>
+<!-- Display top 6 rated services -->
+<div *ngIf="!isLoading" class="bottom-container">
+    <p class="services-header">TOP SERVICES</p>
     <div class="services-container">
         <mat-card class="service-card">
-            <div *ngIf="topSixServices[0]">
-                <mat-card-title>{{topSixServices[0].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topSixServices[0].user)?.email}}</mat-card-subtitle>
+            <div *ngIf="topServices[0]">
+                <mat-card-title>{{topServices[0].name}}</mat-card-title>
+                <mat-card-subtitle>{{getUser(topServices[0].user)?.email}}</mat-card-subtitle>
                 <mat-card-content>
-                    <p>{{topSixServices[0].description}}</p>
-                    <p style="color: green">${{topSixServices[0].price}}</p>
-                    <p><span style="font-weight: bold;">Rating: </span>{{topSixServices[0].ratings}}/5</p>
+                    <p>{{topServices[0].description}}</p>
+                    <p style="color: green">${{topServices[0].price}}</p>
+                    <p><span style="font-weight: bold;">Rating: </span>{{topServices[0].ratings}}/5</p>
                 </mat-card-content>
                 <mat-card-footer></mat-card-footer>
             </div>
-            <div *ngIf="!topSixServices[0]" class="na-service-content">N/A</div>
+            <div *ngIf="!topServices[0]" class="na-service-content">N/A</div>
         </mat-card>
         <mat-card class="service-card">
-            <div *ngIf="topSixServices[1]">
-                <mat-card-title>{{topSixServices[1].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topSixServices[1].user)?.email}}</mat-card-subtitle>
+            <div *ngIf="topServices[1]">
+                <mat-card-title>{{topServices[1].name}}</mat-card-title>
+                <mat-card-subtitle>{{getUser(topServices[1].user)?.email}}</mat-card-subtitle>
                 <mat-card-content>
-                    <p>{{topSixServices[1].description}}</p>
-                    <p style="color: green">${{topSixServices[1].price}}</p>
-                    <p><span style="font-weight: bold;">Rating: </span>{{topSixServices[1].ratings}}/5</p>
+                    <p>{{topServices[1].description}}</p>
+                    <p style="color: green">${{topServices[1].price}}</p>
+                    <p><span style="font-weight: bold;">Rating: </span>{{topServices[1].ratings}}/5</p>
                 </mat-card-content>
                 <mat-card-footer></mat-card-footer>
             </div>
-            <div *ngIf="!topSixServices[1]" class="na-service-content">N/A</div>
+            <div *ngIf="!topServices[1]" class="na-service-content">N/A</div>
         </mat-card>
         <mat-card class="service-card">
-            <div *ngIf="topSixServices[2]">
-                <mat-card-title>{{topSixServices[2].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topSixServices[2].user)?.email}}</mat-card-subtitle>
+            <div *ngIf="topServices[2]">
+                <mat-card-title>{{topServices[2].name}}</mat-card-title>
+                <mat-card-subtitle>{{getUser(topServices[2].user)?.email}}</mat-card-subtitle>
                 <mat-card-content>
-                    <p>{{topSixServices[2].description}}</p>
-                    <p style="color: green">${{topSixServices[2].price}}</p>
-                    <p><span style="font-weight: bold;">Rating: </span>{{topSixServices[2].ratings}}/5</p>
+                    <p>{{topServices[2].description}}</p>
+                    <p style="color: green">${{topServices[2].price}}</p>
+                    <p><span style="font-weight: bold;">Rating: </span>{{topServices[2].ratings}}/5</p>
                 </mat-card-content>
                 <mat-card-footer></mat-card-footer>
             </div>
-            <div *ngIf="!topSixServices[2]" class="na-service-content">N/A</div>
+            <div *ngIf="!topServices[2]" class="na-service-content">N/A</div>
         </mat-card>
     </div>
 
+    <p class="services-header" style="margin-top: 75px">TOP RENTALS</p>
     <div class="services-container">
         <mat-card class="service-card">
-            <div *ngIf="topSixServices[3]">
-                <mat-card-title>{{topSixServices[3].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topSixServices[3].user)?.email}}</mat-card-subtitle>
+            <div *ngIf="topRentals[0]">
+                <mat-card-title>{{topRentals[0].name}}</mat-card-title>
+                <mat-card-subtitle>{{getUser(topRentals[0].user)?.email}}</mat-card-subtitle>
                 <mat-card-content>
-                    <p>{{topSixServices[3].description}}</p>
-                    <p style="color: green">${{topSixServices[3].price}}</p>
-                    <p><span style="font-weight: bold;">Rating: </span>{{topSixServices[3].ratings}}/5</p>
+                    <p>{{topRentals[0].description}}</p>
+                    <p style="color: green">${{topRentals[0].price}}</p>
+                    <p><span style="font-weight: bold;">Rating: </span>{{topRentals[0].ratings}}/5</p>
                 </mat-card-content>
                 <mat-card-footer></mat-card-footer>
             </div>
-            <div *ngIf="!topSixServices[3]" class="na-service-content">N/A</div>
+            <div *ngIf="!topRentals[0]" class="na-service-content">N/A</div>
         </mat-card>
         <mat-card class="service-card">
-            <div *ngIf="topSixServices[4]">
-                <mat-card-title>{{topSixServices[4].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topSixServices[4].user)?.email}}</mat-card-subtitle>
+            <div *ngIf="topRentals[1]">
+                <mat-card-title>{{topRentals[1].name}}</mat-card-title>
+                <mat-card-subtitle>{{getUser(topRentals[1].user)?.email}}</mat-card-subtitle>
                 <mat-card-content>
-                    <p>{{topSixServices[4].description}}</p>
-                    <p style="color: green">${{topSixServices[4].price}}</p>
-                    <p><span style="font-weight: bold;">Rating: </span>{{topSixServices[4].ratings}}/5</p>
+                    <p>{{topRentals[1].description}}</p>
+                    <p style="color: green">${{topRentals[1].price}}</p>
+                    <p><span style="font-weight: bold;">Rating: </span>{{topRentals[1].ratings}}/5</p>
                 </mat-card-content>
                 <mat-card-footer></mat-card-footer>
             </div>
-            <div *ngIf="!topSixServices[4]" class="na-service-content">N/A</div>
+            <div *ngIf="!topRentals[1]" class="na-service-content">N/A</div>
         </mat-card>
         <mat-card class="service-card">
-            <div *ngIf="topSixServices[5]">
-                <mat-card-title>{{topSixServices[5].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topSixServices[5].user)?.email}}</mat-card-subtitle>
+            <div *ngIf="topRentals[2]">
+                <mat-card-title>{{topRentals[2].name}}</mat-card-title>
+                <mat-card-subtitle>{{getUser(topRentals[2].user)?.email}}</mat-card-subtitle>
                 <mat-card-content>
-                    <p>{{topSixServices[5].description}}</p>
-                    <p style="color: green">${{topSixServices[5].price}}</p>
-                    <p><span style="font-weight: bold;">Rating: </span>{{topSixServices[5].ratings}}/5</p>
+                    <p>{{topRentals[2].description}}</p>
+                    <p style="color: green">${{topRentals[2].price}}</p>
+                    <p><span style="font-weight: bold;">Rating: </span>{{topRentals[2].ratings}}/5</p>
                 </mat-card-content>
                 <mat-card-footer></mat-card-footer>
             </div>
-            <div *ngIf="!topSixServices[5]" class="na-service-content">N/A</div>
+            <div *ngIf="!topRentals[2]" class="na-service-content">N/A</div>
         </mat-card>
     </div>
+    
 
     <!-- View Services and Rentals section -->
     <div style="display: flex; justify-content: center; margin-top: 50px;">
-        <button height="100" mat-raised-button [routerLink]="'unauthenticated-view-all'">View all services</button>
+        <button height="100" mat-raised-button [routerLink]="'unauthenticated-view-all'">View All</button>
     </div>
 </div>

@@ -1,14 +1,12 @@
 
-<h1 mat-dialog-title>Hi</h1>
+<h1 mat-dialog-title>FILTERING</h1>
 <div mat-dialog-content>
-  <p>What's your favorite animal?</p>
   <mat-form-field appearance="fill">
-    <mat-label>First</mat-label>
-    <input matInput [(ngModel)]="data.temp1">
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Second</mat-label>
-    <input matInput [(ngModel)]="data.temp2">
+    <mat-label>Category</mat-label>
+    <mat-select [(ngModel)]="data.category">
+      <mat-option *ngFor="let option of this.apiClient.categories" [value]="option.name">{{option.name}}</mat-option>
+      <mat-option value="">None</mat-option>
+    </mat-select>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>

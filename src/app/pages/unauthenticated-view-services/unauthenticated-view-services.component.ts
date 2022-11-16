@@ -3,13 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FilterPopupComponent } from 'src/app/shared/components/filter-popup/filter-popup.component';
+import { FilterData } from 'src/app/shared/models/filter-data.model';
 import { ProviderAccount } from 'src/app/shared/models/provider-account.model';
 import { ProviderRequest } from 'src/app/shared/models/provider-request.model';
 import { ProvidersRequest } from 'src/app/shared/models/providers-request.model';
 import { Service } from 'src/app/shared/models/service.model';
 import { ServicesRequest } from 'src/app/shared/models/services-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
-import { FilterData } from '../consumer-view-all/consumer-view-all.component';
 
 @Component({
   selector: 'app-unauthenticated-view-services',
@@ -18,8 +18,10 @@ import { FilterData } from '../consumer-view-all/consumer-view-all.component';
 })
 export class UnauthenticatedViewServicesComponent implements OnInit {
 
-  filterData: FilterData = {temp1: "Test1", temp2: "Test2"};
+  filterData: FilterData = {category: ""};
   sortedServices: Service[] = [];
+  sortSelected: string = "";
+  typeSelected: string = "";
 
   constructor(public dialog: MatDialog, private router: Router, private apiClient: ApiClientService) { }
 
@@ -42,12 +44,15 @@ export class UnauthenticatedViewServicesComponent implements OnInit {
       data: this.filterData,
     });
     // Close dialog and grab selections
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: FilterData) => {
       console.log('The dialog was closed', result);
       // Make sure the popup returns data (it won't if the hit 'no thanks', and we do not want 
       //   to set the filter data to undefined. We want it to be the old filter data)
       if(result) {
         this.filterData = result;
+        this.filterServices();
+      } else {
+        this.filterServices();
       }
     });
   }
@@ -58,13 +63,38 @@ export class UnauthenticatedViewServicesComponent implements OnInit {
 
 
   sortChange(e: any) {
-    if(e.value == "ratings") {
+    this.sortSelected = e.value;
+    this.sortServices();
+  }
+
+
+  sortServices() {
+    if(this.sortSelected == "ratings") {
       this.sortedServices.sort((a, b) => {return b.ratings - a.ratings});
-    } else if(e.value == "recent") {
+    } else if(this.sortSelected == "recent") {
       this.sortedServices.sort((a, b) => {return b.createdAt! < a.createdAt! ? 1 : -1});
     }
   }
 
+
+  typeChange(e: any) {
+    this.typeSelected = e.value;
+    this.filterServices();
+  }
+
+
+  filterServices() {
+    this.sortedServices = this.apiClient.services;
+    if(this.filterData && this.filterData.category.length > 0) {
+      this.sortedServices = this.sortedServices.filter(p => p.category == this.filterData.category);
+    }
+
+    if(this.typeSelected.length > 0) {
+      this.sortedServices = this.sortedServices.filter(p => p.type == this.typeSelected);
+    }
+
+    this.sortServices();
+  }
 
   searchChange(e: any) {
     this.apiClient.getServices().subscribe({
