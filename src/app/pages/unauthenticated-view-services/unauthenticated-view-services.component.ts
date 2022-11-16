@@ -1,6 +1,7 @@
 import { P } from '@angular/cdk/keycodes';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { FilterPopupComponent } from 'src/app/shared/components/filter-popup/filter-popup.component';
 import { FilterData } from 'src/app/shared/models/filter-data.model';
@@ -17,15 +18,19 @@ import { ApiClientService } from 'src/app/shared/services/api-client.service';
   styleUrls: ['./unauthenticated-view-services.component.css']
 })
 export class UnauthenticatedViewServicesComponent implements OnInit {
+  @ViewChild('paginator')
+  pager!: MatPaginator;
 
   filterData: FilterData = {category: ""};
   sortedServices: Service[] = [];
   sortSelected: string = "";
   typeSelected: string = "";
 
+
   constructor(public dialog: MatDialog, private router: Router, private apiClient: ApiClientService) { }
 
   ngOnInit(): void {
+    //this.isLoading = false;
     this.loadServices();
   }
 

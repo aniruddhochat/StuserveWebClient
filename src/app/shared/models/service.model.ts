@@ -18,7 +18,8 @@ export interface Service {
     {
         user: string,
         rating: number,
-        comment: string
+        comment: string,
+        name: string
     }[],
     user: string,
     createdAt?: Date

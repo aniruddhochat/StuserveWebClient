@@ -2,14 +2,63 @@
 <mat-card id="card">
     <p id="header">Service Details</p>
     <div id="container">
-        <p><b>Name: </b>{{service.name}}</p>
-        <p><b>Provider: </b>{{service.user}}</p>
-        <p><b>Description: </b>{{service.description}}</p>
-        <p><b>Cost: </b>{{service.price}}</p>
-        <p><b>Location: </b>{{service.location}}</p>
-        <p><b>Ratings: </b>{{service.ratings}}</p>
-        <p><b># of Reviews: </b>{{service.numOfReviews}}</p>
-        <p><b>Reviews List Obj: </b>{{service.reviews}}</p>
+        <div class="row">
+            <p id="service-name">{{service.name}}</p>
+            <p style="display: inline-flex; vertical-align: center;"><mat-icon>person</mat-icon><span style="color: grey;">{{getUser(service.user)?.email}}</span></p>
+        </div>
+        <div style="display: flex; justify-content: space-between">
+            <p style="color: grey; font-style: italic">{{service.type}}</p>
+            <p *ngIf="service.createdAt" style="font-style: italic; color: lightgrey">{{formatDate(service.createdAt)}}</p>
+        </div>
+        
+        <mat-divider></mat-divider>
+        <div class="row">
+            <div>
+                <p class="label">Category</p>
+                <p>{{service.category}}</p>
+            </div>
+            <div>
+                <p class="label">Location</p>
+                <p>{{service.location}}</p>           
+            </div>
+        </div>
+        
+        <p class="label">Description</p>
+        <p>{{service.description}}</p>
+        
+        <!-- <p style="color: green; font-weight: bold; font-size: 25px">${{service.price}}</p> -->
+        <p class="label">Other</p>
+        <p style="color: grey">Tags</p>
+        <mat-chip-list #chipList aria-label="Tags">
+            <mat-chip *ngFor="let tag of service.tags">
+                {{tag}}
+            </mat-chip>
+        </mat-chip-list>
+
+        <p style="color: grey; margin-top: 50px">Ratings/Reviews</p>
+        <div style="display: flex">
+            <p style="color: grey; color: grey;">AVG: {{service.ratings}}/5</p>
+            <p style="margin-left: 25px; color: grey;">COUNT: {{service.numOfReviews}}</p>
+        </div>
+        
+
+        <mat-expansion-panel *ngFor="let review of service.reviews">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span [ngClass]="{'rating-red': review.rating < 2, 
+                                'rating-yellow': review.rating >= 2 && review.rating < 4, 
+                                'rating-green': review.rating >= 4}">
+                    {{review.rating}}/5
+                </span>
+              </mat-panel-title>
+              <mat-panel-description>
+                <!-- {{getUser(review.user)?.email}} -->
+                {{review.name}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>{{review.comment}}</p>
+          </mat-expansion-panel>
+
+        <button mat-raised-button style="margin-top: 50px" type="button" (click)="openReview()">Post Review</button>  
     </div>
-    <button mat-raised-button style="margin-top: 50px" type="button" (click)="openReview()">Post Review</button>
 </mat-card>

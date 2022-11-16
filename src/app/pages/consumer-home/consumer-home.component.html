@@ -23,13 +23,13 @@
                             <p><span style="color: black;">Rating: </span>{{service.ratings}}/5</p>
                             <p>{{service.category}}</p>
                             <!-- <p>{{service.createdAt| date:'short'}}</p> -->
-                            <p style="font-style:italic">{{getInterestsAligned(service.tags)}}</p>
+                            <p style="color: darkred; font-weight: bold">{{getInterestsAligned(service.tags)}}</p>
                         </div>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <!-- <p style="color: grey; font-style: italic;">{{getUser(service.user)?.email}}</p> -->
+                <p style="color: grey; font-style: italic;">{{getUser(service.user)?.email}}</p>
                 <p>{{service.description}}</p>
-                <!-- <button mat-raised-button color="primary" (click)="viewService(service)">View Details</button> -->
+                <button mat-raised-button color="primary" (click)="viewService(service)">View Details</button>
                 </mat-expansion-panel>
             </mat-accordion>
         </mat-card-content>

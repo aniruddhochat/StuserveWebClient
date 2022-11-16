@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Service } from 'src/app/shared/models/service.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
 
@@ -11,7 +12,7 @@ export class ConsumerHomeComponent implements OnInit {
 
   filteredServices: Service[] = [];
 
-  constructor(public apiClient: ApiClientService) { }
+  constructor(public apiClient: ApiClientService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadServices();
@@ -37,5 +38,17 @@ export class ConsumerHomeComponent implements OnInit {
       }
     }
     return result;
+  }
+
+  getUser(userID: string) {
+    return this.apiClient.providers.find(p => p._id == userID);
+  }
+
+  /**
+   * Navigate to the service details page
+   * @param selectedService The service data to send to the service details page
+   */
+  viewService(selectedService: Service) {
+    this.router.navigate(['/home/service-details'], {state: selectedService});
   }
 }
