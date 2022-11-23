@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatLegacyButton as MatButton } from '@angular/material/legacy-button';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatButton } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ProviderAccount } from 'src/app/shared/models/provider-account.model';
 import { ProviderRequest } from 'src/app/shared/models/provider-request.model';
