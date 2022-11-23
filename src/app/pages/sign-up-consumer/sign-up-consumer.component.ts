@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { MatChipInputEvent, MatChipList } from '@angular/material/chips';
+import { MatLegacyChipInputEvent as MatChipInputEvent, MatLegacyChipList as MatChipList } from '@angular/material/legacy-chips';
 import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
 import { RandomUsername } from 'src/app/shared/models/random-username.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
-import { MatButton } from '@angular/material/button';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacyButton as MatButton } from '@angular/material/legacy-button';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { Router } from '@angular/router';
 import { ConsumerAccount } from 'src/app/shared/models/consumer-account.model';
 import { ConsumerRequest } from 'src/app/shared/models/consumer-request.model';
