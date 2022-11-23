@@ -94,7 +94,8 @@ export class SignUpProviderComponent implements OnInit {
             schoolyear: this.formData.controls.yearControl.value,
             address: this.formData.controls.addressControl.value,
             pincode: this.formData.controls.pincodeControl.value,
-            currlocation: this.formData.controls.cityControl.value
+            currlocation: this.formData.controls.cityControl.value,
+            role: 'provider'
           };
           console.log(JSON.stringify(newAccount));
           // Call API to post account creation

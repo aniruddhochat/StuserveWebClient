@@ -13,5 +13,6 @@ export interface ProviderAccount {
     schoolyear: string,
     address: string,
     pincode: string,
-    currlocation: string
+    currlocation: string,
+    role: string
 }

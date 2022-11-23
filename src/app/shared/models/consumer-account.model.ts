@@ -14,5 +14,6 @@ export interface ConsumerAccount {
     schoolyear: string,
     address: string,
     pincode: string,
-    currlocation: string
+    currlocation: string,
+    role: string
 }

@@ -32,4 +32,8 @@ export class SideNavComponent implements OnInit {
   navigateAddService() {
     this.router.navigate(['add-service'], {relativeTo: this.route});
   }
+
+  navigateProfile() {
+    this.router.navigate(['profile-edit'], {relativeTo: this.route});
+  }
 }

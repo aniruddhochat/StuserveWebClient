@@ -9,6 +9,7 @@
            <button mat-button class="navButton" (click)="navigateHome()">HOME</button>
            <button *ngIf="apiClient.consumerAccount" mat-button class="navButton" (click)="navigateViewAll()">ALL SERVICES</button>
            <button *ngIf="apiClient.providerAccount" mat-button class="navButton" (click)="navigateAddService()">ADD SERVICE</button>
+           <button mat-button class="navButton" (click)="navigateProfile()">PROFILE</button>
         </div>
     </mat-sidenav>
     <mat-sidenav-content>

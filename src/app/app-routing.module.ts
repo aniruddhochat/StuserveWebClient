@@ -15,6 +15,7 @@ import { ConsumerGuard } from './shared/guards/consumer.guard';
 import { AddServiceComponent } from './pages/add-service/add-service.component';
 import { UnauthenticatedViewServicesComponent } from './pages/unauthenticated-view-services/unauthenticated-view-services.component';
 import { ServiceEditComponent } from './pages/service-edit/service-edit.component';
+import { ProfileSettingsComponent } from './pages/profile-settings/profile-settings.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent},
@@ -29,7 +30,8 @@ const routes: Routes = [
     { path: 'consumer-home', component: ConsumerHomeComponent, canActivate: [ConsumerGuard] },
     { path: 'provider-home', component: ProviderHomeComponent, canActivate: [ProviderGuard] },
     { path: 'add-service', component: AddServiceComponent, canActivate: [ProviderGuard] },
-    { path: 'service-edit', component: ServiceEditComponent, canActivate: [ProviderGuard] }
+    { path: 'service-edit', component: ServiceEditComponent, canActivate: [ProviderGuard] },
+    { path: 'profile-edit', component: ProfileSettingsComponent, canActivate: [AuthenticatedGuard] },
   ] }
 ];
 

@@ -70,6 +70,7 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, So
 import { ServiceEditComponent } from './pages/service-edit/service-edit.component';
 import { ReviewPopupComponent } from './shared/components/review-popup/review-popup.component';
 import { EditProfileConsumerComponent } from './pages/edit-profile-consumer/edit-profile-consumer.component';
+import { ProfileSettingsComponent } from './pages/profile-settings/profile-settings.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { EditProfileConsumerComponent } from './pages/edit-profile-consumer/edit
     ServiceEditComponent,
     ReviewPopupComponent,
     EditProfileConsumerComponent,
+    ProfileSettingsComponent,
   ],
   imports: [
     BrowserModule,
