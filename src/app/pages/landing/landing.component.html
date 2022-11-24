@@ -45,8 +45,10 @@
     <div class="services-container">
         <mat-card class="service-card">
             <div *ngIf="topServices[0]">
-                <mat-card-title>{{topServices[0].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topServices[0].user)?.email}}</mat-card-subtitle>
+                <mat-card-header>
+                    <mat-card-title>{{topServices[0].name}}</mat-card-title>
+                    <mat-card-subtitle>{{getUser(topServices[0].user)?.email}}</mat-card-subtitle>
+                </mat-card-header>
                 <mat-card-content>
                     <p>{{topServices[0].description}}</p>
                     <p style="color: green">${{topServices[0].price}}</p>
@@ -58,8 +60,10 @@
         </mat-card>
         <mat-card class="service-card">
             <div *ngIf="topServices[1]">
-                <mat-card-title>{{topServices[1].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topServices[1].user)?.email}}</mat-card-subtitle>
+                <mat-card-header>
+                    <mat-card-title>{{topServices[1].name}}</mat-card-title>
+                    <mat-card-subtitle>{{getUser(topServices[1].user)?.email}}</mat-card-subtitle>
+                </mat-card-header>
                 <mat-card-content>
                     <p>{{topServices[1].description}}</p>
                     <p style="color: green">${{topServices[1].price}}</p>
@@ -71,8 +75,10 @@
         </mat-card>
         <mat-card class="service-card">
             <div *ngIf="topServices[2]">
-                <mat-card-title>{{topServices[2].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topServices[2].user)?.email}}</mat-card-subtitle>
+                <mat-card-header>
+                    <mat-card-title>{{topServices[2].name}}</mat-card-title>
+                    <mat-card-subtitle>{{getUser(topServices[2].user)?.email}}</mat-card-subtitle>
+                </mat-card-header>
                 <mat-card-content>
                     <p>{{topServices[2].description}}</p>
                     <p style="color: green">${{topServices[2].price}}</p>
@@ -88,8 +94,10 @@
     <div class="services-container">
         <mat-card class="service-card">
             <div *ngIf="topRentals[0]">
-                <mat-card-title>{{topRentals[0].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topRentals[0].user)?.email}}</mat-card-subtitle>
+                <mat-card-header>
+                    <mat-card-title>{{topRentals[0].name}}</mat-card-title>
+                    <mat-card-subtitle>{{getUser(topRentals[0].user)?.email}}</mat-card-subtitle>
+                </mat-card-header>
                 <mat-card-content>
                     <p>{{topRentals[0].description}}</p>
                     <p style="color: green">${{topRentals[0].price}}</p>
@@ -101,8 +109,10 @@
         </mat-card>
         <mat-card class="service-card">
             <div *ngIf="topRentals[1]">
-                <mat-card-title>{{topRentals[1].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topRentals[1].user)?.email}}</mat-card-subtitle>
+                <mat-card-header>
+                    <mat-card-title>{{topRentals[1].name}}</mat-card-title>
+                    <mat-card-subtitle>{{getUser(topRentals[1].user)?.email}}</mat-card-subtitle>
+                </mat-card-header>
                 <mat-card-content>
                     <p>{{topRentals[1].description}}</p>
                     <p style="color: green">${{topRentals[1].price}}</p>
@@ -114,8 +124,10 @@
         </mat-card>
         <mat-card class="service-card">
             <div *ngIf="topRentals[2]">
-                <mat-card-title>{{topRentals[2].name}}</mat-card-title>
-                <mat-card-subtitle>{{getUser(topRentals[2].user)?.email}}</mat-card-subtitle>
+                <mat-card-header>
+                    <mat-card-title>{{topRentals[2].name}}</mat-card-title>
+                    <mat-card-subtitle>{{getUser(topRentals[2].user)?.email}}</mat-card-subtitle>
+                </mat-card-header>
                 <mat-card-content>
                     <p>{{topRentals[2].description}}</p>
                     <p style="color: green">${{topRentals[2].price}}</p>
@@ -127,9 +139,9 @@
         </mat-card>
     </div>
     
-
     <!-- View Services and Rentals section -->
     <div style="display: flex; justify-content: center; margin-top: 50px;">
         <button height="100" mat-raised-button [routerLink]="'unauthenticated-view-all'">View All</button>
     </div>
+
 </div>

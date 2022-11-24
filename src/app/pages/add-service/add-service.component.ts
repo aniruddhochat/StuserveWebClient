@@ -1,9 +1,9 @@
 import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatLegacyChipInputEvent as MatChipInputEvent, MatLegacyChipList as MatChipList } from '@angular/material/legacy-chips';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatChipGrid, MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { PostedServicePopupComponent } from 'src/app/shared/components/posted-service-popup/posted-service-popup.component';
 import { Service } from 'src/app/shared/models/service.model';
@@ -17,7 +17,7 @@ import { ApiClientService } from 'src/app/shared/services/api-client.service';
 })
 export class AddServiceComponent implements OnInit {
   @ViewChild("chipList")
-  tagList!: MatChipList;
+  tagList!: MatChipGrid;
 
   formData = new FormGroup({
     nameControl: new FormControl(''),

@@ -1,5 +1,5 @@
 import { Component, OnInit, Provider } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { SignUpTypeSelectComponent } from 'src/app/shared/components/sign-up-type-select/sign-up-type-select.component';
 import { ProviderAccount } from 'src/app/shared/models/provider-account.model';
 import { ProvidersRequest } from 'src/app/shared/models/providers-request.model';

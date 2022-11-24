@@ -5,48 +5,37 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 
-// Material Form Controls
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
-import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// Material Navigation
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-// Material Layout
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import { MatTreeModule } from '@angular/material/tree';
-// Material Buttons & Indicators
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
-import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar';
 import { MatRippleModule } from '@angular/material/core';
-// Material Popups & Modals
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import {MatSliderModule} from '@angular/material/slider';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
-// Material Data tables
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
+import {MatTabsModule} from '@angular/material/tabs'; 
+import {MatChipsModule} from '@angular/material/chips';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatTableModule } from '@angular/material/table';
+import { GoogleMapsModule } from '@angular/google-maps'
+
 import { LandingComponent } from './pages/landing/landing.component';
 import { DefaultToolbarComponent } from './shared/components/default-toolbar/default-toolbar.component';
 import { ToolbarWithSigninComponent } from './shared/components/toolbar-with-signin/toolbar-with-signin.component';
@@ -69,8 +58,16 @@ import { GoogleSignInComponent } from './pages/google-sign-in/google-sign-in.com
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { ServiceEditComponent } from './pages/service-edit/service-edit.component';
 import { ReviewPopupComponent } from './shared/components/review-popup/review-popup.component';
-import { EditProfileConsumerComponent } from './pages/edit-profile-consumer/edit-profile-consumer.component';
 import { ProfileSettingsComponent } from './pages/profile-settings/profile-settings.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+
 
 @NgModule({
   declarations: [
@@ -95,7 +92,6 @@ import { ProfileSettingsComponent } from './pages/profile-settings/profile-setti
     GoogleSignInComponent,
     ServiceEditComponent,
     ReviewPopupComponent,
-    EditProfileConsumerComponent,
     ProfileSettingsComponent,
   ],
   imports: [
@@ -141,6 +137,7 @@ import { ProfileSettingsComponent } from './pages/profile-settings/profile-setti
     MatTableModule,
     ReactiveFormsModule,
     SocialLoginModule,
+    GoogleMapsModule,
     NgxMaskModule.forRoot()
   ],
   providers: [

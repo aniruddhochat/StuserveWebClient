@@ -29,11 +29,11 @@
         <!-- <p style="color: green; font-weight: bold; font-size: 25px">${{service.price}}</p> -->
         <p class="label">Other</p>
         <p style="color: grey">Tags</p>
-        <mat-chip-list #chipList aria-label="Tags">
-            <mat-chip *ngFor="let tag of service.tags">
+        <mat-chip-listbox #chipList aria-label="Tags">
+            <mat-chip-option *ngFor="let tag of service.tags">
                 {{tag}}
-            </mat-chip>
-        </mat-chip-list>
+            </mat-chip-option>
+        </mat-chip-listbox>
 
         <p style="color: grey; margin-top: 50px">Ratings/Reviews</p>
         <div style="display: flex">
@@ -60,5 +60,14 @@
           </mat-expansion-panel>
 
         <button mat-raised-button style="margin-top: 50px" type="button" (click)="openReview()">Post Review</button>  
+
+        <google-map [options]="mapOptions">
+            <map-marker
+                [position]="marker.position"
+                [label]="marker.label"
+                [title]="marker.title"
+                [options]="marker.options">
+            </map-marker>
+        </google-map>
     </div>
 </mat-card>

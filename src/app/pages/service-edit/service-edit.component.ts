@@ -1,9 +1,9 @@
 import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { MatLegacyChipInputEvent as MatChipInputEvent, MatLegacyChipList as MatChipList } from '@angular/material/legacy-chips';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatChipGrid, MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Service } from 'src/app/shared/models/service.model';
 import { SingleServiceRequest } from 'src/app/shared/models/single-service-request.model';
@@ -16,7 +16,7 @@ import { ApiClientService } from 'src/app/shared/services/api-client.service';
 })
 export class ServiceEditComponent implements OnInit {
   @ViewChild("chipList")
-  tagList!: MatChipList;
+  tagList!: MatChipGrid;
 
   isLoading: boolean = false;
 

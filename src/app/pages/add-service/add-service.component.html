@@ -53,19 +53,19 @@
                     We can do this becuase we do not need validators on the list input -->
                     <mat-form-field style="width: 49%" class="tags-chip-list" appearance="outline">
                         <mat-label>Tags</mat-label>
-                        <mat-chip-list #chipList aria-label="Tags selection">
-                            <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">
+                        <mat-chip-grid #chipList aria-label="Tags selection">
+                            <mat-chip-row *ngFor="let tag of tags" (removed)="remove(tag)">
                                 {{tag}}
                                 <button matChipRemove>
                                     <mat-icon>cancel</mat-icon>
                                 </button>
-                            </mat-chip>
+                            </mat-chip-row>
                             <input placeholder="New Tag..."
                                 [matChipInputFor]="chipList"
                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                 [matChipInputAddOnBlur]="addOnBlur"
                                 (matChipInputTokenEnd)="add($event)">
-                        </mat-chip-list>
+                        </mat-chip-grid>
                         <mat-hint>Type a value, followed by a COMMA, the ENTER key, or a SPACE to add it to the list</mat-hint>
                     </mat-form-field>
                 </div>

@@ -71,8 +71,8 @@
 }
 
 .service-card {
-    margin-top: 25px;
     width: 30%;
+    padding: 15px;
 }
 
 .na-service-content {

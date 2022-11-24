@@ -5,7 +5,7 @@
 * https://materialtheme.arcsine.dev
 * Fork at: https://materialtheme.arcsine.dev/?c=YHBhbGV0dGU$YHByaW1hcnk$YF48Izk5MTAwOCIsIj9lcjwjZTBiN2I1IiwiO2VyPCM3YzA5MDR$LCIlPmBePCM3OTc5NzkiLCI~ZXI8I2Q3ZDdkNyIsIjtlcjwjNWM1YzVjfiwid2Fybj5gXjwjZmYwMDAwIiwiP2VyPCNmZmIzYjMiLCI7ZXI8I2ZmMDAwMH4sIj9UZXh0PCMwMDAwMDAiLCI~PTwjZmFmYWZhIiwiO1RleHQ8I2ZmZmZmZiIsIjs9PCMyYzJjMmN$LCJmb250cz5bYEA8KC00fixgQDwoLTN$LGBAPCgtMn4sYEA8KC0xfixgQDxoZWFkbGluZX4sYEA8dGl0bGV$LGBAPHN1YiktMn4sYEA8c3ViKS0xfixgQDxib2R5LTJ$LGBAPGJvZHktMX4sYEA8YnV0dG9ufixgQDxjYXB0aW9ufixgQDxpbnB1dCIsInNpemU$bnVsbH1dLCJpY29uczxGaWxsZWQiLCI~bmVzcz5mYWxzZSwidmVyc2lvbj4xMX0=
 */
-
+@use '@angular/material' as mat;
 @import '@angular/material/theming';
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -15,20 +15,20 @@
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
      
-$fontConfig: (
-  display-4: mat-typography-level(112px, 112px, 300, 'Roboto', -0.0134em),
-  display-3: mat-typography-level(56px, 56px, 400, 'Roboto', -0.0089em),
-  display-2: mat-typography-level(45px, 48px, 400, 'Roboto', 0.0000em),
-  display-1: mat-typography-level(34px, 40px, 400, 'Roboto', 0.0074em),
-  headline: mat-typography-level(24px, 32px, 400, 'Roboto', 0.0000em),
-  title: mat-typography-level(20px, 32px, 500, 'Roboto', 0.0075em),
-  subheading-2: mat-typography-level(16px, 28px, 400, 'Roboto', 0.0094em),
-  subheading-1: mat-typography-level(15px, 24px, 500, 'Roboto', 0.0067em),
-  body-2: mat-typography-level(14px, 24px, 500, 'Roboto', 0.0179em),
-  body-1: mat-typography-level(14px, 20px, 400, 'Roboto', 0.0179em),
-  button: mat-typography-level(14px, 14px, 500, 'Roboto', 0.0893em),
-  caption: mat-typography-level(12px, 20px, 400, 'Roboto', 0.0333em),
-  input: mat-typography-level(inherit, 1.125, 400, 'Roboto', 1.5px)
+$fontConfig: mat-typography-config(
+  $display-4: mat-typography-level(112px, 112px, 300, 'Roboto', -0.0134em),
+  $display-3: mat-typography-level(56px, 56px, 400, 'Roboto', -0.0089em),
+  $display-2: mat-typography-level(45px, 48px, 400, 'Roboto', 0.0000em),
+  $display-1: mat-typography-level(34px, 40px, 400, 'Roboto', 0.0074em),
+  $headline: mat-typography-level(24px, 32px, 400, 'Roboto', 0.0000em),
+  $title: mat-typography-level(20px, 32px, 500, 'Roboto', 0.0075em),
+  $subheading-2: mat-typography-level(16px, 28px, 400, 'Roboto', 0.0094em),
+  $subheading-1: mat-typography-level(15px, 24px, 500, 'Roboto', 0.0067em),
+  $body-2: mat-typography-level(14px, 24px, 500, 'Roboto', 0.0179em),
+  $body-1: mat-typography-level(14px, 20px, 400, 'Roboto', 0.0179em),
+  $button: mat-typography-level(14px, 14px, 500, 'Roboto', 0.0893em),
+  $caption: mat-typography-level(12px, 20px, 400, 'Roboto', 0.0333em),
+  $input: mat-typography-level(inherit, 1.125, 400, 'Roboto', 1.5px)
 );
 
 // Foreground Elements
@@ -146,7 +146,8 @@ $mat-dark-theme-background: (
 );
 
 // Compute font config
-@include mat-core($fontConfig);
+// @include mat-core($fontConfig);
+@include mat-core();
 
 // Theme Config
 
@@ -220,7 +221,20 @@ $theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
 $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 
 // Theme Init
-@include angular-material-theme($theme);
+// @include angular-material-theme($theme);
+// @include angular-material-typography($fontConfig);
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $theme-primary,
+   accent: $theme-accent,
+   warn: $theme-warn,
+ ),
+ typography: mat.define-typography-config(),
+ density: 0,
+));
+
+@include angular-material-theme($my-theme);
 
 .theme-alternate {
   @include angular-material-theme($altTheme);

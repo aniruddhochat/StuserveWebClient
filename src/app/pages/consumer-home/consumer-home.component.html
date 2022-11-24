@@ -4,11 +4,11 @@
         <p id="header">FOR YOU</p>
         <mat-card-content>
             <p class="section-header">Interests</p>
-            <mat-chip-list #chipList aria-label="Interests selection">
-                <mat-chip *ngFor="let tag of apiClient.consumerAccount.interests">
+            <mat-chip-listbox #chipList aria-label="Interests selection">
+                <mat-chip-option disabled *ngFor="let tag of apiClient.consumerAccount.interests">
                     {{tag}}
-                </mat-chip>
-            </mat-chip-list>
+                </mat-chip-option>
+            </mat-chip-listbox>
 
             <!-- Services Section -->
             <p class="section-header">Related Services</p>
