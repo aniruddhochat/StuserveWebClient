@@ -6,6 +6,7 @@ import { ProvidersRequest } from 'src/app/shared/models/providers-request.model'
 import { Service } from 'src/app/shared/models/service.model';
 import { ServicesRequest } from 'src/app/shared/models/services-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
+import { GeocodeService } from 'src/app/shared/services/geocode.service';
 
 @Component({
   selector: 'app-landing',
@@ -20,11 +21,12 @@ export class LandingComponent implements OnInit {
 
   isLoading: boolean = false;
 
-  constructor(public dialog: MatDialog, public apiClient: ApiClientService) { }
+  constructor(public dialog: MatDialog, public apiClient: ApiClientService, private geoService: GeocodeService) { }
 
   ngOnInit(): void {
     this.loadTopServices();
     this.loadTopRentals();
+    this.geoService.getAutoPlaces();
   }
 
   loadTopServices() {

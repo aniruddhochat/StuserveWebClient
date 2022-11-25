@@ -6,8 +6,10 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { ReviewPopupComponent } from 'src/app/shared/components/review-popup/review-popup.component';
+import { GeoLocation } from 'src/app/shared/models/location.model';
 import { Service } from 'src/app/shared/models/service.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
+import { GeocodeService } from 'src/app/shared/services/geocode.service';
 
 @Component({
   selector: 'app-service-details',
@@ -17,7 +19,7 @@ import { ApiClientService } from 'src/app/shared/services/api-client.service';
 export class ServiceDetailsComponent implements OnInit {
 
   
-  constructor(private router: Router, public dialog: MatDialog, private apiClient: ApiClientService) { 
+  constructor(private router: Router, public dialog: MatDialog, private apiClient: ApiClientService, private geoService: GeocodeService) { 
     
   }
 
@@ -26,14 +28,9 @@ export class ServiceDetailsComponent implements OnInit {
 
   geocoder = new google.maps.Geocoder();
 
-  center: {lat: number, lng: number} = {
-    lat: 0,
-    lng: 0
-  };
-
   //sideNavOpened: boolean = false;
   mapOptions: google.maps.MapOptions = {
-    //center: {lat: 40, lng: -20},
+    center: {lat: 0, lng: 0},
     zoom: 4,
   };
 
@@ -41,8 +38,8 @@ export class ServiceDetailsComponent implements OnInit {
 
   marker = {
     position: {
-      lat: this.center.lat + ((Math.random() - 0.5) * 2) / 10,
-      lng: this.center.lng + ((Math.random() - 0.5) * 2) / 10,
+      lat: 0,
+      lng: 0,
     },
     label: {
       color: 'red',
@@ -55,11 +52,7 @@ export class ServiceDetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getGeoLocation('8310 Fall Creek Rd Indianapolis, IN  46256 United States').subscribe({
-      next: (res: any) => {
-        console.log(res);
-      }
-    })
+    this.getGeoLocation('8310 Fall Creek Rd Indianapolis, Indiana, 46256 United States');
   }
 
   formatDate(date: Date) {
@@ -85,21 +78,39 @@ export class ServiceDetailsComponent implements OnInit {
 
 
 
-  getGeoLocation(address: string): Observable<any> {
+  getGeoLocation(address: string) {
     console.log('Getting address: ', address);
-    let geocoder = new google.maps.Geocoder();
-    return new Observable(observer => {
-        geocoder.geocode({
-            'address': address
-        }, (results: any, status: any) => {
-            if (status == google.maps.GeocoderStatus.OK) {
-                observer.next(results[0].geometry.location);
-                observer.complete();
-            } else {
-                console.log('Error: ', results, ' & Status: ', status);
-                observer.error();
-            }
-        });
-    });
-}
+    this.geoService.geocodeAddress(address).subscribe({
+      next: (res: any) => {
+        this.updateMap(res);
+      }, error: (err: any) => {
+        alert('error loading map location for the service');
+        console.log(err);
+      }
+    })
+  }
+
+
+  /**
+   * Updates the map variables with the new center location values
+   */
+  updateMap(location: GeoLocation) {
+    this.mapOptions = {
+      center: location,
+      zoom: 10,
+    };
+  
+    this.marker = {
+      position: {
+        lat: location.lat,
+        lng: location.lng,
+      },
+      label: {
+        color: 'red',
+        text: 'Marker label ',
+      },
+      title: 'Marker title ',
+      options: { animation: google.maps.Animation.BOUNCE },
+    };
+  }
 }
