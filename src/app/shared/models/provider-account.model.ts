@@ -12,7 +12,7 @@ export interface ProviderAccount {
     phone: string,
     schoolyear: string,
     address: string,
-    pincode: string,
-    currlocation: string,
+    //pincode: string,
+    //currlocation: string,
     role: string
 }

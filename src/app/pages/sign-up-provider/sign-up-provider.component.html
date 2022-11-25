@@ -55,27 +55,12 @@
                 <p class="form-section-header" style="margin-top: 50px;">Location</p>
                 
                 <div class="form-row">
-                    <mat-form-field style="width: 45%" appearance="fill">
+                    <mat-form-field style="width: 100%" appearance="fill">
                         <mat-label>Street Address</mat-label>
-                        <textarea required formControlName="addressControl" matInput></textarea>
+                        <input required formControlName="addressControl" matInput #placesInput placeholder="Enter a location" (focus)="autocomplete()">
                         <mat-error *ngIf="formData.controls['addressControl'].hasError('required')">Street Address is required</mat-error>
                     </mat-form-field>
-                    <mat-form-field style="width: 45%" appearance="fill">
-                        <mat-label>City</mat-label>
-                        <input required formControlName="cityControl" matInput>
-                        <mat-error *ngIf="formData.controls['cityControl'].hasError('required')">City is required</mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="form-row">
-                    <mat-form-field style="width: 45%" appearance="fill">
-                        <mat-label>Zipcode</mat-label>
-                        <input mask="00000" required formControlName="pincodeControl" [minlength]="5" matInput>
-                        <mat-error *ngIf="formData.controls['pincodeControl'].hasError('required')">Pincode is required</mat-error>
-                        <mat-error *ngIf="formData.controls['pincodeControl'].hasError('minlength')">Pincode is too short</mat-error>
-                    </mat-form-field>
-                </div>
-                
+                </div>       
                 
                 <p class="form-section-header" style="margin-top: 50px;">Account Information</p>
 

@@ -28,8 +28,6 @@ export class ProfileSettingsComponent implements OnInit {
     phoneControl: new FormControl(this.account.phone),
     yearControl: new FormControl(this.account.schoolyear),
     addressControl: new FormControl(this.account.address),
-    zipcodeControl: new FormControl(this.account.pincode),
-    currlocationControl: new FormControl(this.account.currlocation),
   })
 
   ngOnInit(): void {

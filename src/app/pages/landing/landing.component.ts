@@ -21,12 +21,11 @@ export class LandingComponent implements OnInit {
 
   isLoading: boolean = false;
 
-  constructor(public dialog: MatDialog, public apiClient: ApiClientService, private geoService: GeocodeService) { }
+  constructor(public dialog: MatDialog, public apiClient: ApiClientService) { }
 
   ngOnInit(): void {
     this.loadTopServices();
     this.loadTopRentals();
-    this.geoService.getAutoPlaces();
   }
 
   loadTopServices() {

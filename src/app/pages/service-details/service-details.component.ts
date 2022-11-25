@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MapMarker } from '@angular/google-maps';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -17,7 +17,9 @@ import { GeocodeService } from 'src/app/shared/services/geocode.service';
   styleUrls: ['./service-details.component.css']
 })
 export class ServiceDetailsComponent implements OnInit {
+  @ViewChild('map',{static: false}) mapElement!: ElementRef;
 
+  map!: google.maps.Map;
   
   constructor(private router: Router, public dialog: MatDialog, private apiClient: ApiClientService, private geoService: GeocodeService) { 
     
@@ -26,33 +28,67 @@ export class ServiceDetailsComponent implements OnInit {
   // Assigning the passed service object through navigation
   service = this.router.getCurrentNavigation()!.extras.state as Service;
 
-  geocoder = new google.maps.Geocoder();
-
   //sideNavOpened: boolean = false;
-  mapOptions: google.maps.MapOptions = {
-    center: {lat: 0, lng: 0},
-    zoom: 4,
-  };
+  // mapOptions: google.maps.MapOptions = {
+  //   center: {lat: 0, lng: 0},
+  //   zoom: 4,
+  // };
 
 
-
-  marker = {
-    position: {
-      lat: 0,
-      lng: 0,
-    },
-    label: {
-      color: 'red',
-      text: 'Marker label ',
-    },
-    title: 'Marker title ',
-    options: { animation: google.maps.Animation.BOUNCE },
-  };
+  // marker = {
+  //   position: {
+  //     lat: 0,
+  //     lng: 0,
+  //   },
+  //   label: {
+  //     color: 'red',
+  //     text: 'Marker label ',
+  //   },
+  //   title: 'Marker title ',
+  //   options: { animation: google.maps.Animation.BOUNCE },
+  // };
 
 
 
   ngOnInit(): void {
-    this.getGeoLocation('8310 Fall Creek Rd Indianapolis, Indiana, 46256 United States');
+    console.log('Getting address: ', this.service.location);
+    this.geoService.geocodeAddress(this.service.location).subscribe({
+      next: (res: GeoLocation) => {
+        console.log(res);
+        const mapOptions: google.maps.MapOptions = {
+          center: {lat: res.lat, lng: res.lng},
+          zoom: 12,
+        };
+        this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+        const marker = new google.maps.Marker({
+          position: {lat: res.lat, lng: res.lng}, 
+          map: this.map, 
+          title: this.service.name
+        });
+          const infoWindow = new google.maps.InfoWindow({
+            content: `<p>${this.service.name}</p>
+                      <p>${this.service.type}</p>
+                      <p>${this.service.numOfReviews} reviews</p>
+                      <p>${this.service.ratings}/5</p>
+                      <p>${this.service.location}</p>
+                      <p>${res.lat}, ${res.lng}</p>`
+          });
+          marker.addListener("click", () => {
+            infoWindow.open({
+              anchor: marker
+            });
+          });
+      }, error: (err: any) => {
+        alert('error loading map location for the service');
+        console.log(err);
+      }
+    })
+    
+    //this.getGeoLocation(this.service.location);
+  }
+
+  mapInit(){
+    
   }
 
   formatDate(date: Date) {
@@ -78,39 +114,39 @@ export class ServiceDetailsComponent implements OnInit {
 
 
 
-  getGeoLocation(address: string) {
-    console.log('Getting address: ', address);
-    this.geoService.geocodeAddress(address).subscribe({
-      next: (res: any) => {
-        this.updateMap(res);
-      }, error: (err: any) => {
-        alert('error loading map location for the service');
-        console.log(err);
-      }
-    })
-  }
+  // getGeoLocation(address: string) {
+  //   console.log('Getting address: ', address);
+  //   this.geoService.geocodeAddress(address).subscribe({
+  //     next: (res: any) => {
+  //       this.updateMap(res);
+  //     }, error: (err: any) => {
+  //       alert('error loading map location for the service');
+  //       console.log(err);
+  //     }
+  //   })
+  // }
 
 
   /**
    * Updates the map variables with the new center location values
    */
-  updateMap(location: GeoLocation) {
-    this.mapOptions = {
-      center: location,
-      zoom: 10,
-    };
+  // updateMap(location: GeoLocation) {
+  //   this.mapOptions = {
+  //     center: location,
+  //     zoom: 10,
+  //   };
   
-    this.marker = {
-      position: {
-        lat: location.lat,
-        lng: location.lng,
-      },
-      label: {
-        color: 'red',
-        text: 'Marker label ',
-      },
-      title: 'Marker title ',
-      options: { animation: google.maps.Animation.BOUNCE },
-    };
-  }
+  //   this.marker = {
+  //     position: {
+  //       lat: location.lat,
+  //       lng: location.lng,
+  //     },
+  //     label: {
+  //       color: 'red',
+  //       text: 'Marker label ',
+  //     },
+  //     title: 'Marker title ',
+  //     options: { animation: google.maps.Animation.BOUNCE },
+  //   };
+  // }
 }

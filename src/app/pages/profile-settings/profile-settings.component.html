@@ -44,24 +44,14 @@
                 </div>
 
                 <div class="form-row">
-                    <mat-form-field style="width: 49%" appearance="outline">
+                    <mat-form-field style="width: 100%" appearance="outline">
                         <mat-label>Address</mat-label>
                         <input required formControlName="addressControl" matInput>
                         <mat-error *ngIf="formData && formData.get('addressControl')!.hasError('required')">Address is required</mat-error>
                     </mat-form-field>
-                    <mat-form-field style="width: 49%" appearance="outline">
-                        <mat-label>Zipcode</mat-label>
-                        <input required formControlName="zipcodeControl" matInput>
-                        <mat-error *ngIf="formData && formData.get('zipcodeControl')!.hasError('required')">Zipcode is required</mat-error>
-                    </mat-form-field>
                 </div>
 
                 <div class="form-row">
-                    <mat-form-field style="width: 49%" appearance="outline">
-                        <mat-label>Current Location</mat-label>
-                        <input required formControlName="currlocationControl" matInput>
-                        <mat-error *ngIf="formData && formData.get('currlocationControl')!.hasError('required')">Current location is required</mat-error>
-                    </mat-form-field>
                     <mat-form-field style="width: 49%" appearance="outline">
                         <mat-label>School Year</mat-label>
                         <input required formControlName="yearControl" matInput>

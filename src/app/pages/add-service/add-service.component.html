@@ -36,7 +36,7 @@
 
                 <mat-form-field style="width: 100%" appearance="outline">
                     <mat-label>Location</mat-label>
-                    <input required formControlName="locationControl" matInput>
+                    <input required #placesInput formControlName="locationControl" placeholder="Enter a location" matInput (focus)="autocomplete()">
                     <mat-error *ngIf="formData.controls['locationControl'].hasError('required')">Location is required</mat-error>
                     <mat-hint>(Address of the service location)</mat-hint>
                 </mat-form-field>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ProviderAccount } from 'src/app/shared/models/provider-account.model';
 import { ProviderRequest } from 'src/app/shared/models/provider-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
+import { GeocodeService } from 'src/app/shared/services/geocode.service';
 
 @Component({
   selector: 'app-sign-up-provider',
@@ -13,6 +14,9 @@ import { ApiClientService } from 'src/app/shared/services/api-client.service';
   styleUrls: ['./sign-up-provider.component.css']
 })
 export class SignUpProviderComponent implements OnInit {
+
+  @ViewChild("placesInput")
+  placesInput!: ElementRef;
 
   formData = new FormGroup({
     fnameControl: new FormControl(''),
@@ -22,8 +26,6 @@ export class SignUpProviderComponent implements OnInit {
     yearControl: new FormControl(''),
     passwordControl: new FormControl(''),
     addressControl: new FormControl(''),
-    cityControl: new FormControl(''),
-    pincodeControl: new FormControl(''),
   })
 
 
@@ -35,9 +37,13 @@ export class SignUpProviderComponent implements OnInit {
 
   isLoading: boolean = false;
 
-  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router) { }
+  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private geoService: GeocodeService) { }
 
   ngOnInit(): void {
+  }
+
+  autocomplete() {
+    this.geoService.setAutocomplete(this.placesInput.nativeElement);
   }
 
   /**
@@ -73,9 +79,7 @@ export class SignUpProviderComponent implements OnInit {
         && this.formData.controls.phoneControl.value
         && this.formData.controls.passwordControl.value
         && this.formData.controls.yearControl.value
-        && this.formData.controls.addressControl.value
-        && this.formData.controls.cityControl.value
-        && this.formData.controls.pincodeControl.value) {
+        && this.formData.controls.addressControl.value){
         // Now make sure the user has generated a username value
         if(this.username != "") {
           // Start loading API
@@ -92,9 +96,7 @@ export class SignUpProviderComponent implements OnInit {
             password: this.formData.controls.passwordControl.value,
             phone: this.formData.controls.phoneControl.value,
             schoolyear: this.formData.controls.yearControl.value,
-            address: this.formData.controls.addressControl.value,
-            pincode: this.formData.controls.pincodeControl.value,
-            currlocation: this.formData.controls.cityControl.value,
+            address: this.placesInput.nativeElement.value,
             role: 'provider'
           };
           console.log(JSON.stringify(newAccount));

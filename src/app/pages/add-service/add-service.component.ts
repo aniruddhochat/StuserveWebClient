@@ -1,5 +1,5 @@
 import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatChipGrid, MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,15 +9,20 @@ import { PostedServicePopupComponent } from 'src/app/shared/components/posted-se
 import { Service } from 'src/app/shared/models/service.model';
 import { SingleServiceRequest } from 'src/app/shared/models/single-service-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
+import { GeocodeService } from 'src/app/shared/services/geocode.service';
 
 @Component({
   selector: 'app-add-service',
   templateUrl: './add-service.component.html',
   styleUrls: ['./add-service.component.css']
 })
-export class AddServiceComponent implements OnInit {
+export class AddServiceComponent implements OnInit{
   @ViewChild("chipList")
   tagList!: MatChipGrid;
+
+  @ViewChild("placesInput")
+  placesInput!: ElementRef;
+
 
   formData = new FormGroup({
     nameControl: new FormControl(''),
@@ -28,16 +33,24 @@ export class AddServiceComponent implements OnInit {
     priceControl: new FormControl(''),
   });
 
+
   isLoading: boolean = false;
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
   tags: string[] = [];
 
-  constructor(public apiClient: ApiClientService, private snackBar: MatSnackBar, public dialog: MatDialog, private router: Router) { }
+  constructor(public apiClient: ApiClientService, private snackBar: MatSnackBar, public dialog: MatDialog, private router: Router, private geoService: GeocodeService) { }
 
   ngOnInit(): void {
   }
+
+
+  autocomplete() {
+    this.geoService.setAutocomplete(this.placesInput.nativeElement);
+  }
+    
+
 
   /**
    * Add function for the chip list
@@ -91,10 +104,11 @@ export class AddServiceComponent implements OnInit {
             images: [],
             category: this.formData.controls.categoryControl.value,
             numOfReviews: '0', 
-            location: this.formData.controls.locationControl.value,
+            location: this.placesInput.nativeElement.value,
             reviews: [], // Currently empty because the API does not have a reviews endpoint ready
             user: this.apiClient.providerAccount._id!
           }
+          console.log(newService);
           // Now attempt to post the new service object through the API to the backend database
           this.apiClient.postServiceAdmin(newService).subscribe({
             next: (res: SingleServiceRequest) => {

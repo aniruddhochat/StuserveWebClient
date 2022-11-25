@@ -12,16 +12,9 @@
         </div>
         
         <mat-divider></mat-divider>
-        <div class="row">
-            <div>
-                <p class="label">Category</p>
-                <p>{{service.category}}</p>
-            </div>
-            <div>
-                <p class="label">Location</p>
-                <p>{{service.location}}</p>           
-            </div>
-        </div>
+        
+        <p class="label">Category</p>
+        <p>{{service.category}}</p>
         
         <p class="label">Description</p>
         <p>{{service.description}}</p>
@@ -61,13 +54,16 @@
 
         <button mat-raised-button style="margin-top: 50px" type="button" (click)="openReview()">Post Review</button>  
 
-        <google-map [options]="mapOptions">
+        <p style="margin-top: 50px">{{service.location}}</p>
+
+        <!-- <google-map #map [options]="mapOptions">
             <map-marker
                 [position]="marker.position"
                 [label]="marker.label"
                 [title]="marker.title"
                 [options]="marker.options">
             </map-marker>
-        </google-map>
+        </google-map> -->
+        <div #map style="width: 600px; height: 600px"></div>
     </div>
 </mat-card>

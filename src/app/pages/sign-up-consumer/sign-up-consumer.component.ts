@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
 import { RandomUsername } from 'src/app/shared/models/random-username.model';
@@ -9,6 +9,7 @@ import { ConsumerRequest } from 'src/app/shared/models/consumer-request.model';
 import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatChipGrid, MatChipInputEvent } from '@angular/material/chips';
+import { GeocodeService } from 'src/app/shared/services/geocode.service';
 
 
 @Component({
@@ -19,6 +20,9 @@ import { MatChipGrid, MatChipInputEvent } from '@angular/material/chips';
 export class SignUpConsumerComponent implements OnInit {
   @ViewChild("chipList")
   interestList!: MatChipGrid;
+
+  @ViewChild("placesInput")
+  placesInput!: ElementRef;
 
   @ViewChild("generateUsernameButton")
   usernameButton!: MatButton;
@@ -31,8 +35,6 @@ export class SignUpConsumerComponent implements OnInit {
     yearControl: new FormControl(''),
     passwordControl: new FormControl(''),
     addressControl: new FormControl(''),
-    cityControl: new FormControl(''),
-    pincodeControl: new FormControl(''),
   })
 
   username: string = "";
@@ -44,11 +46,14 @@ export class SignUpConsumerComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
   interests: string[] = [];
 
-  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router) { }
+  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private geoService: GeocodeService) { }
 
   ngOnInit(): void {
   }
 
+  autocomplete() {
+    this.geoService.setAutocomplete(this.placesInput.nativeElement);
+  }
 
   /**
    * Add function for the chip list
@@ -106,9 +111,7 @@ export class SignUpConsumerComponent implements OnInit {
         && this.formData.controls.phoneControl.value
         && this.formData.controls.passwordControl.value
         && this.formData.controls.yearControl.value
-        && this.formData.controls.addressControl.value
-        && this.formData.controls.cityControl.value
-        && this.formData.controls.pincodeControl.value) {
+        && this.formData.controls.addressControl.value){
         // Now make sure the user has generated a username value
         if(this.username != "") {
           // Start loading API
@@ -127,9 +130,7 @@ export class SignUpConsumerComponent implements OnInit {
             password: this.formData.controls.passwordControl.value,
             phone: this.formData.controls.phoneControl.value,
             schoolyear: this.formData.controls.yearControl.value,
-            address: this.formData.controls.addressControl.value,
-            pincode: this.formData.controls.pincodeControl.value,
-            currlocation: this.formData.controls.cityControl.value,
+            address: this.placesInput.nativeElement.value,
             role: 'consumer'
           };
           console.log(JSON.stringify(newAccount));
