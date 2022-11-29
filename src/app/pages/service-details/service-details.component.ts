@@ -114,7 +114,7 @@ export class ServiceDetailsComponent implements OnInit {
         console.log(res);
         if(res) {
           this.apiClient.postStripePayement(this.service.price, res.token.id).subscribe({
-            next: (res2:PayementRequest) => {
+            next: (res2:any) => {
               console.log(res2);
               // After succesful charge posting, attempt to create an order
               //  If that succeeds, then capture the charge
@@ -130,8 +130,8 @@ export class ServiceDetailsComponent implements OnInit {
                   product: this.service._id!
                 },
                 paymentInfo: {
-                  id: res.token.card.id,  // Not sure what to put?
-                  status: 'pending'
+                  id: res2.charge.id,  // Not sure what to put?
+                  status: 'Uncaptured'
                 },
                 servicePrice: this.service.price,
                 taxPrice: 0,

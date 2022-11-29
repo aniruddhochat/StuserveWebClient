@@ -14,10 +14,12 @@ export interface Order
         id: string,
         status: string
     },
+    _id?: string,
     paidAt?: string,
     servicePrice: number,
     taxPrice: number,
     additionalPrice: number,
+    orderStatus?: string,
     totalPrice: number,
     provider: string
 }

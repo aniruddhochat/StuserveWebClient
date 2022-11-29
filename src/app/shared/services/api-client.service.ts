@@ -20,6 +20,7 @@ import { UsernameRequest } from '../models/username-request.model';
 import { PayementRequest } from '../models/payement-request.model';
 import { Order } from '../models/order.model';
 import { OrdersRequest } from '../models/orders-request.model';
+import { ConsumersRequest } from '../models/consumers-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class ApiClientService {
   socialUser: SocialUser = null!;
   password: string = "";
   providers: ProviderAccount[] = [];
+  consumers: ConsumerAccount[] = [];
   services: Service[] = [];
   categories: Category[] = [];
   // Starts as true because the initial data loading will always be invoked at the startup of the application
@@ -54,14 +56,26 @@ export class ApiClientService {
                   next: (res3) => {
                     // Make sure API returned success
                     if(res3.success) {
-                      // Set global variables
-                      this.services = res1.services;
-                      this.providers = res2.providers;
-                      this.categories = res3.category;
-                      // Done loading 
-                      this.isLoading = false;
-                      // Set initialze data to true
-                      this.hasDoneInitialSetup = true;
+                      this.getAllConsumerDetails().subscribe({
+                        next: (res4) => {
+                          // Make sure API returned success
+                          if(res4.success) {
+                            // Set global variables
+                            this.services = res1.services;
+                            this.providers = res2.providers;
+                            this.categories = res3.category;
+                            this.consumers = res4.users;
+                            // Done loading 
+                            this.isLoading = false;
+                            // Set initialze data to true
+                            this.hasDoneInitialSetup = true;
+                          }
+                        }, error: (err) => {
+                          alert("Error initializing application data. The error occured when attempting to load all consumers details. Check the console for error details");
+                          // Done loading 
+                          this.isLoading = false;
+                        }
+                      });
                     } else {
                       // Done loading 
                       this.isLoading = false;
@@ -207,6 +221,11 @@ export class ApiClientService {
     return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/providerdetails", {withCredentials:true});
   }
 
+  getAllConsumerDetails() {
+    // Call the API, and return the observable
+    return this.httpClient.get<ConsumersRequest>(environment.apiUrl + "/v1/userdetails", {withCredentials:true});
+  }
+
   getCategories() {
     // Call the API, and return the observable
     return this.httpClient.get<CategoryRequest>(environment.apiUrl + "/v1/getcategory", {withCredentials:true});
@@ -230,7 +249,7 @@ export class ApiClientService {
       amount: _amount,
       stripeToken: _stripeToken
     }
-    return this.httpClient.post<PayementRequest>(environment.apiUrl + "/v1/payment/process", body, {withCredentials:true});
+    return this.httpClient.post<any>(environment.apiUrl + "/v1/payment/process", body, {withCredentials:true});
   }
 
 
@@ -241,5 +260,19 @@ export class ApiClientService {
 
   getConsumerOrders() {
     return this.httpClient.post<OrdersRequest>(environment.apiUrl + "/v1/orders/me", this.consumerAccount, {withCredentials:true});
+  }
+
+
+  getProviderOrders() {
+    return this.httpClient.post<OrdersRequest>(environment.apiUrl + "/v1/orders/provider", this.providerAccount, {withCredentials:true});
+  }
+
+
+  approveOrder(_orderId: string, _chargeId: string) {
+    let body = {
+      status: "Completed",
+      chargeId: _chargeId
+    }
+    return this.httpClient.put<any>(environment.apiUrl + "/v1/provider/order/" + _orderId, body, {withCredentials:true});
   }
 }

@@ -14,5 +14,5 @@ export interface ProviderAccount {
     address: string,
     //pincode: string,
     //currlocation: string,
-    role: string
+    role?: string
 }
