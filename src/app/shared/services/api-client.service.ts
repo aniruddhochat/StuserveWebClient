@@ -19,6 +19,7 @@ import { SocialUser } from '../models/social-user.model';
 import { UsernameRequest } from '../models/username-request.model';
 import { PayementRequest } from '../models/payement-request.model';
 import { Order } from '../models/order.model';
+import { OrdersRequest } from '../models/orders-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -235,5 +236,10 @@ export class ApiClientService {
 
   postNewOrder(_order: Order) {
     return this.httpClient.post<any>(environment.apiUrl + "/v1/order/new", _order, {withCredentials:true});
+  }
+
+
+  getConsumerOrders() {
+    return this.httpClient.post<OrdersRequest>(environment.apiUrl + "/v1/orders/me", this.consumerAccount, {withCredentials:true});
   }
 }
