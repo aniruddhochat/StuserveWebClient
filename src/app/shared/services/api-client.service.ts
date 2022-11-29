@@ -18,6 +18,7 @@ import { ResolveEnd } from '@angular/router';
 import { SocialUser } from '../models/social-user.model';
 import { UsernameRequest } from '../models/username-request.model';
 import { PayementRequest } from '../models/payement-request.model';
+import { Order } from '../models/order.model';
 
 @Injectable({
   providedIn: 'root'
@@ -223,10 +224,16 @@ export class ApiClientService {
     return this.httpClient.put<{success: boolean}>(environment.apiUrl + "/v1/review", body, {withCredentials:true});
   }
 
-  postStripePayement(_amount: number) {
+  postStripePayement(_amount: number, _stripeToken: string) {
     let body = {
-      amount: _amount
+      amount: _amount,
+      stripeToken: _stripeToken
     }
     return this.httpClient.post<PayementRequest>(environment.apiUrl + "/v1/payment/process", body, {withCredentials:true});
+  }
+
+
+  postNewOrder(_order: Order) {
+    return this.httpClient.post<any>(environment.apiUrl + "/v1/order/new", _order, {withCredentials:true});
   }
 }

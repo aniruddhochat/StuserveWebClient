@@ -36,4 +36,16 @@ export class SideNavComponent implements OnInit {
   navigateProfile() {
     this.router.navigate(['profile-edit'], {relativeTo: this.route});
   }
+
+  navigateViewPayments() {
+    this.router.navigate(['consumer-payments'], {relativeTo: this.route});
+  }
+
+  navigateViewProviderHistory() {
+    this.router.navigate(['provider-history'], {relativeTo: this.route});
+  }
+
+  navigateViewProviderPending() {
+    this.router.navigate(['provider-pending'], {relativeTo: this.route});
+  }
 }

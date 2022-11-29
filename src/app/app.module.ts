@@ -67,6 +67,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { StripeFormComponent } from './shared/components/stripe-form/stripe-form.component';
+import { ConsumerPaymentsComponent } from './pages/consumer-payments/consumer-payments.component';
+import { ProviderHistoryComponent } from './pages/provider-history/provider-history.component';
+import { ProviderPendingComponent } from './pages/provider-pending/provider-pending.component';
 
 
 
@@ -96,6 +99,9 @@ import { StripeFormComponent } from './shared/components/stripe-form/stripe-form
     ReviewPopupComponent,
     ProfileSettingsComponent,
     StripeFormComponent,
+    ConsumerPaymentsComponent,
+    ProviderHistoryComponent,
+    ProviderPendingComponent,
   ],
   imports: [
     BrowserModule,

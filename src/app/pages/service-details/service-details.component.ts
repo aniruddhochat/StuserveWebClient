@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import { ReviewPopupComponent } from 'src/app/shared/components/review-popup/review-popup.component';
 import { StripeFormComponent } from 'src/app/shared/components/stripe-form/stripe-form.component';
 import { GeoLocation } from 'src/app/shared/models/location.model';
+import { Order } from 'src/app/shared/models/order.model';
+import { PayementRequest } from 'src/app/shared/models/payement-request.model';
 import { Service } from 'src/app/shared/models/service.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
 import { GeocodeService } from 'src/app/shared/services/geocode.service';
@@ -73,15 +75,6 @@ export class ServiceDetailsComponent implements OnInit {
   }
 
 
-
-  stripePayment() {
-    this.dialog.open(StripeFormComponent, {
-      height: 'fit-content',
-      width: '550px',
-    });
-  }
-
-
   checkAuthenticated() {
     this.apiClient.authenticated().subscribe({
       next: (res: boolean) => {
@@ -107,6 +100,65 @@ export class ServiceDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.service = this.apiClient.services.find(p => p._id == this.service._id) as Service;
     });
+  }
+
+
+  openStripe() {
+    const dialogRef = this.dialog.open(StripeFormComponent, {
+      // height: 'fit-content',
+      width: '600px',
+      data: this.service.price
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if(res) {
+          this.apiClient.postStripePayement(this.service.price, res.token.id).subscribe({
+            next: (res2:PayementRequest) => {
+              console.log(res2);
+              // After succesful charge posting, attempt to create an order
+              //  If that succeeds, then capture the charge
+              let newOrder: Order = {
+                deliveringOrderInfo: {
+                  address: this.apiClient.consumerAccount.address,
+                  phoneNo: this.apiClient.consumerAccount.phone
+                },
+                orderService: {
+                  name: this.service.name,
+                  price: this.service.price,
+                  image: 'temp',
+                  product: this.service._id!
+                },
+                paymentInfo: {
+                  id: res.token.card.id,  // Not sure what to put?
+                  status: 'pending'
+                },
+                servicePrice: this.service.price,
+                taxPrice: 0,
+                additionalPrice: 0,
+                totalPrice: this.service.price,
+                provider: this.service.user
+              };
+              // Attempt to post the new order
+              this.apiClient.postNewOrder(newOrder).subscribe({
+                next: (res: any) => {
+                  console.log(res);
+                  alert("Succesfully created order, awaiting approval from provider");
+                }, error: (err: any) => {
+                  alert("Error creating order. Check console for details.");
+                  console.log(err);
+                }
+              })
+            }, error: (err: any) => {
+              console.log(err);
+            }
+          });
+        }
+      }, error: (err: any) => {
+        alert('something went wrong. Check console');
+        console.log(err);
+      }
+    })
   }
 
 

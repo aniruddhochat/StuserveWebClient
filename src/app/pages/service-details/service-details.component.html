@@ -66,6 +66,7 @@
 
         <p class="label">Payment</p>
         <!-- MUST PASS PRICING!!! -->
-        <app-stripe-form [amount]="service.price*100"></app-stripe-form>
+        <!-- <app-stripe-form [amount]="service.price*100"></app-stripe-form> -->
+        <button mat-button type="button" (click)="openStripe()">Pay</button>
     </div>
 </mat-card>

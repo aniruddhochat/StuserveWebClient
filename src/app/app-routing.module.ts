@@ -16,6 +16,9 @@ import { AddServiceComponent } from './pages/add-service/add-service.component';
 import { UnauthenticatedViewServicesComponent } from './pages/unauthenticated-view-services/unauthenticated-view-services.component';
 import { ServiceEditComponent } from './pages/service-edit/service-edit.component';
 import { ProfileSettingsComponent } from './pages/profile-settings/profile-settings.component';
+import { ConsumerPaymentsComponent } from './pages/consumer-payments/consumer-payments.component';
+import { ProviderHistoryComponent } from './pages/provider-history/provider-history.component';
+import { ProviderPendingComponent } from './pages/provider-pending/provider-pending.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent},
@@ -33,6 +36,9 @@ const routes: Routes = [
     { path: 'add-service', component: AddServiceComponent, canActivate: [ProviderGuard] },
     { path: 'service-edit', component: ServiceEditComponent, canActivate: [ProviderGuard] },
     { path: 'profile-edit', component: ProfileSettingsComponent, canActivate: [AuthenticatedGuard] },
+    { path: 'consumer-payments', component: ConsumerPaymentsComponent, canActivate: [ConsumerGuard] },
+    { path: 'provider-history', component: ProviderHistoryComponent, canActivate: [ProviderGuard] },
+    { path: 'provider-pending', component: ProviderPendingComponent, canActivate: [ProviderGuard] },
   ] }
 ];
 
