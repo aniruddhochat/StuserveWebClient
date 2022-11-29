@@ -16,6 +16,7 @@ export interface Order
     },
     _id?: string,
     paidAt?: string,
+    deliveredAt?: string,
     servicePrice: number,
     taxPrice: number,
     additionalPrice: number,
