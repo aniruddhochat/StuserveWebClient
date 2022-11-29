@@ -50,6 +50,10 @@
                           </mat-select>
                         <mat-error *ngIf="formData.controls['yearControl'].hasError('required')">School Year is required</mat-error>
                     </mat-form-field>
+                    <div>
+                        <input type="file" (change)="handleUpload($event)">
+                        <img [src]="logo" >
+                    </div>
                 </div>
 
                 <p class="form-section-header" style="margin-top: 50px;">Location</p>

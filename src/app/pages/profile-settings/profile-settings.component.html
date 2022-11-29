@@ -61,8 +61,8 @@
                 
                 <button *ngIf="formDisabled" mat-raised-button style="margin-top: 50px" type="button" (click)="onEnable()">Enable Editing</button>
                 <div *ngIf="!formDisabled && !isLoading" style="margin-top: 50px; display: flex; justify-content: space-between">
-                    <button color="primary" mat-raised-button>Update Profile Info</button>
                     <button mat-raised-button type="button" (click)="onCancel()">Cancel Editing</button>
+                    <button color="primary" mat-raised-button>Update Profile Info</button>
                 </div>
                 
                 <mat-spinner *ngIf="isLoading" style="margin: auto"></mat-spinner>

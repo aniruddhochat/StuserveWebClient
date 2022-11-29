@@ -12,6 +12,7 @@ import { GeocodeService } from 'src/app/shared/services/geocode.service';
 import { UsernameRequest } from 'src/app/shared/models/username-request.model';
 
 
+
 @Component({
   selector: 'app-sign-up-consumer',
   templateUrl: './sign-up-consumer.component.html',
@@ -40,6 +41,8 @@ export class SignUpConsumerComponent implements OnInit {
   username: string = "";
   hidePassword: boolean = true;
 
+  logo: string = "";
+
   isLoading: boolean = false;
 
   addOnBlur = true;
@@ -49,6 +52,11 @@ export class SignUpConsumerComponent implements OnInit {
   constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private geoService: GeocodeService) { }
 
   ngOnInit(): void {
+  }
+
+  handleUpload(e: any):void{
+    this.logo = e.target.value;
+    console.log(this.logo);
   }
 
   autocomplete() {

@@ -66,6 +66,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { StripeFormComponent } from './shared/components/stripe-form/stripe-form.component';
+
 
 
 
@@ -93,6 +95,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ServiceEditComponent,
     ReviewPopupComponent,
     ProfileSettingsComponent,
+    StripeFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -138,7 +141,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ReactiveFormsModule,
     SocialLoginModule,
     GoogleMapsModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
   ],
   providers: [
     {

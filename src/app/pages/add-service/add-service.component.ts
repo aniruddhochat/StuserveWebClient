@@ -116,6 +116,7 @@ export class AddServiceComponent implements OnInit{
               setTimeout(() => {
                 // Make sure the request sent back a success
                 if(res.success) {
+                  this.apiClient.services.push(res.service);
                   // Done loading
                   this.isLoading = false;
                   // Present popup to inform user that the service was succesfully posted, and prompt if they would like to enter another

@@ -1,5 +1,5 @@
 import { Injectable, Provider } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ConsumerAccount } from '../models/consumer-account.model';
 import { ProviderAccount } from '../models/provider-account.model';
@@ -17,6 +17,7 @@ import { Category } from '../models/category.model';
 import { ResolveEnd } from '@angular/router';
 import { SocialUser } from '../models/social-user.model';
 import { UsernameRequest } from '../models/username-request.model';
+import { PayementRequest } from '../models/payement-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -95,12 +96,12 @@ export class ApiClientService {
 
   registerConsumer(account: ConsumerAccount) {
     // Call the API, and return the observable
-    return this.httpClient.post<ConsumerRequest>(environment.apiUrl + "/v1/register", account);
+    return this.httpClient.post<ConsumerRequest>(environment.apiUrl + "/v1/register", account, {withCredentials:true});
   }
 
   registerProvider(account: ProviderAccount) {
     // Call the API, and return the observable
-    return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/registerprovider", account);
+    return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/registerprovider", account, {withCredentials:true});
   }
 
   loginConsumer(email_: string, password_: string) {
@@ -110,7 +111,7 @@ export class ApiClientService {
       password: password_
     };
     // Call the API, and return the observable
-    return this.httpClient.post<ConsumerRequest>(environment.apiUrl + "/v1/login", body);
+    return this.httpClient.post<ConsumerRequest>(environment.apiUrl + "/v1/login", body, {withCredentials:true});
   }
 
   loginProvider(email_: string, password_: string) {
@@ -120,7 +121,7 @@ export class ApiClientService {
       password: password_
     };
     // Call the API, and return the observable
-    return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/loginprovider", body);
+    return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/loginprovider", body, {withCredentials:true});
   }
 
   /**
@@ -147,7 +148,7 @@ export class ApiClientService {
       //password: this.consumerAccount.password
       password: this.password
     }
-    return this.httpClient.post<ConsumerRequest>(environment.apiUrl + "/v1/login", body).pipe(map((val) => {return val.success}));
+    return this.httpClient.post<ConsumerRequest>(environment.apiUrl + "/v1/login", body, {withCredentials:true}).pipe(map((val) => {return val.success}));
   }
 
   /**
@@ -160,17 +161,17 @@ export class ApiClientService {
       //password: this.providerAccount.password
       password: this.password
     }
-    return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/loginprovider", body).pipe(map((val) => {return val.success}));
+    return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/loginprovider", body, {withCredentials:true}).pipe(map((val) => {return val.success}));
   }
 
   getServices() {
     // Call the API, and return the observable
-    return this.httpClient.get<ServicesRequest>(environment.apiUrl + "/v1/services");
+    return this.httpClient.get<ServicesRequest>(environment.apiUrl + "/v1/services", {withCredentials:true});
   }
 
   postServiceAdmin(service: Service) {
     // Call the API, and return the observable
-    return this.httpClient.post<SingleServiceRequest>(environment.apiUrl + "/v1/admin/service/new", service);
+    return this.httpClient.post<SingleServiceRequest>(environment.apiUrl + "/v1/admin/service/new", service, {withCredentials:true});
   }
 
 
@@ -181,7 +182,7 @@ export class ApiClientService {
       alert("Invalid service ID");
     }
     // Call the API, and return the observable
-    return this.httpClient.put<SingleServiceRequest>(environment.apiUrl + "/v1/admin/service/" + serviceID, service);
+    return this.httpClient.put<SingleServiceRequest>(environment.apiUrl + "/v1/admin/service/" + serviceID, service, {withCredentials:true});
   }
 
 
@@ -190,23 +191,23 @@ export class ApiClientService {
       fname: _fname,
       lname: _lname
     }
-    return this.httpClient.post<UsernameRequest>(environment.apiUrl + "/v1/generateUsername", body);
+    return this.httpClient.post<UsernameRequest>(environment.apiUrl + "/v1/generateUsername", body, {withCredentials:true});
   }
 
 
   getProviderDetails(providerID: string) {
     // Call the API, and return the observable
-    return this.httpClient.get<ProviderRequest>(environment.apiUrl + "/v1/providerdetails/" + providerID);
+    return this.httpClient.get<ProviderRequest>(environment.apiUrl + "/v1/providerdetails/" + providerID, {withCredentials:true});
   }
 
   getAllProviderDetails() {
     // Call the API, and return the observable
-    return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/providerdetails");
+    return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/providerdetails", {withCredentials:true});
   }
 
   getCategories() {
     // Call the API, and return the observable
-    return this.httpClient.get<CategoryRequest>(environment.apiUrl + "/v1/getcategory");
+    return this.httpClient.get<CategoryRequest>(environment.apiUrl + "/v1/getcategory", {withCredentials:true});
   }
 
 
@@ -219,6 +220,13 @@ export class ApiClientService {
       name: this.consumerAccount.email
     }
     // Call the API, and return the observable
-    return this.httpClient.put<{success: boolean}>(environment.apiUrl + "/v1/review", body);
+    return this.httpClient.put<{success: boolean}>(environment.apiUrl + "/v1/review", body, {withCredentials:true});
+  }
+
+  postStripePayement(_amount: number) {
+    let body = {
+      amount: _amount
+    }
+    return this.httpClient.post<PayementRequest>(environment.apiUrl + "/v1/payment/process", body, {withCredentials:true});
   }
 }

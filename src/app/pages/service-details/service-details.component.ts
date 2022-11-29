@@ -6,10 +6,12 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { ReviewPopupComponent } from 'src/app/shared/components/review-popup/review-popup.component';
+import { StripeFormComponent } from 'src/app/shared/components/stripe-form/stripe-form.component';
 import { GeoLocation } from 'src/app/shared/models/location.model';
 import { Service } from 'src/app/shared/models/service.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
 import { GeocodeService } from 'src/app/shared/services/geocode.service';
+
 
 @Component({
   selector: 'app-service-details',
@@ -18,6 +20,8 @@ import { GeocodeService } from 'src/app/shared/services/geocode.service';
 })
 export class ServiceDetailsComponent implements OnInit {
   @ViewChild('map',{static: false}) mapElement!: ElementRef;
+
+  isAuthenticated: boolean = false;
 
   map!: google.maps.Map;
   
@@ -30,6 +34,10 @@ export class ServiceDetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
+    //this.stripePayment();
+    // Check if user is authenticated and set corresponding variable
+    this.checkAuthenticated();
+    // Now get geocode address and init map
     console.log('Getting address: ', this.service.location);
     this.geoService.geocodeAddress(this.service.location).subscribe({
       next: (res: GeoLocation) => {
@@ -64,8 +72,25 @@ export class ServiceDetailsComponent implements OnInit {
     })
   }
 
-  mapInit(){
-    
+
+
+  stripePayment() {
+    this.dialog.open(StripeFormComponent, {
+      height: 'fit-content',
+      width: '550px',
+    });
+  }
+
+
+  checkAuthenticated() {
+    this.apiClient.authenticated().subscribe({
+      next: (res: boolean) => {
+        console.log(res)
+        this.isAuthenticated = res;
+      }, error: (err: any) => {
+        // Do nothing
+      }
+    })
   }
 
   formatDate(date: Date) {

@@ -53,11 +53,19 @@
           </mat-expansion-panel>
 
         <!-- ONLY POST REVIEW IF ORDERED -->
-        <!-- <button mat-raised-button style="margin-top: 50px" type="button" (click)="openReview()">Post Review</button>   -->
+        <button *ngIf="isAuthenticated" mat-raised-button style="margin-top: 50px" type="button" (click)="openReview()">Post Review</button>  
 
-        <p style="margin-top: 50px">{{service.location}}</p>
+        <mat-divider style="margin-top: 50px;"></mat-divider>
 
+        <p class="label">Location</p>
+        <p style="margin-top: 50px; text-align: center">{{service.location}}</p>
           <!-- Google Maps -->
-        <div #map style="width: 600px; height: 600px"></div>
+        <div #map style="width: 600px; height: 600px; margin: auto"></div>
+
+        <mat-divider style="margin-top: 50px;"></mat-divider>
+
+        <p class="label">Payment</p>
+        <!-- MUST PASS PRICING!!! -->
+        <app-stripe-form [amount]="service.price*100"></app-stripe-form>
     </div>
 </mat-card>
