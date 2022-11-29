@@ -24,6 +24,7 @@ const routes: Routes = [
   { path: 'signup-provider', component: SignUpProviderComponent },
   { path: 'signup-consumer', component: SignUpConsumerComponent },
   { path: 'unauthenticated-view-all', component: UnauthenticatedViewServicesComponent },
+  { path: 'service-details', component: ServiceDetailsComponent},
   { path: 'home', component: SideNavComponent, canActivate: [AuthenticatedGuard], children: [
     { path: 'consumer-view-all', component: ConsumerViewAllComponent, canActivate: [ConsumerGuard] },
     { path: 'service-details', component: ServiceDetailsComponent, canActivate: [ConsumerGuard] },

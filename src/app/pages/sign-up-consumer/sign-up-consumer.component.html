@@ -73,7 +73,7 @@
                         <p class="form-item-replica"><span style="color: grey;">Username: </span><span>{{username}}</span></p>
                         <button #generateUsernameButton mat-raised-button type="button" color="primary" (click)="generateUsername()">Generate Username</button>
                     </div>
-                    <mat-form-field style="width: 45%" appearance="fill">
+                    <mat-form-field style="width: 45%; height: fit-content; margin-top: 18px" appearance="fill">
                         <mat-label>Password</mat-label>
                         <input [type]="hidePassword ? 'password' : 'text'" required [minlength]="8" formControlName="passwordControl" matInput>
                         <mat-error *ngIf="formData.controls['passwordControl'].hasError('required')">Password is required</mat-error>

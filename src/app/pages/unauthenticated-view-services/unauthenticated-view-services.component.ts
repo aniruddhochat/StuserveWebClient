@@ -12,6 +12,7 @@ import { Service } from 'src/app/shared/models/service.model';
 import { ServicesRequest } from 'src/app/shared/models/services-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
 
+
 @Component({
   selector: 'app-unauthenticated-view-services',
   templateUrl: './unauthenticated-view-services.component.html',
@@ -115,5 +116,10 @@ export class UnauthenticatedViewServicesComponent implements OnInit {
         console.log(err);
       }
     })
+  }
+
+
+  viewService(_service: Service) {
+    this.router.navigate(['/service-details'], {state: _service});
   }
 }

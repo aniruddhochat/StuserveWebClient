@@ -1,7 +1,6 @@
 import { Injectable, Provider } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { RandomUsername } from '../models/random-username.model';
 import { ConsumerAccount } from '../models/consumer-account.model';
 import { ProviderAccount } from '../models/provider-account.model';
 import { Service } from '../models/service.model';
@@ -17,15 +16,13 @@ import { CategoryRequest } from '../models/category-request.model';
 import { Category } from '../models/category.model';
 import { ResolveEnd } from '@angular/router';
 import { SocialUser } from '../models/social-user.model';
+import { UsernameRequest } from '../models/username-request.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiClientService {
 
-  //username: string = "";
-  //authenticatedConsumer: boolean = false;
-  //authenticatedProvider: boolean = false;
   consumerAccount: ConsumerAccount = null!;
   providerAccount: ProviderAccount = null!;
   socialUser: SocialUser = null!;
@@ -186,18 +183,15 @@ export class ApiClientService {
     // Call the API, and return the observable
     return this.httpClient.put<SingleServiceRequest>(environment.apiUrl + "/v1/admin/service/" + serviceID, service);
   }
-  
 
 
-  // getProviderDetailsAdmin(providerID: string) {
-  //   // Call the API, and return the observable
-  //   return this.httpClient.get<ProviderRequest>(environment.apiUrl + "/v1/admin/provider/" + providerID);
-  // }
-
-  // getAllProvidersAdmin() {
-  //   // Call the API, and return the observable
-  //   return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/admin/provider/");
-  // }
+  generateUsername(_fname: string, _lname: string) {
+    let body = {
+      fname: _fname,
+      lname: _lname
+    }
+    return this.httpClient.post<UsernameRequest>(environment.apiUrl + "/v1/generateUsername", body);
+  }
 
 
   getProviderDetails(providerID: string) {

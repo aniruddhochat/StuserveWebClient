@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
-import { Component, ElementRef, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MapMarker } from '@angular/google-maps';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -26,28 +26,7 @@ export class ServiceDetailsComponent implements OnInit {
   }
 
   // Assigning the passed service object through navigation
-  service = this.router.getCurrentNavigation()!.extras.state as Service;
-
-  //sideNavOpened: boolean = false;
-  // mapOptions: google.maps.MapOptions = {
-  //   center: {lat: 0, lng: 0},
-  //   zoom: 4,
-  // };
-
-
-  // marker = {
-  //   position: {
-  //     lat: 0,
-  //     lng: 0,
-  //   },
-  //   label: {
-  //     color: 'red',
-  //     text: 'Marker label ',
-  //   },
-  //   title: 'Marker title ',
-  //   options: { animation: google.maps.Animation.BOUNCE },
-  // };
-
+  service: Service = this.router.getCurrentNavigation()!.extras.state as Service;
 
 
   ngOnInit(): void {
@@ -83,8 +62,6 @@ export class ServiceDetailsComponent implements OnInit {
         console.log(err);
       }
     })
-    
-    //this.getGeoLocation(this.service.location);
   }
 
   mapInit(){
@@ -111,42 +88,4 @@ export class ServiceDetailsComponent implements OnInit {
   getUser(userID: string) {
     return this.apiClient.providers.find(p => p._id == userID);
   }
-
-
-
-  // getGeoLocation(address: string) {
-  //   console.log('Getting address: ', address);
-  //   this.geoService.geocodeAddress(address).subscribe({
-  //     next: (res: any) => {
-  //       this.updateMap(res);
-  //     }, error: (err: any) => {
-  //       alert('error loading map location for the service');
-  //       console.log(err);
-  //     }
-  //   })
-  // }
-
-
-  /**
-   * Updates the map variables with the new center location values
-   */
-  // updateMap(location: GeoLocation) {
-  //   this.mapOptions = {
-  //     center: location,
-  //     zoom: 10,
-  //   };
-  
-  //   this.marker = {
-  //     position: {
-  //       lat: location.lat,
-  //       lng: location.lng,
-  //     },
-  //     label: {
-  //       color: 'red',
-  //       text: 'Marker label ',
-  //     },
-  //     title: 'Marker title ',
-  //     options: { animation: google.maps.Animation.BOUNCE },
-  //   };
-  // }
 }

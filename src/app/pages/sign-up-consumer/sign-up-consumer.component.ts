@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
-import { RandomUsername } from 'src/app/shared/models/random-username.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
 import { Router } from '@angular/router';
 import { ConsumerAccount } from 'src/app/shared/models/consumer-account.model';
@@ -10,6 +9,7 @@ import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatChipGrid, MatChipInputEvent } from '@angular/material/chips';
 import { GeocodeService } from 'src/app/shared/services/geocode.service';
+import { UsernameRequest } from 'src/app/shared/models/username-request.model';
 
 
 @Component({
@@ -84,18 +84,18 @@ export class SignUpConsumerComponent implements OnInit {
   generateUsername() {
     let first = this.formData.controls.fnameControl.value;
     let last = this.formData.controls.lnameControl.value;
-    this.username = Math.random() + "";
-    // if(first && last && first != "" && last != "") {
-    //   this.apiClient.generateRandomUsername(first, last).subscribe({
-    //     next: (res: RandomUsername) => {
-    //       this.username = res.data;
-    //     }, error: (err: any) => {
-    //       alert("Error generating username");
-    //     }
-    //   })
-    // } else {
-    //   alert("Must first enter: First name, Last name");
-    // }
+    //this.username = Math.random() + "";
+    if(first && last && first != "" && last != "") {
+      this.apiClient.generateUsername(first, last).subscribe({
+        next: (res: UsernameRequest) => {
+          this.username = res.data;
+        }, error: (err: any) => {
+          alert("Error generating username");
+        }
+      })
+    } else {
+      alert("Must first enter: First name, Last name");
+    }
   }
 
   /**

@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ProviderAccount } from 'src/app/shared/models/provider-account.model';
 import { ProviderRequest } from 'src/app/shared/models/provider-request.model';
+import { UsernameRequest } from 'src/app/shared/models/username-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
 import { GeocodeService } from 'src/app/shared/services/geocode.service';
 
@@ -52,18 +53,18 @@ export class SignUpProviderComponent implements OnInit {
    generateUsername() {
     let first = this.formData.controls.fnameControl.value;
     let last = this.formData.controls.lnameControl.value;
-    this.username = Math.random() + "";
-    // if(first && last && first != "" && last != "") {
-    //   this.apiClient.generateRandomUsername(first, last).subscribe({
-    //     next: (res: RandomUsername) => {
-    //       this.username = res.data;
-    //     }, error: (err: any) => {
-    //       alert("Error generating username");
-    //     }
-    //   })
-    // } else {
-    //   alert("Must first enter: First name, Last name");
-    // }
+    //this.username = Math.random() + "";
+    if(first && last && first != "" && last != "") {
+      this.apiClient.generateUsername(first, last).subscribe({
+        next: (res: UsernameRequest) => {
+          this.username = res.data;
+        }, error: (err: any) => {
+          alert("Error generating username");
+        }
+      })
+    } else {
+      alert("Must first enter: First name, Last name");
+    }
   }
 
   /**
