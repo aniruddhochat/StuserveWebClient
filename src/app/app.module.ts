@@ -70,7 +70,7 @@ import { StripeFormComponent } from './shared/components/stripe-form/stripe-form
 import { ConsumerPaymentsComponent } from './pages/consumer-payments/consumer-payments.component';
 import { ProviderHistoryComponent } from './pages/provider-history/provider-history.component';
 import { ProviderPendingComponent } from './pages/provider-pending/provider-pending.component';
-
+import {CloudinaryModule} from '@cloudinary/ng';
 
 
 
@@ -105,6 +105,7 @@ import { ProviderPendingComponent } from './pages/provider-pending/provider-pend
   ],
   imports: [
     BrowserModule,
+    CloudinaryModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,

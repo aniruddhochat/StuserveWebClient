@@ -7,6 +7,7 @@ import { ProviderAccount } from 'src/app/shared/models/provider-account.model';
 import { ProviderRequest } from 'src/app/shared/models/provider-request.model';
 import { UsernameRequest } from 'src/app/shared/models/username-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
+import { CloudinaryService } from 'src/app/shared/services/cloudinary.service';
 import { GeocodeService } from 'src/app/shared/services/geocode.service';
 
 @Component({
@@ -33,18 +34,25 @@ export class SignUpProviderComponent implements OnInit {
   @ViewChild("generateUsernameButton")
   usernameButton!: MatButton;
 
+  avatar?: File;
+
   username: string = "";
   hidePassword: boolean = true;
 
   isLoading: boolean = false;
 
-  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private geoService: GeocodeService) { }
+  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private geoService: GeocodeService, private cloudService: CloudinaryService) { }
 
   ngOnInit(): void {
   }
 
   autocomplete() {
     this.geoService.setAutocomplete(this.placesInput.nativeElement);
+  }
+
+
+  handleUpload(e: any):void{
+    this.avatar = e.target.files[0];    
   }
 
   /**
@@ -67,6 +75,8 @@ export class SignUpProviderComponent implements OnInit {
     }
   }
 
+
+
   /**
    * Submitting the form (account creation in backend)
    */
@@ -88,64 +98,143 @@ export class SignUpProviderComponent implements OnInit {
           // Disable all form components
           this.formData.disable();
           this.usernameButton.disabled = true;
-          // Create new consumer account object
-          let newAccount: ProviderAccount = {
-            username: this.username,
-            fname: this.formData.controls.fnameControl.value,
-            lname: this.formData.controls.lnameControl.value,
-            email: this.formData.controls.emailControl.value,
-            password: this.formData.controls.passwordControl.value,
-            phone: this.formData.controls.phoneControl.value,
-            schoolyear: this.formData.controls.yearControl.value,
-            address: this.placesInput.nativeElement.value,
-            role: 'provider'
-          };
-          console.log(JSON.stringify(newAccount));
-          // Call API to post account creation
-          this.apiClient.registerProvider(newAccount).subscribe({
-              next: (res: ProviderRequest) => {
-                // Done loading (2 second timeout to show the progress spinner)
-                setTimeout(() => {
-                  // Make sure the request returns a success
-                  if(res.success) {
-                    // Set the user account variable in the api client
-                    this.apiClient.providerAccount = res.user;
-                    this.apiClient.password = this.formData.controls.passwordControl.value!;
-                    // Display success snackba, then navigate to consumer home page
-                    this.snackBar.open("SignUp Successful", "", {
-                      duration: 1000,
-                      panelClass: ['green-snackbar'],
-                    }).afterDismissed().subscribe(() => {
-                      // After the success snackbar disappears, then navigate the user to the consumer home page
-                      this.router.navigateByUrl("home/provider-home");
-                      // Now set is loading to false
+
+          // Check if file is selected to upload to cloudinary
+          if(this.avatar) {
+            this.cloudService.postImage(this.avatar, this.username, 'stuserve/avatars').subscribe({
+              next: (res: any) => {
+                console.log(res);
+                // Create new consumer account object
+                let newAccount: ProviderAccount = {
+                  avatar: {
+                    public_id: res.public_id,
+                    url: res.secure_url
+                  },
+                  username: this.username,
+                  fname: this.formData.controls.fnameControl.value!,
+                  lname: this.formData.controls.lnameControl.value!,
+                  email: this.formData.controls.emailControl.value!,
+                  password: this.formData.controls.passwordControl.value!,
+                  phone: this.formData.controls.phoneControl.value!,
+                  schoolyear: this.formData.controls.yearControl.value!,
+                  address: this.placesInput.nativeElement.value,
+                  role: 'provider'
+                };
+                console.log(JSON.stringify(newAccount));
+                // Call API to post account creation
+                this.apiClient.registerProvider(newAccount).subscribe({
+                    next: (res: ProviderRequest) => {
+                      // Done loading (2 second timeout to show the progress spinner)
+                      setTimeout(() => {
+                        // Make sure the request sent back a success
+                        if(res.success) {
+                          // Set the user account variable in the api client
+                          this.apiClient.providerAccount = res.user;
+                          this.apiClient.password = this.formData.controls.passwordControl.value!;
+                          // Display success snackba, then navigate to consumer home page
+                          this.snackBar.open("SignUp Successful", "", {
+                            duration: 1000,
+                            panelClass: ['green-snackbar'],
+                          }).afterDismissed().subscribe(() => {
+                            // After the success snackbar disappears, then navigate the user to the consumer home page
+                            this.router.navigateByUrl("home/provider-home");
+                            // Now set is loading to false
+                            this.isLoading = false;
+                          });
+                        } else {
+                          // Request did not send back a success, so alert user
+                          console.log("API request success variable returned false");
+                          // Done loading
+                          this.isLoading = false;
+                          // Display failure snackbar
+                          this.snackBar.open("Failure Logging In", "", {
+                            duration: 2000,
+                            panelClass: ['red-snackbar'],
+                          });
+                        }
+                      }, 1000);
+                    }, error: (err: any) => {
+                      // Done loading
                       this.isLoading = false;
-                    });
-                  } else {
-                    // Request did not send back a success, so alert user
-                    console.log("API request success variable returned false");
-                    // Done loading
-                    this.isLoading = false;
-                    // Display failure snackbar
-                    this.snackBar.open("Failure Logging In", "", {
-                      duration: 2000,
-                      panelClass: ['red-snackbar'],
-                    });
-                  }
-                }, 1000);
+                      // Alert user of error
+                      console.log(err);
+                      alert("Something went wrong posting the account, check console for details.");
+                      // Display failure snackbar
+                      this.snackBar.open("SignUp Failure", "", {
+                        duration: 2000,
+                        panelClass: ['red-snackbar'],
+                      })
+                    }
+                  })
               }, error: (err: any) => {
-                // Done loading
-                this.isLoading = false;
-                // Alert user of error
+                alert('Failed creating account, could not upload image to cloudinary. Check console for details.');
                 console.log(err);
-                alert("Something went wrong posting the account, check console for details.");
-                // Display failure snackbar
-                this.snackBar.open("SignUp Failure", "", {
-                  duration: 2000,
-                  panelClass: ['red-snackbar'],
-                })
               }
-            })
+            });
+          } else {
+            // Create new consumer account object
+            let newAccount: ProviderAccount = {
+              avatar: {
+                public_id: 'nan',
+                url: 'nan'
+              },
+              username: this.username,
+              fname: this.formData.controls.fnameControl.value,
+              lname: this.formData.controls.lnameControl.value,
+              email: this.formData.controls.emailControl.value,
+              password: this.formData.controls.passwordControl.value,
+              phone: this.formData.controls.phoneControl.value,
+              schoolyear: this.formData.controls.yearControl.value,
+              address: this.placesInput.nativeElement.value,
+              role: 'provider'
+            };
+            console.log(JSON.stringify(newAccount));
+            // Call API to post account creation
+            this.apiClient.registerProvider(newAccount).subscribe({
+                next: (res: ProviderRequest) => {
+                  // Done loading (2 second timeout to show the progress spinner)
+                  setTimeout(() => {
+                    // Make sure the request sent back a success
+                    if(res.success) {
+                      // Set the user account variable in the api client
+                      this.apiClient.providerAccount = res.user;
+                      this.apiClient.password = this.formData.controls.passwordControl.value!;
+                      // Display success snackba, then navigate to consumer home page
+                      this.snackBar.open("SignUp Successful", "", {
+                        duration: 1000,
+                        panelClass: ['green-snackbar'],
+                      }).afterDismissed().subscribe(() => {
+                        // After the success snackbar disappears, then navigate the user to the consumer home page
+                        this.router.navigateByUrl("home/provider-home");
+                        // Now set is loading to false
+                        this.isLoading = false;
+                      });
+                    } else {
+                      // Request did not send back a success, so alert user
+                      console.log("API request success variable returned false");
+                      // Done loading
+                      this.isLoading = false;
+                      // Display failure snackbar
+                      this.snackBar.open("Failure Logging In", "", {
+                        duration: 2000,
+                        panelClass: ['red-snackbar'],
+                      });
+                    }
+                  }, 1000);
+                }, error: (err: any) => {
+                  // Done loading
+                  this.isLoading = false;
+                  // Alert user of error
+                  console.log(err);
+                  alert("Something went wrong posting the account, check console for details.");
+                  // Display failure snackbar
+                  this.snackBar.open("SignUp Failure", "", {
+                    duration: 2000,
+                    panelClass: ['red-snackbar'],
+                  })
+                }
+              })
+          }
         } else {
           alert("You must generate a username");
         }

@@ -2,7 +2,7 @@ export interface ConsumerAccount {
     avatar?: {
         public_id: string,
         url: string
-    }[],
+    },
     interests?: string[],
     username: string,
     _id?: string,

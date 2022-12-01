@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CloudinaryImage } from '@cloudinary/url-gen';
 import { Service } from 'src/app/shared/models/service.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
+import { CloudinaryService } from 'src/app/shared/services/cloudinary.service';
 
 @Component({
   selector: 'app-consumer-home',
@@ -12,7 +14,7 @@ export class ConsumerHomeComponent implements OnInit {
 
   filteredServices: Service[] = [];
 
-  constructor(public apiClient: ApiClientService, private router: Router) { }
+  constructor(public apiClient: ApiClientService, private router: Router, private cloudService: CloudinaryService) { }
 
   ngOnInit(): void {
     this.loadServices();

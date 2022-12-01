@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatChipGrid, MatChipInputEvent } from '@angular/material/chips';
 import { GeocodeService } from 'src/app/shared/services/geocode.service';
 import { UsernameRequest } from 'src/app/shared/models/username-request.model';
+import { CloudinaryService } from 'src/app/shared/services/cloudinary.service';
 
 
 
@@ -41,7 +42,7 @@ export class SignUpConsumerComponent implements OnInit {
   username: string = "";
   hidePassword: boolean = true;
 
-  logo: string = "";
+  avatar?: File;
 
   isLoading: boolean = false;
 
@@ -49,14 +50,16 @@ export class SignUpConsumerComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
   interests: string[] = [];
 
-  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private geoService: GeocodeService) { }
+  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private geoService: GeocodeService, private cloudService: CloudinaryService) { }
+
+  myWidget: any;
 
   ngOnInit(): void {
+    
   }
 
   handleUpload(e: any):void{
-    this.logo = e.target.value;
-    console.log(this.logo);
+    this.avatar = e.target.files[0];    
   }
 
   autocomplete() {
@@ -128,65 +131,145 @@ export class SignUpConsumerComponent implements OnInit {
           this.formData.disable();
           this.interestList.disabled = true;
           this.usernameButton.disabled = true;
-          // Create new consumer account object
-          let newAccount: ConsumerAccount = {
-            interests: this.interests,
-            username: this.username,
-            fname: this.formData.controls.fnameControl.value,
-            lname: this.formData.controls.lnameControl.value,
-            email: this.formData.controls.emailControl.value,
-            password: this.formData.controls.passwordControl.value,
-            phone: this.formData.controls.phoneControl.value,
-            schoolyear: this.formData.controls.yearControl.value,
-            address: this.placesInput.nativeElement.value,
-            role: 'consumer'
-          };
-          console.log(JSON.stringify(newAccount));
-          // Call API to post account creation
-          this.apiClient.registerConsumer(newAccount).subscribe({
-              next: (res: ConsumerRequest) => {
-                // Done loading (2 second timeout to show the progress spinner)
-                setTimeout(() => {
-                   // Make sure the request sent back a success
-                   if(res.success) {
-                    // Set the user account variable in the api client
-                    this.apiClient.consumerAccount = res.user;
-                    this.apiClient.password = this.formData.controls.passwordControl.value!;
-                    // Display success snackba, then navigate to consumer home page
-                    this.snackBar.open("SignUp Successful", "", {
-                      duration: 1000,
-                      panelClass: ['green-snackbar'],
-                    }).afterDismissed().subscribe(() => {
-                      // After the success snackbar disappears, then navigate the user to the consumer home page
-                      this.router.navigateByUrl("home/consumer-home");
-                      // Now set is loading to false
+
+          // Check if file is selected to upload to cloudinary
+          if(this.avatar) {
+            this.cloudService.postImage(this.avatar, this.username, 'stuserve/avatars').subscribe({
+              next: (res: any) => {
+                console.log(res);
+                // Create new consumer account object
+                let newAccount: ConsumerAccount = {
+                  avatar: {
+                    public_id: res.public_id,
+                    url: res.secure_url
+                  },
+                  interests: this.interests,
+                  username: this.username,
+                  fname: this.formData.controls.fnameControl.value!,
+                  lname: this.formData.controls.lnameControl.value!,
+                  email: this.formData.controls.emailControl.value!,
+                  password: this.formData.controls.passwordControl.value!,
+                  phone: this.formData.controls.phoneControl.value!,
+                  schoolyear: this.formData.controls.yearControl.value!,
+                  address: this.placesInput.nativeElement.value,
+                  role: 'consumer'
+                };
+                console.log(JSON.stringify(newAccount));
+                // Call API to post account creation
+                this.apiClient.registerConsumer(newAccount).subscribe({
+                    next: (res: ConsumerRequest) => {
+                      // Done loading (2 second timeout to show the progress spinner)
+                      setTimeout(() => {
+                        // Make sure the request sent back a success
+                        if(res.success) {
+                          // Set the user account variable in the api client
+                          this.apiClient.consumerAccount = res.user;
+                          this.apiClient.password = this.formData.controls.passwordControl.value!;
+                          // Display success snackba, then navigate to consumer home page
+                          this.snackBar.open("SignUp Successful", "", {
+                            duration: 1000,
+                            panelClass: ['green-snackbar'],
+                          }).afterDismissed().subscribe(() => {
+                            // After the success snackbar disappears, then navigate the user to the consumer home page
+                            this.router.navigateByUrl("home/consumer-home");
+                            // Now set is loading to false
+                            this.isLoading = false;
+                          });
+                        } else {
+                          // Request did not send back a success, so alert user
+                          console.log("API request success variable returned false");
+                          // Done loading
+                          this.isLoading = false;
+                          // Display failure snackbar
+                          this.snackBar.open("Failure Logging In", "", {
+                            duration: 2000,
+                            panelClass: ['red-snackbar'],
+                          });
+                        }
+                      }, 1000);
+                    }, error: (err: any) => {
+                      // Done loading
                       this.isLoading = false;
-                    });
-                   } else {
-                    // Request did not send back a success, so alert user
-                    console.log("API request success variable returned false");
-                    // Done loading
-                    this.isLoading = false;
-                    // Display failure snackbar
-                    this.snackBar.open("Failure Logging In", "", {
-                      duration: 2000,
-                      panelClass: ['red-snackbar'],
-                    });
-                  }
-                }, 1000);
+                      // Alert user of error
+                      console.log(err);
+                      alert("Something went wrong posting the account, check console for details.");
+                      // Display failure snackbar
+                      this.snackBar.open("SignUp Failure", "", {
+                        duration: 2000,
+                        panelClass: ['red-snackbar'],
+                      })
+                    }
+                  })
               }, error: (err: any) => {
-                // Done loading
-                this.isLoading = false;
-                // Alert user of error
+                alert('Failed creating account, could not upload image to cloudinary. Check console for details.');
                 console.log(err);
-                alert("Something went wrong posting the account, check console for details.");
-                // Display failure snackbar
-                this.snackBar.open("SignUp Failure", "", {
-                  duration: 2000,
-                  panelClass: ['red-snackbar'],
-                })
               }
-            })
+            });
+          } else {
+            // Create new consumer account object
+            let newAccount: ConsumerAccount = {
+              avatar: {
+                public_id: 'nan',
+                url: 'nan'
+              },
+              interests: this.interests,
+              username: this.username,
+              fname: this.formData.controls.fnameControl.value,
+              lname: this.formData.controls.lnameControl.value,
+              email: this.formData.controls.emailControl.value,
+              password: this.formData.controls.passwordControl.value,
+              phone: this.formData.controls.phoneControl.value,
+              schoolyear: this.formData.controls.yearControl.value,
+              address: this.placesInput.nativeElement.value,
+              role: 'consumer'
+            };
+            console.log(JSON.stringify(newAccount));
+            // Call API to post account creation
+            this.apiClient.registerConsumer(newAccount).subscribe({
+                next: (res: ConsumerRequest) => {
+                  // Done loading (2 second timeout to show the progress spinner)
+                  setTimeout(() => {
+                    // Make sure the request sent back a success
+                    if(res.success) {
+                      // Set the user account variable in the api client
+                      this.apiClient.consumerAccount = res.user;
+                      this.apiClient.password = this.formData.controls.passwordControl.value!;
+                      // Display success snackba, then navigate to consumer home page
+                      this.snackBar.open("SignUp Successful", "", {
+                        duration: 1000,
+                        panelClass: ['green-snackbar'],
+                      }).afterDismissed().subscribe(() => {
+                        // After the success snackbar disappears, then navigate the user to the consumer home page
+                        this.router.navigateByUrl("home/consumer-home");
+                        // Now set is loading to false
+                        this.isLoading = false;
+                      });
+                    } else {
+                      // Request did not send back a success, so alert user
+                      console.log("API request success variable returned false");
+                      // Done loading
+                      this.isLoading = false;
+                      // Display failure snackbar
+                      this.snackBar.open("Failure Logging In", "", {
+                        duration: 2000,
+                        panelClass: ['red-snackbar'],
+                      });
+                    }
+                  }, 1000);
+                }, error: (err: any) => {
+                  // Done loading
+                  this.isLoading = false;
+                  // Alert user of error
+                  console.log(err);
+                  alert("Something went wrong posting the account, check console for details.");
+                  // Display failure snackbar
+                  this.snackBar.open("SignUp Failure", "", {
+                    duration: 2000,
+                    panelClass: ['red-snackbar'],
+                  })
+                }
+              })
+          }
         } else {
           alert("You must generate a username");
         }
@@ -197,5 +280,4 @@ export class SignUpConsumerComponent implements OnInit {
       alert("Form is invalid");
     }
   }
-
 }
