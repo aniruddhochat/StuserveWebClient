@@ -1,4 +1,4 @@
-export interface SocialUser {
+export interface GoogleAccount {
     email: string
     firstName: string
     id: string
@@ -6,5 +6,5 @@ export interface SocialUser {
     lastName: string
     name: string
     photoUrl: string
-    provider: string
+    //password: string
 }

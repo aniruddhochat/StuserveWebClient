@@ -50,7 +50,7 @@
                           </mat-select>
                         <mat-error *ngIf="formData.controls['yearControl'].hasError('required')">School Year is required</mat-error>
                     </mat-form-field>
-                    <div>
+                    <div *ngIf="!apiClient.socialUser">
                         <input type="file" (change)="handleUpload($event)">
                     </div>
                 </div>

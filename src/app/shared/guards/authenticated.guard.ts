@@ -17,7 +17,7 @@ export class AuthenticatedGuard implements CanActivate {
       return true;
     }
     let result = this.apiClient.authenticated();
-    result.subscribe(res => {if(!res) {this.router.navigateByUrl("")}});
+    if(!result) {this.router.navigateByUrl("")};
     return result;
   }
 }

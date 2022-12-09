@@ -13,9 +13,9 @@ export class ProviderGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    let result = this.apiClient.authenticatedProvider();
-    result.subscribe(res => {if(!res) {this.router.navigateByUrl("")}});
-    return result;
+    let result = this.apiClient.providerAccount;
+    if(!result) {this.router.navigateByUrl("")};
+    return result ? true : false;
   }
   
 }

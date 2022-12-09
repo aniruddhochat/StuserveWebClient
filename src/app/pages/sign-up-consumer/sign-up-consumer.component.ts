@@ -11,6 +11,7 @@ import { MatChipGrid, MatChipInputEvent } from '@angular/material/chips';
 import { GeocodeService } from 'src/app/shared/services/geocode.service';
 import { UsernameRequest } from 'src/app/shared/models/username-request.model';
 import { CloudinaryService } from 'src/app/shared/services/cloudinary.service';
+import { throwDialogContentAlreadyAttachedError } from '@angular/cdk/dialog';
 
 
 
@@ -28,17 +29,6 @@ export class SignUpConsumerComponent implements OnInit {
 
   @ViewChild("generateUsernameButton")
   usernameButton!: MatButton;
-
-  formData = new FormGroup({
-    fnameControl: new FormControl(''),
-    lnameControl: new FormControl(''),
-    emailControl: new FormControl(''),
-    phoneControl: new FormControl(''),
-    yearControl: new FormControl(''),
-    passwordControl: new FormControl(''),
-    addressControl: new FormControl(''),
-  })
-
   username: string = "";
   hidePassword: boolean = true;
 
@@ -50,12 +40,37 @@ export class SignUpConsumerComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
   interests: string[] = [];
 
-  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private geoService: GeocodeService, private cloudService: CloudinaryService) { }
+  constructor(public apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private geoService: GeocodeService, private cloudService: CloudinaryService) { }
+
+  formData = new FormGroup({
+    fnameControl: new FormControl(''),
+    lnameControl: new FormControl(''),
+    emailControl: new FormControl(''),
+    phoneControl: new FormControl(''),
+    yearControl: new FormControl(''),
+    passwordControl: new FormControl(''),
+    addressControl: new FormControl(''),
+  })
 
   myWidget: any;
 
   ngOnInit(): void {
-    
+    if(this.apiClient.socialUser) {
+      this.formData = new FormGroup({
+        fnameControl: new FormControl(this.apiClient.socialUser.firstName),
+        lnameControl: new FormControl(this.apiClient.socialUser.lastName),
+        emailControl: new FormControl(this.apiClient.socialUser.email),
+        phoneControl: new FormControl(''),
+        yearControl: new FormControl(''),
+        passwordControl: new FormControl(''),
+        addressControl: new FormControl(''),
+      });
+      // Disable certain fields
+      this.formData.controls.fnameControl.disable();
+      this.formData.controls.lnameControl.disable();
+      this.formData.controls.emailControl.disable();
+      this.formData.controls.passwordControl.disable();
+    };
   }
 
   handleUpload(e: any):void{
@@ -103,7 +118,7 @@ export class SignUpConsumerComponent implements OnInit {
         }, error: (err: any) => {
           alert("Error generating username");
         }
-      })
+      });
     } else {
       alert("Must first enter: First name, Last name");
     }
@@ -113,6 +128,7 @@ export class SignUpConsumerComponent implements OnInit {
    * Submitting the form (account creation in backend)
    */
   onSubmit() {
+    console.log(this.formData);
     // First make sure the form is valid
     if(this.formData.valid) {
       // Now make sure all the form controls have values
@@ -120,7 +136,6 @@ export class SignUpConsumerComponent implements OnInit {
         && this.formData.controls.lnameControl.value
         && this.formData.controls.emailControl.value
         && this.formData.controls.phoneControl.value
-        && this.formData.controls.passwordControl.value
         && this.formData.controls.yearControl.value
         && this.formData.controls.addressControl.value){
         // Now make sure the user has generated a username value
@@ -133,8 +148,8 @@ export class SignUpConsumerComponent implements OnInit {
           this.usernameButton.disabled = true;
 
           // Check if file is selected to upload to cloudinary
-          if(this.avatar) {
-            this.cloudService.postImage(this.avatar, this.username, 'stuserve/avatars').subscribe({
+          if(this.apiClient.socialUser) {
+            this.cloudService.postImageUrl(this.apiClient.socialUser.photoUrl, this.username, 'stuserve/avatars').subscribe({
               next: (res: any) => {
                 console.log(res);
                 // Create new consumer account object
@@ -148,7 +163,81 @@ export class SignUpConsumerComponent implements OnInit {
                   fname: this.formData.controls.fnameControl.value!,
                   lname: this.formData.controls.lnameControl.value!,
                   email: this.formData.controls.emailControl.value!,
-                  password: this.formData.controls.passwordControl.value!,
+                  phone: this.formData.controls.phoneControl.value!,
+                  schoolyear: this.formData.controls.yearControl.value!,
+                  address: this.placesInput.nativeElement.value,
+                  role: 'consumer'
+                };
+                if(this.formData.controls.passwordControl.value && this.formData.controls.passwordControl.value != '') {
+                  newAccount.password = this.formData.controls.passwordControl.value;
+                }
+                console.log(newAccount);
+                // Call API to post account creation
+                this.apiClient.registerConsumer(newAccount).subscribe({
+                    next: (res: ConsumerRequest) => {
+                      // Done loading (2 second timeout to show the progress spinner)
+                      setTimeout(() => {
+                        // Make sure the request sent back a success
+                        if(res.success) {
+                          // Set the user account variable in the api client
+                          this.apiClient.consumerAccount = res.user;
+                          this.apiClient.password = this.formData.controls.passwordControl.value!;
+                          // Display success snackba, then navigate to consumer home page
+                          this.snackBar.open("SignUp Successful", "", {
+                            duration: 1000,
+                            panelClass: ['green-snackbar'],
+                          }).afterDismissed().subscribe(() => {
+                            // After the success snackbar disappears, then navigate the user to the consumer home page
+                            this.router.navigateByUrl("home/consumer-home");
+                            // Now set is loading to false
+                            this.isLoading = false;
+                          });
+                        } else {
+                          // Request did not send back a success, so alert user
+                          console.log("API request success variable returned false");
+                          // Done loading
+                          this.isLoading = false;
+                          // Display failure snackbar
+                          this.snackBar.open("Failure Logging In", "", {
+                            duration: 2000,
+                            panelClass: ['red-snackbar'],
+                          });
+                        }
+                      }, 1000);
+                    }, error: (err: any) => {
+                      // Done loading
+                      this.isLoading = false;
+                      // Alert user of error
+                      console.log(err);
+                      alert("Something went wrong posting the account, check console for details.");
+                      // Display failure snackbar
+                      this.snackBar.open("SignUp Failure", "", {
+                        duration: 2000,
+                        panelClass: ['red-snackbar'],
+                      })
+                    }
+                  })
+              }, error: (err: any) => {
+                alert('Failed creating account, could not upload image to cloudinary. Check console for details.');
+                console.log(err);
+              }
+            });
+          } else if(this.avatar) {
+            this.cloudService.postImageFile(this.avatar, this.username, 'stuserve/avatars').subscribe({
+              next: (res: any) => {
+                console.log(res);
+                // Create new consumer account object
+                let newAccount: ConsumerAccount = {
+                  avatar: {
+                    public_id: res.public_id,
+                    url: res.secure_url
+                  },
+                  interests: this.interests,
+                  username: this.username,
+                  fname: this.formData.controls.fnameControl.value!,
+                  lname: this.formData.controls.lnameControl.value!,
+                  email: this.formData.controls.emailControl.value!,
+                  password: this.formData.controls.passwordControl.value ? this.formData.controls.passwordControl.value : null!,
                   phone: this.formData.controls.phoneControl.value!,
                   schoolyear: this.formData.controls.yearControl.value!,
                   address: this.placesInput.nativeElement.value,
@@ -164,7 +253,7 @@ export class SignUpConsumerComponent implements OnInit {
                         if(res.success) {
                           // Set the user account variable in the api client
                           this.apiClient.consumerAccount = res.user;
-                          this.apiClient.password = this.formData.controls.passwordControl.value!;
+                          //this.apiClient.password = this.formData.controls.passwordControl.value!;
                           // Display success snackba, then navigate to consumer home page
                           this.snackBar.open("SignUp Successful", "", {
                             duration: 1000,
@@ -217,7 +306,7 @@ export class SignUpConsumerComponent implements OnInit {
               fname: this.formData.controls.fnameControl.value,
               lname: this.formData.controls.lnameControl.value,
               email: this.formData.controls.emailControl.value,
-              password: this.formData.controls.passwordControl.value,
+              password: this.formData.controls.passwordControl.value ? this.formData.controls.passwordControl.value : null!,
               phone: this.formData.controls.phoneControl.value,
               schoolyear: this.formData.controls.yearControl.value,
               address: this.placesInput.nativeElement.value,

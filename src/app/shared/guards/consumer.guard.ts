@@ -13,9 +13,9 @@ export class ConsumerGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    let result = this.apiClient.authenticatedConsumer();
-    result.subscribe(res => {if(!res) {this.router.navigateByUrl("")}});
-    return result;
+    let result = this.apiClient.consumerAccount;
+    if(!result) {this.router.navigateByUrl("")};
+    return result ? true : false;
   }
   
 }

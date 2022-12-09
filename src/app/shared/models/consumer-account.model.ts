@@ -9,7 +9,7 @@ export interface ConsumerAccount {
     fname: string,
     lname: string,
     email: string,
-    password: string,
+    password?: string,
     phone: string,
     schoolyear: string,
     address: string,

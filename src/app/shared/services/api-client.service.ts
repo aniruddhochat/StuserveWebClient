@@ -15,7 +15,6 @@ import { ProvidersRequest } from '../models/providers-request.model';
 import { CategoryRequest } from '../models/category-request.model';
 import { Category } from '../models/category.model';
 import { ResolveEnd } from '@angular/router';
-import { SocialUser } from '../models/social-user.model';
 import { UsernameRequest } from '../models/username-request.model';
 import { PayementRequest } from '../models/payement-request.model';
 import { Order } from '../models/order.model';
@@ -24,6 +23,8 @@ import { ConsumersRequest } from '../models/consumers-request.model';
 import { AdminRequest } from '../models/admin-request.model';
 import { Admin } from '../models/admin.model';
 import { CategoriesRequest } from '../models/categories-request.model';
+import { GoogleAccount } from '../models/google-account.model';
+import { SocialUser } from '@abacritt/angularx-social-login';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class ApiClientService {
   consumerAccount: ConsumerAccount = null!;
   providerAccount: ProviderAccount = null!;
   adminAccount: Admin = null!; // Admin account
-  socialUser: SocialUser = null!;
+  socialUser: GoogleAccount = null!;
   password: string = "";
   providers: ProviderAccount[] = [];
   consumers: ConsumerAccount[] = [];
@@ -148,17 +149,27 @@ export class ApiClientService {
     return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/loginprovider", body, {withCredentials:true});
   }
 
+
+  loginProviderGoogle(_socialUser: SocialUser) {
+    // Call the API, and return the observable
+    return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/loginproviderGoogle", _socialUser, {withCredentials:true});
+  }
+
+
+  loginConsumerGoogle(_socialUser: SocialUser) {
+    // Call the API, and return the observable
+    return this.httpClient.post<ConsumerRequest>(environment.apiUrl + "/v1/loginuserGoogle", _socialUser, {withCredentials:true});
+  }
+
   /**
    * Checks if the user is authenticated as EITHER a consumer or a provider
    * @returns True if authenticated as either
    */
-  authenticated(): Observable<boolean> {
-    if(this.consumerAccount) {
-      return this.authenticatedConsumer();
-    } else if(this.providerAccount) {
-      return this.authenticatedProvider();
+  authenticated(): boolean {
+    if(this.consumerAccount || this.providerAccount) {
+      return true;
     } else {
-      return of(false);
+      return false;
     }
   }
 
@@ -166,27 +177,27 @@ export class ApiClientService {
    * Checks if the user is authenticated as a consumer
    * @returns True if authenticated as a consumer
    */
-  authenticatedConsumer(): Observable<boolean> {
-    let body = {
-      email: this.consumerAccount.email,
-      //password: this.consumerAccount.password
-      password: this.password
-    }
-    return this.httpClient.post<ConsumerRequest>(environment.apiUrl + "/v1/login", body, {withCredentials:true}).pipe(map((val) => {return val.success}));
-  }
+  // authenticatedConsumer(): Observable<boolean> {
+  //   let body = {
+  //     email: this.consumerAccount.email,
+  //     //password: this.consumerAccount.password
+  //     password: this.password
+  //   }
+  //   return this.httpClient.post<ConsumerRequest>(environment.apiUrl + "/v1/login", body, {withCredentials:true}).pipe(map((val) => {return val.success}));
+  // }
 
-  /**
-   * Checks if the user is authenticated as a provider
-   * @returns True if authenticated as a provider
-   */
-  authenticatedProvider(): Observable<boolean> {
-    let body = {
-      email: this.providerAccount.email,
-      //password: this.providerAccount.password
-      password: this.password
-    }
-    return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/loginprovider", body, {withCredentials:true}).pipe(map((val) => {return val.success}));
-  }
+  // /**
+  //  * Checks if the user is authenticated as a provider
+  //  * @returns True if authenticated as a provider
+  //  */
+  // authenticatedProvider(): Observable<boolean> {
+  //   let body = {
+  //     email: this.providerAccount.email,
+  //     //password: this.providerAccount.password
+  //     password: this.password
+  //   }
+  //   return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/loginprovider", body, {withCredentials:true}).pipe(map((val) => {return val.success}));
+  // }
 
   getAllServices() {
     // Call the API, and return the observable
@@ -318,6 +329,12 @@ export class ApiClientService {
   getPendingProviders() {
     // Call the API, and return the observable
     return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/getAllAdminProviders", {withCredentials:true});
+  }
+
+
+  getPendingProvidersGoogle() {
+    // Call the API, and return the observable
+    return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/getAllAdminProvidersGoogle", {withCredentials:true});
   }
 
 

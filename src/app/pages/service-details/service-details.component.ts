@@ -76,14 +76,7 @@ export class ServiceDetailsComponent implements OnInit {
 
 
   checkAuthenticated() {
-    this.apiClient.authenticated().subscribe({
-      next: (res: boolean) => {
-        console.log(res)
-        this.isAuthenticated = res;
-      }, error: (err: any) => {
-        // Do nothing
-      }
-    })
+    this.isAuthenticated = this.apiClient.authenticated();
   }
 
   formatDate(date: Date) {

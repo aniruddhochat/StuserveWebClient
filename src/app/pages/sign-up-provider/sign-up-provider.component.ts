@@ -88,7 +88,6 @@ export class SignUpProviderComponent implements OnInit {
         && this.formData.controls.lnameControl.value
         && this.formData.controls.emailControl.value
         && this.formData.controls.phoneControl.value
-        && this.formData.controls.passwordControl.value
         && this.formData.controls.yearControl.value
         && this.formData.controls.addressControl.value){
         // Now make sure the user has generated a username value
@@ -101,7 +100,7 @@ export class SignUpProviderComponent implements OnInit {
 
           // Check if file is selected to upload to cloudinary
           if(this.avatar) {
-            this.cloudService.postImage(this.avatar, this.username, 'stuserve/avatars').subscribe({
+            this.cloudService.postImageFile(this.avatar, this.username, 'stuserve/avatars').subscribe({
               next: (res: any) => {
                 console.log(res);
                 // Create new consumer account object
@@ -114,7 +113,79 @@ export class SignUpProviderComponent implements OnInit {
                   fname: this.formData.controls.fnameControl.value!,
                   lname: this.formData.controls.lnameControl.value!,
                   email: this.formData.controls.emailControl.value!,
-                  password: this.formData.controls.passwordControl.value!,
+                  password: this.formData.controls.passwordControl.value ? this.formData.controls.passwordControl.value : undefined,
+                  phone: this.formData.controls.phoneControl.value!,
+                  schoolyear: this.formData.controls.yearControl.value!,
+                  address: this.placesInput.nativeElement.value,
+                  role: 'provider',
+                  isApproved: 0
+                };
+                console.log(JSON.stringify(newAccount));
+                // Call API to post account creation
+                this.apiClient.registerProvider(newAccount).subscribe({
+                    next: (res: ProviderRequest) => {
+                      // Done loading (2 second timeout to show the progress spinner)
+                      setTimeout(() => {
+                        // Make sure the request sent back a success
+                        if(res.success) {
+                          // Set the user account variable in the api client
+                          this.apiClient.providerAccount = res.user;
+                          this.apiClient.password = this.formData.controls.passwordControl.value!;
+                          // Display success snackba, then navigate to consumer home page
+                          this.snackBar.open("SignUp Successful", "", {
+                            duration: 1000,
+                            panelClass: ['green-snackbar'],
+                          }).afterDismissed().subscribe(() => {
+                            // After the success snackbar disappears, then navigate the user to the consumer home page
+                            this.router.navigateByUrl("home/provider-home");
+                            // Now set is loading to false
+                            this.isLoading = false;
+                          });
+                        } else {
+                          // Request did not send back a success, so alert user
+                          console.log("API request success variable returned false");
+                          // Done loading
+                          this.isLoading = false;
+                          // Display failure snackbar
+                          this.snackBar.open("Failure Logging In", "", {
+                            duration: 2000,
+                            panelClass: ['red-snackbar'],
+                          });
+                        }
+                      }, 1000);
+                    }, error: (err: any) => {
+                      // Done loading
+                      this.isLoading = false;
+                      // Alert user of error
+                      console.log(err);
+                      alert("Something went wrong posting the account, check console for details.");
+                      // Display failure snackbar
+                      this.snackBar.open("SignUp Failure", "", {
+                        duration: 2000,
+                        panelClass: ['red-snackbar'],
+                      })
+                    }
+                  })
+              }, error: (err: any) => {
+                alert('Failed creating account, could not upload image to cloudinary. Check console for details.');
+                console.log(err);
+              }
+            });
+          } else if(this.apiClient.socialUser) {
+            this.cloudService.postImageUrl(this.apiClient.socialUser.photoUrl, this.username, 'stuserve/avatars').subscribe({
+              next: (res: any) => {
+                console.log(res);
+                // Create new consumer account object
+                let newAccount: ProviderAccount = {
+                  avatar: {
+                    public_id: res.public_id,
+                    url: res.secure_url
+                  },
+                  username: this.username,
+                  fname: this.formData.controls.fnameControl.value!,
+                  lname: this.formData.controls.lnameControl.value!,
+                  email: this.formData.controls.emailControl.value!,
+                  password: this.formData.controls.passwordControl.value ? this.formData.controls.passwordControl.value : undefined,
                   phone: this.formData.controls.phoneControl.value!,
                   schoolyear: this.formData.controls.yearControl.value!,
                   address: this.placesInput.nativeElement.value,
@@ -183,7 +254,7 @@ export class SignUpProviderComponent implements OnInit {
               fname: this.formData.controls.fnameControl.value,
               lname: this.formData.controls.lnameControl.value,
               email: this.formData.controls.emailControl.value,
-              password: this.formData.controls.passwordControl.value,
+              password: this.formData.controls.passwordControl.value ? this.formData.controls.passwordControl.value : undefined,
               phone: this.formData.controls.phoneControl.value,
               schoolyear: this.formData.controls.yearControl.value,
               address: this.placesInput.nativeElement.value,

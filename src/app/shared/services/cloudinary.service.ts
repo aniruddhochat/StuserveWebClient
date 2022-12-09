@@ -42,7 +42,17 @@ export class CloudinaryService {
   }
 
 
-  postImage(img: File, name: string, folder: string) {
+  postImageFile(img: File, name: string, folder: string) {
+    var formData: FormData = new FormData();
+    formData.append('file', img);
+    formData.append('upload_preset', 'ciaeeyjy');
+    formData.append('public_id', name);
+    formData.append('folder', folder);
+    formData.append('api_key', '173557259112287');
+    return this.http.post('https://api.cloudinary.com/v1_1/dw1a14crt/image/upload', formData);
+  }
+
+  postImageUrl(img: string, name: string, folder: string) {
     var formData: FormData = new FormData();
     formData.append('file', img);
     formData.append('upload_preset', 'ciaeeyjy');

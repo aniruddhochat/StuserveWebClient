@@ -1,10 +1,11 @@
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider, SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AdminLoginComponent } from 'src/app/shared/components/admin-login/admin-login.component';
+import { SignUpTypeSelectComponent } from 'src/app/shared/components/sign-up-type-select/sign-up-type-select.component';
 import { ConsumerRequest } from 'src/app/shared/models/consumer-request.model';
 import { ProviderRequest } from 'src/app/shared/models/provider-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
@@ -27,15 +28,41 @@ export class SignInComponent implements OnInit {
     passwordControl: new FormControl('')
   });
 
-  isLoggedin?: boolean;
+  //isLoggedin?: boolean;
 
   constructor(public dialog: MatDialog, private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private socialAuthService: SocialAuthService) { }
 
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
-      this.apiClient.socialUser = user;
-      this.isLoggedin = user != null;
-      console.log(this.apiClient.socialUser);
+      this.apiClient.loginProviderGoogle(user).subscribe({
+        next: (res: ProviderRequest) => {
+          console.log(res);
+          this.apiClient.providerAccount = res.provider;
+          setTimeout(() => {
+            this.router.navigateByUrl('home/provider-home');
+          }, 500);
+        }, error: (err:any) => {
+          console.log(err);
+          // Now try to login as a consumer
+          this.apiClient.loginConsumerGoogle(user).subscribe({
+            next: (res2: ConsumerRequest) => {
+              console.log(res2);
+              this.apiClient.consumerAccount = res2.user;
+              setTimeout(() => {
+                this.router.navigateByUrl('home/consumer-home');
+              }, 1000);
+            }, error: (err:any) => {
+              console.log(err);  
+              this.apiClient.socialUser = user;
+              // Open create account page
+              let dialogRef = this.dialog.open(SignUpTypeSelectComponent, {
+                height: 'fit-content',
+                width: '750px',
+              });
+            }
+          })
+        }
+      })
     });
   }
 
