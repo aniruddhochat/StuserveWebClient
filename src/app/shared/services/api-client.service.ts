@@ -125,6 +125,16 @@ export class ApiClientService {
     return this.httpClient.post<ConsumerRequest>(environment.apiUrl + "/v1/register", account, {withCredentials:true});
   }
 
+  updateConsumer(account: ConsumerAccount) {
+    // Call the API, and return the observable
+    return this.httpClient.put<ConsumerRequest>(environment.apiUrl + "/v1/me/update", account, {withCredentials:true});
+  }
+
+  updateProvider(account: ProviderAccount) {
+    // Call the API, and return the observable
+    return this.httpClient.put<ProviderRequest>(environment.apiUrl + "/v1/me/updateprovider", account, {withCredentials:true});
+  }
+
   registerProvider(account: ProviderAccount) {
     // Call the API, and return the observable
     return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/registerprovider", account, {withCredentials:true});

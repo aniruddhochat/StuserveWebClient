@@ -44,10 +44,10 @@
                 </div>
 
                 <div class="form-row">
-                    <mat-form-field style="width: 100%" appearance="outline">
-                        <mat-label>Address</mat-label>
-                        <input required formControlName="addressControl" matInput>
-                        <mat-error *ngIf="formData && formData.get('addressControl')!.hasError('required')">Address is required</mat-error>
+                    <mat-form-field style="width: 100%" appearance="fill">
+                        <mat-label>Street Address</mat-label>
+                        <input required formControlName="addressControl" matInput #placesInput placeholder="Enter a location" (focus)="autocomplete()">
+                        <mat-error *ngIf="formData.controls['addressControl'].hasError('required')">Street Address is required</mat-error>
                     </mat-form-field>
                 </div>
 

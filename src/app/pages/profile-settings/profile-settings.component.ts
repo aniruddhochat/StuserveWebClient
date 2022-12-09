@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConsumerAccount } from 'src/app/shared/models/consumer-account.model';
+import { ConsumerRequest } from 'src/app/shared/models/consumer-request.model';
 import { ProviderAccount } from 'src/app/shared/models/provider-account.model';
+import { ProviderRequest } from 'src/app/shared/models/provider-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
+import { CloudinaryService } from 'src/app/shared/services/cloudinary.service';
+import { GeocodeService } from 'src/app/shared/services/geocode.service';
 
 @Component({
   selector: 'app-profile-settings',
@@ -10,12 +15,17 @@ import { ApiClientService } from 'src/app/shared/services/api-client.service';
   styleUrls: ['./profile-settings.component.css']
 })
 export class ProfileSettingsComponent implements OnInit {
-
+  @ViewChild("placesInput")
+  placesInput!: ElementRef;
+  
   formDisabled: boolean = true;
   isLoading: boolean = false;
-  
  
-  constructor(private apiClient: ApiClientService) { }
+  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private cloudService: CloudinaryService, private geoService: GeocodeService) { }
+
+  // avatar: File
+
+  isUser = this.apiClient.consumerAccount ? true : false;
 
   account: ConsumerAccount | ProviderAccount = this.apiClient.consumerAccount ? this.apiClient.consumerAccount : this.apiClient.providerAccount;
 
@@ -34,82 +44,92 @@ export class ProfileSettingsComponent implements OnInit {
     this.formData.disable();
   }
 
+  autocomplete() {
+    this.geoService.setAutocomplete(this.placesInput.nativeElement);
+  }
+
   /**
    * Submitting the form (service creation in backend)
    */
   onSubmit() {
-    // // First make sure the form is valid
-    // if(this.formData && this.formData.valid) {
-    //   // Now make sure all the form controls have values
-    //   if(this.formData.controls.nameControl.value
-    //     && this.formData.controls.typeControl.value
-    //     && this.formData.controls.categoryControl.value
-    //     && this.formData.controls.descriptionControl.value
-    //     && this.formData.controls.locationControl.value
-    //     && this.formData.controls.priceControl.value) {
-    //       // Start loading API
-    //       this.isLoading = true;
-    //       // Disable all form components
-    //       this.formData.disable();
-    //       this.tagList.disabled = true;
-    //       // Set service values
-    //       this.service.name = this.formData.controls.nameControl.value;
-    //       this.service.description = this.formData.controls.descriptionControl.value;
-    //       this.service.type = this.formData.controls.typeControl.value;
-    //       this.service.price = this.formData.controls.priceControl.value;
-    //       this.service.tags = this.tags;
-    //       this.service.category = this.formData.controls.categoryControl.value;
-    //       this.service.location = this.formData.controls.locationControl.value;
-    //       // Now attempt to post the new service object through the API to the backend database
-    //       this.apiClient.updateService(this.service).subscribe({
-    //         next: (res: SingleServiceRequest) => {
-    //           // Done loading (2 second timeout to show the progress spinner)
-    //           setTimeout(() => {
-    //             // Make sure the request sent back a success
-    //             if(res.success) {
-    //               this.snackBar.open("Successful Posting Service", "", {
-    //                 duration: 1000,
-    //                 panelClass: ['green-snackbar'],
-    //               }).afterDismissed().subscribe(() => {
-    //                 this.apiClient.initializeData();
-    //                 // Done loading
-    //                 this.isLoading = false;
-    //                 // Navigate to home page
-    //                 this.router.navigateByUrl("home/provider-home");
-    //               });
-                  
-    //             } else {
-    //               // Request did not send back a success, so alert user
-    //               console.log("API request success variable returned false");
-    //               // Done loading
-    //               this.isLoading = false;
-    //               // Display failure snackbar
-    //               this.snackBar.open("Unsuccessful Posting Service", "", {
-    //                 duration: 2000,
-    //                 panelClass: ['red-snackbar'],
-    //               });
-    //             }
-    //           }, 1000);
-    //         },
-    //         error: (err: any) => {
-    //           // Done loading
-    //           this.isLoading = false;
-    //           // Alert user of error posting service
-    //           console.log(err);
-    //           alert("Something went wrong posting the service, check console for details.");
-    //         }
-    //       })
-    //   } else {
-    //     alert("Something went wrong getting the form values");
-    //   }
-    // } else {
-    //   alert("Form is invalid");
-    // }
+    console.log(this.formData);
+    // First make sure the form is valid
+    if(this.formData.valid) {
+      // Now make sure all the form controls have values
+      if(this.formData.controls.fnameControl.value
+        && this.formData.controls.lnameControl.value
+        && this.formData.controls.emailControl.value
+        && this.formData.controls.phoneControl.value
+        && this.formData.controls.yearControl.value
+        && this.formData.controls.addressControl.value){
+          // Start loading API
+          this.isLoading = true;
+          // Disable all form components
+          this.formData.disable();
+          //this.interestList.disabled = true;
+          if(this.isUser) {
+            const newAccount: ConsumerAccount = {
+              username: this.account.username,
+              fname: this.formData.controls.fnameControl.value,
+              lname: this.formData.controls.lnameControl.value,
+              email: this.formData.controls.emailControl.value,
+              phone: this.formData.controls.phoneControl.value,
+              schoolyear: this.formData.controls.yearControl.value,
+              address: this.placesInput.nativeElement.value,
+              role: 'consumer'
+            };
+            this.apiClient.updateConsumer(newAccount).subscribe({
+              next: (res: ConsumerRequest) => {
+                console.log(res);
+                this.apiClient.consumerAccount = res.user;
+                this.account = res.user;
+                this.isLoading = false;
+                this.snackBar.open('Success', '', {
+                  duration: 1000
+                })
+              }, error: (err: any) => {
+                alert('Error updating profile, check console.');
+                console.log(err);
+              }
+            });
+          } else {
+            const newAccount: ProviderAccount = {
+              username: this.account.username,
+              fname: this.formData.controls.fnameControl.value,
+              lname: this.formData.controls.lnameControl.value,
+              email: this.formData.controls.emailControl.value,
+              phone: this.formData.controls.phoneControl.value,
+              schoolyear: this.formData.controls.yearControl.value,
+              address: this.placesInput.nativeElement.value,
+              role: 'consumer',
+              isApproved: (this.account as ProviderAccount).isApproved
+            };
+            this.apiClient.updateProvider(newAccount).subscribe({
+              next: (res: ProviderRequest) => {
+                console.log(res);
+                this.apiClient.providerAccount = res.user;
+                this.account = res.user;
+                this.isLoading = false;
+                this.snackBar.open('Success', '', {
+                  duration: 1000
+                })
+              }, error: (err: any) => {
+                alert('Error updating profile, check console.');
+                console.log(err);
+              }
+            });
+          }
+      }
+    } else {
+      alert("Form is invalid");
+    }
   }
 
   onEnable() {
     // enable form
     this.formData.enable();
+    // Keep password disabled
+    this.formData.controls.passwordControl.disable();
     this.formDisabled = false;
   }
 
