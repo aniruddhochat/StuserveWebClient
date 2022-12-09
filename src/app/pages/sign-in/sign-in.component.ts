@@ -35,12 +35,10 @@ export class SignInComponent implements OnInit {
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
       this.apiClient.loginProviderGoogle(user).subscribe({
-        next: (res: ProviderRequest) => {
+        next: (res: any) => {
           console.log(res);
-          this.apiClient.providerAccount = res.provider;
-          setTimeout(() => {
-            this.router.navigateByUrl('home/provider-home');
-          }, 500);
+          this.apiClient.providerAccount = res.user;
+          this.router.navigateByUrl('home/provider-home');
         }, error: (err:any) => {
           console.log(err);
           // Now try to login as a consumer
@@ -48,9 +46,7 @@ export class SignInComponent implements OnInit {
             next: (res2: ConsumerRequest) => {
               console.log(res2);
               this.apiClient.consumerAccount = res2.user;
-              setTimeout(() => {
-                this.router.navigateByUrl('home/consumer-home');
-              }, 1000);
+              this.router.navigateByUrl('home/consumer-home');
             }, error: (err:any) => {
               console.log(err);  
               this.apiClient.socialUser = user;

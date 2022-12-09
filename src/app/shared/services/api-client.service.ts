@@ -25,6 +25,7 @@ import { Admin } from '../models/admin.model';
 import { CategoriesRequest } from '../models/categories-request.model';
 import { GoogleAccount } from '../models/google-account.model';
 import { SocialUser } from '@abacritt/angularx-social-login';
+import { Chat } from '../models/chat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -368,5 +369,13 @@ export class ApiClientService {
 
   deleteOrder(_order: Order) {
     return this.httpClient.delete<any>(environment.apiUrl + "/v1/adminDeleteOrder/" + _order._id, {withCredentials:true});
+  }
+
+  createChatConsumer(_chat: Chat) {
+    return this.httpClient.post<any>(environment.apiUrl + "/v1/chatUser/new", _chat, {withCredentials:true});
+  }
+
+  createChatProvider(_chat: Chat) {
+    return this.httpClient.post<any>(environment.apiUrl + "/v1/chatprovider/new", _chat, {withCredentials:true});
   }
 }

@@ -1,0 +1,40 @@
+
+#card {
+    margin: auto;
+    width: 50vw;
+    min-height: 75vh;
+}
+
+#container {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+}
+
+#header {
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid lightgrey;
+}
+
+#icon-display {
+    transform: scale(2);
+}
+
+#new-button {
+    position:absolute;
+    top: 30px;
+    right: 35px;
+}
+
+.message-card {
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-bottom: 10px;
+}
+
+.message-person {
+    color: var(--IU-red);
+}

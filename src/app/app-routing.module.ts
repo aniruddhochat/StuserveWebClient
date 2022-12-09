@@ -23,6 +23,7 @@ import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
 import { AdminGuard } from './shared/guards/admin.guard';
 import { AdminApproveProvidersComponent } from './pages/admin-approve-providers/admin-approve-providers.component';
 import { AdminApproveServicesComponent } from './pages/admin-approve-services/admin-approve-services.component';
+import { ChatHubComponent } from './pages/chat-hub/chat-hub.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent},
@@ -46,6 +47,7 @@ const routes: Routes = [
     { path: 'admin-home', component: AdminHomeComponent, canActivate: [AdminGuard] },
     { path: 'admin-approve-providers', component: AdminApproveProvidersComponent, canActivate: [AdminGuard] },
     { path: 'admin-approve-services', component: AdminApproveServicesComponent, canActivate: [AdminGuard] },
+    { path: 'chat-hub', component: ChatHubComponent, canActivate: [AuthenticatedGuard] },
   ] }
 ];
 

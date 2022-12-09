@@ -76,6 +76,9 @@ import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
 import { AdminApproveProvidersComponent } from './pages/admin-approve-providers/admin-approve-providers.component';
 import { AdminApproveServicesComponent } from './pages/admin-approve-services/admin-approve-services.component';
 import { AddCategoryComponent } from './shared/components/add-category/add-category.component';
+import { ChatHubComponent } from './pages/chat-hub/chat-hub.component';
+import { NewMessageComponent } from './shared/components/new-message/new-message.component';
+import { ViewChatComponent } from './shared/components/view-chat/view-chat.component';
 
 
 
@@ -111,7 +114,10 @@ import { AddCategoryComponent } from './shared/components/add-category/add-categ
     AdminHomeComponent,
     AdminApproveProvidersComponent,
     AdminApproveServicesComponent,
-    AddCategoryComponent
+    AddCategoryComponent,
+    ChatHubComponent,
+    NewMessageComponent,
+    ViewChatComponent
   ],
   imports: [
     BrowserModule,

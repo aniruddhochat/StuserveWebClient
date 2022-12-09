@@ -1,0 +1,29 @@
+<div id="container">
+    <p id="card-title">Send Message</p>
+    <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+        <div id="form-fields-container">
+            <p class="field-caption">To:</p>
+            <mat-form-field style="width: 75%" appearance="fill">
+                <mat-select *ngIf="isUser" required formControlName="toControl">
+                    <mat-option *ngFor="let acct of apiClient.providers" [value]="acct._id">{{acct.email}}</mat-option>
+                </mat-select>
+                <mat-select *ngIf="!isUser" required formControlName="toControl">
+                    <mat-option *ngFor="let acct of apiClient.consumers" [value]="acct._id">{{acct.email}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formData.controls['toControl'].hasError('required')">To Who is required</mat-error>
+            </mat-form-field>
+            <p class="field-caption">Message:</p>
+            <mat-form-field style="width: 75%" appearance="fill">
+                <textarea required formControlName="messageControl" matInput placeholder="Type response..."></textarea>
+                <mat-error *ngIf="formData.controls['messageControl'].hasError('required')">Message is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div *ngIf="!isLoading">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; margin-top: 25px; margin-bottom: 50px;">
+                <button style="width: 25%!important;" height="100" mat-raised-button>Send</button>
+            </div>
+        </div>
+        <mat-spinner *ngIf="isLoading" style="margin-left: auto; margin-right: auto; margin-top: 50px; margin-bottom: 50px;" class="red-spinner"></mat-spinner>
+    </form>
+</div>

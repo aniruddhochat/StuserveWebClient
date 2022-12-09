@@ -1,0 +1,22 @@
+
+<mat-card id="card">
+    <div>
+        <button id="new-button" mat-button color="primary" (click)="newMessage()"><mat-icon id="icon-display">open_in_new</mat-icon></button>
+    </div>
+    <div id="container">
+        <p id="header">Chats</p>
+        <mat-card-content>
+            <mat-card class="message-card" *ngFor="let chatGroup of groupedMessages">
+                <div style="display: flex; justify-content: space-between">
+                    <div style="display: flex; align-items:center">
+                        <advanced-image style="margin-right: 15px;" size="15px" [cldImg]="getProfileIcon(chatGroup.person)"></advanced-image>
+                        <p class="message-person" *ngIf="isUser">{{getProviderEmail(chatGroup.person)}}</p>
+                        <p class="message-person" *ngIf="!isUser">{{getConsumerEmail(chatGroup.person)}}</p>
+                    </div>
+                    <p>messages: {{chatGroup.received.length + chatGroup.sent.length}}</p>
+                    <button mat-button (click)="viewChat(chatGroup)">View</button>
+                </div>
+            </mat-card>
+        </mat-card-content>
+    </div>
+</mat-card>

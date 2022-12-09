@@ -57,4 +57,8 @@ export class SideNavComponent implements OnInit {
   navigateApproveServices() {
     this.router.navigate(['admin-approve-services'], {relativeTo: this.route});
   }
+
+  navigateViewChat() {
+    this.router.navigate(['chat-hub'], {relativeTo: this.route});
+  }
 }

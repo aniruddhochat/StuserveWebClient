@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CloudinaryImage } from '@cloudinary/url-gen';
+import { Chat } from 'src/app/shared/models/chat.model';
 import { Service } from 'src/app/shared/models/service.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
 import { CloudinaryService } from 'src/app/shared/services/cloudinary.service';

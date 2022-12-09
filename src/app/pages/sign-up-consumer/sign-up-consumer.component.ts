@@ -298,7 +298,7 @@ export class SignUpConsumerComponent implements OnInit {
             // Create new consumer account object
             let newAccount: ConsumerAccount = {
               avatar: {
-                public_id: 'nan',
+                public_id: 'myCloud.public_id',
                 url: 'nan'
               },
               interests: this.interests,

@@ -1,0 +1,59 @@
+
+#container {
+    padding: 25px;
+    width: 400px;
+}
+
+#header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#messages-container {
+    border: solid 1px lightgrey;
+    border-radius: 2px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.person-name {
+    color: var(--IU-red);
+}
+
+.self-message {
+    border-radius: 10px;
+    color: white;
+    width: fit-content;
+    background-color: blue;
+    padding: 10px;
+}
+
+/* .received-message {
+} */
+
+.self-container {
+    display: flex;
+    justify-content: end;
+}
+
+.received-container {
+    text-align: left;
+}
+
+.self-time {
+    font-size: 10px;
+    color: lightgrey;
+    text-align: right;
+}
+
+.received-time {
+    font-size: 10px;
+    color: lightgrey;
+    text-align: left;
+}

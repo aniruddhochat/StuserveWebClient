@@ -1,0 +1,23 @@
+
+<div id="container">
+    <div id="header-container">
+        <p id="title">Messages</p>
+        <p class="person-name" *ngIf="isUser">{{getProviderEmail(data.person)}}</p>
+        <p class="person-name" *ngIf="!isUser">{{getConsumerEmail(data.person)}}</p>
+    </div>
+    <mat-divider></mat-divider>
+    <div id="messages-container">
+        <div *ngFor="let message of messagesArray">
+            
+            <div [ngClass]="{'self-container' : message.selfSent, 'received-container': !message.selfSent}">
+                <p [ngClass]="{'self-message' : message.selfSent, 'received-message': !message.selfSent}">{{message.message.message}}</p>
+            </div>
+            <p [ngClass]="{'self-time' : message.selfSent, 'received-time': !message.selfSent}">{{message.message.createdAt}}</p>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px;">
+        <input required [(ngModel)]="textMessage" matInput>
+        <button mat-button (click)="onSubmit()">Send</button>
+    </div>
+    
+</div>

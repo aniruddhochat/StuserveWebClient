@@ -1,3 +1,5 @@
+import { Chat } from "./chat.model";
+
 export interface ProviderAccount {
     avatar?: {
         public_id: string,
@@ -15,5 +17,7 @@ export interface ProviderAccount {
     address: string,
     //pincode: string,
     //currlocation: string,
-    role?: string
+    role?: string,
+    receivedChat?: Chat[];
+    sentChat?: Chat[];
 }

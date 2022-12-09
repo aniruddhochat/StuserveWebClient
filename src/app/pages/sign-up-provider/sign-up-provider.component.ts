@@ -41,9 +41,25 @@ export class SignUpProviderComponent implements OnInit {
 
   isLoading: boolean = false;
 
-  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private geoService: GeocodeService, private cloudService: CloudinaryService) { }
+  constructor(public apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private geoService: GeocodeService, private cloudService: CloudinaryService) { }
 
   ngOnInit(): void {
+    if(this.apiClient.socialUser) {
+      this.formData = new FormGroup({
+        fnameControl: new FormControl(this.apiClient.socialUser.firstName),
+        lnameControl: new FormControl(this.apiClient.socialUser.lastName),
+        emailControl: new FormControl(this.apiClient.socialUser.email),
+        phoneControl: new FormControl(''),
+        yearControl: new FormControl(''),
+        passwordControl: new FormControl(''),
+        addressControl: new FormControl(''),
+      });
+      // Disable certain fields
+      this.formData.controls.fnameControl.disable();
+      this.formData.controls.lnameControl.disable();
+      this.formData.controls.emailControl.disable();
+      this.formData.controls.passwordControl.disable();
+    };
   }
 
   autocomplete() {
@@ -247,7 +263,7 @@ export class SignUpProviderComponent implements OnInit {
             // Create new consumer account object
             let newAccount: ProviderAccount = {
               avatar: {
-                public_id: 'nan',
+                public_id: 'myCloud.public_id',
                 url: 'nan'
               },
               username: this.username,

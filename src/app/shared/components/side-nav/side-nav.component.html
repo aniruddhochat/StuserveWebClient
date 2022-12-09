@@ -15,6 +15,7 @@
            <button *ngIf="apiClient.providerAccount || apiClient.consumerAccount" mat-button class="navButton" (click)="navigateProfile()">PROFILE</button>
            <button *ngIf="apiClient.adminAccount" mat-button class="navButton" (click)="navigateApproveProviders()">APPROVE PROVIDERS</button>
            <button *ngIf="apiClient.adminAccount" mat-button class="navButton" (click)="navigateApproveServices()">APPROVE SERVICES</button>
+           <button *ngIf="apiClient.consumerAccount || apiClient.providerAccount" mat-button class="navButton" (click)="navigateViewChat()">MESSAGES</button>
         </div>
     </mat-sidenav>
     <mat-sidenav-content>
