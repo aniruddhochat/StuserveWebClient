@@ -6,18 +6,19 @@ import { ApiClientService } from '../services/api-client.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticatedGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
 
   constructor(private apiClient: ApiClientService, private router: Router) {};
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.apiClient.adminAccount) {
-      return true;
+
+    const authenticated = this.apiClient.adminAccount ? true : false;
+    if(!authenticated) {
+      this.router.navigateByUrl("");
     }
-    let result = this.apiClient.authenticated();
-    result.subscribe(res => {if(!res) {this.router.navigateByUrl("")}});
-    return result;
+    return authenticated;
   }
+  
 }

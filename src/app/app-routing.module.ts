@@ -19,6 +19,8 @@ import { ProfileSettingsComponent } from './pages/profile-settings/profile-setti
 import { ConsumerPaymentsComponent } from './pages/consumer-payments/consumer-payments.component';
 import { ProviderHistoryComponent } from './pages/provider-history/provider-history.component';
 import { ProviderPendingComponent } from './pages/provider-pending/provider-pending.component';
+import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
+import { AdminGuard } from './shared/guards/admin.guard';
 
 const routes: Routes = [
   { path: '', component: LandingComponent},
@@ -39,6 +41,7 @@ const routes: Routes = [
     { path: 'consumer-payments', component: ConsumerPaymentsComponent, canActivate: [ConsumerGuard] },
     { path: 'provider-history', component: ProviderHistoryComponent, canActivate: [ProviderGuard] },
     { path: 'provider-pending', component: ProviderPendingComponent, canActivate: [ProviderGuard] },
+    { path: 'admin-home', component: AdminHomeComponent, canActivate: [AdminGuard] },
   ] }
 ];
 

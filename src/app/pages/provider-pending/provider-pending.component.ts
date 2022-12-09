@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Order } from 'src/app/shared/models/order.model';
 import { OrdersRequest } from 'src/app/shared/models/orders-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
+import { CloudinaryService } from 'src/app/shared/services/cloudinary.service';
 
 @Component({
   selector: 'app-provider-pending',

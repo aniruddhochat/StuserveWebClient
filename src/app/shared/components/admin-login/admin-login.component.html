@@ -1,0 +1,29 @@
+
+
+<div id="container">
+    <p id="card-title">Admin Login</p>
+    <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+        <div id="form-fields-container">
+            <p class="field-caption">Username or Email:</p>
+                <mat-form-field style="width: 75%" appearance="fill">
+                    <input required formControlName="usernameControl" matInput placeholder="Type response...">
+                    <mat-error *ngIf="formData.controls['usernameControl'].hasError('required')">Username/Email is required</mat-error>
+                </mat-form-field>
+            <div style="display: flex; justify-content: space-between; width: 75%;">
+                <p>Password:</p>
+                <mat-icon style="transform: scale(0.75);" matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </div>
+            <mat-form-field style="width: 75%" appearance="fill">
+                <input [type]="hidePassword ? 'password' : 'text'" required formControlName="passwordControl" matInput placeholder="Type response...">
+                <mat-error *ngIf="formData.controls['passwordControl'].hasError('required')">Password is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div *ngIf="!isLoading">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; margin-top: 25px; margin-bottom: 50px;">
+                <button style="width: 25%!important;" height="100" mat-raised-button>Login</button>
+            </div>
+        </div>
+        <mat-spinner *ngIf="isLoading" style="margin-left: auto; margin-right: auto; margin-top: 50px; margin-bottom: 50px;" class="red-spinner"></mat-spinner>
+    </form>
+</div>

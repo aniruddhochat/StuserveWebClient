@@ -118,7 +118,8 @@ export class SignUpProviderComponent implements OnInit {
                   phone: this.formData.controls.phoneControl.value!,
                   schoolyear: this.formData.controls.yearControl.value!,
                   address: this.placesInput.nativeElement.value,
-                  role: 'provider'
+                  role: 'provider',
+                  isApproved: 0
                 };
                 console.log(JSON.stringify(newAccount));
                 // Call API to post account creation
@@ -186,7 +187,8 @@ export class SignUpProviderComponent implements OnInit {
               phone: this.formData.controls.phoneControl.value,
               schoolyear: this.formData.controls.yearControl.value,
               address: this.placesInput.nativeElement.value,
-              role: 'provider'
+              role: 'provider',
+              isApproved: 0
             };
             console.log(JSON.stringify(newAccount));
             // Call API to post account creation

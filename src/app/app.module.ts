@@ -71,6 +71,8 @@ import { ConsumerPaymentsComponent } from './pages/consumer-payments/consumer-pa
 import { ProviderHistoryComponent } from './pages/provider-history/provider-history.component';
 import { ProviderPendingComponent } from './pages/provider-pending/provider-pending.component';
 import {CloudinaryModule} from '@cloudinary/ng';
+import { AdminLoginComponent } from './shared/components/admin-login/admin-login.component';
+import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
 
 
 
@@ -102,6 +104,8 @@ import {CloudinaryModule} from '@cloudinary/ng';
     ConsumerPaymentsComponent,
     ProviderHistoryComponent,
     ProviderPendingComponent,
+    AdminLoginComponent,
+    AdminHomeComponent,
   ],
   imports: [
     BrowserModule,

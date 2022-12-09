@@ -1,6 +1,7 @@
 import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import { MatChipGrid, MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,12 +17,15 @@ import { GeocodeService } from 'src/app/shared/services/geocode.service';
   templateUrl: './add-service.component.html',
   styleUrls: ['./add-service.component.css']
 })
-export class AddServiceComponent implements OnInit{
+export class AddServiceComponent implements OnInit, AfterViewInit{
   @ViewChild("chipList")
   tagList!: MatChipGrid;
 
   @ViewChild("placesInput")
   placesInput!: ElementRef;
+
+  @ViewChild("submitButton")
+  submitButton!: MatButton;
 
 
   formData = new FormGroup({
@@ -41,6 +45,16 @@ export class AddServiceComponent implements OnInit{
   tags: string[] = [];
 
   constructor(public apiClient: ApiClientService, private snackBar: MatSnackBar, public dialog: MatDialog, private router: Router, private geoService: GeocodeService) { }
+  
+  
+  ngAfterViewInit(): void {
+    // Check if account is approved, otherwise disable the form
+    if(this.apiClient.providerAccount && (!this.apiClient.providerAccount.isApproved || this.apiClient.providerAccount.isApproved === 0)) {
+      this.formData.disable();
+      this.tagList.disabled = true;
+      this.submitButton.disabled = true;
+    }
+  }
 
   ngOnInit(): void {
   }

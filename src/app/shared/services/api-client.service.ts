@@ -21,6 +21,8 @@ import { PayementRequest } from '../models/payement-request.model';
 import { Order } from '../models/order.model';
 import { OrdersRequest } from '../models/orders-request.model';
 import { ConsumersRequest } from '../models/consumers-request.model';
+import { AdminRequest } from '../models/admin-request.model';
+import { Admin } from '../models/admin.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +31,7 @@ export class ApiClientService {
 
   consumerAccount: ConsumerAccount = null!;
   providerAccount: ProviderAccount = null!;
+  adminAccount: Admin = null!; // Admin account
   socialUser: SocialUser = null!;
   password: string = "";
   providers: ProviderAccount[] = [];
@@ -276,4 +279,26 @@ export class ApiClientService {
     return this.httpClient.put<any>(environment.apiUrl + "/v1/provider/order/" + _orderId, body, {withCredentials:true});
   }
 
+
+  loginAdmin(_username: string, _password: string) {
+    // Generate the body object from the parameters
+    let body = {
+      email: _username,
+      password: _password
+    };
+    // Call the API, and return the observable
+    return this.httpClient.post<AdminRequest>(environment.apiUrl + "/v1/loginAdmin", body, {withCredentials:true});
+  }
+
+
+  getPendingProviders() {
+    // Call the API, and return the observable
+    return this.httpClient.get<ProvidersRequest>(environment.apiUrl + "/v1/getAllAdminProviders", {withCredentials:true});
+  }
+
+
+  approveProvider(_provider: ProviderAccount) {
+    // Call the API, and return the observable
+    return this.httpClient.post<any>(environment.apiUrl + "/v1/approveProvider/" + _provider._id, {withCredentials:true});
+  }
 }

@@ -23,7 +23,19 @@ export class CloudinaryService {
 
 
   getImage(_public_id: string, _width: number, _height: number) {
-    let img = this.cld.image(_public_id);
+    if(_public_id === 'myCloud.public_id') {
+      return this.getDefaultImage(_width, _height);
+    } else {
+      let img = this.cld.image(_public_id);
+      img.resize(thumbnail().width(_width).height(_height).gravity(focusOn(FocusOn.face()))) // Crop the image, focusing on the face.
+      .roundCorners(byRadius(20));    // Round the corners.
+      return img;
+    }
+  }
+
+
+  getDefaultImage(_width: number, _height: number) {
+    let img = this.cld.image('stuserve/no-image');
     img.resize(thumbnail().width(_width).height(_height).gravity(focusOn(FocusOn.face()))) // Crop the image, focusing on the face.
     .roundCorners(byRadius(20));    // Round the corners.
     return img;

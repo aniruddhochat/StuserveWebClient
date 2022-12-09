@@ -19,10 +19,11 @@ export class SideNavComponent implements OnInit {
     // Check if provider or consumer to naviagte to correct home page
     if(this.apiClient.consumerAccount) {
       this.router.navigate(['consumer-home'], {relativeTo: this.route});
-    } else {
+    } else if(this.apiClient.providerAccount) {
       this.router.navigate(['provider-home'], {relativeTo: this.route});
+    } else if(this.apiClient.adminAccount) {
+      this.router.navigate(['admin-home'], {relativeTo: this.route});
     }
-    
   }
 
   navigateViewAll() {

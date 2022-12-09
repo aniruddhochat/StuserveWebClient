@@ -17,7 +17,11 @@ export class ToolbarWithProfileComponent implements OnInit {
 
   ngOnInit(): void {
     let account = this.apiClient.consumerAccount ? this.apiClient.consumerAccount : this.apiClient.providerAccount;
-    this.avatar = this.cloudService.getImage(account.avatar!.public_id, 45, 45);
+    if(account && account.avatar) {
+      this.avatar = this.cloudService.getImage(account.avatar.public_id, 45, 45);
+    } else {
+      this.avatar = this.cloudService.getDefaultImage(35, 35);
+    }
   }
 
   getEmail() {

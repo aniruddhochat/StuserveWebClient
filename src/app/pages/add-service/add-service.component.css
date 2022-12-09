@@ -27,3 +27,8 @@
 #form-container {
     padding: 50px;
 }
+
+#not-approved-alert {
+    color: darkred;
+    text-align: center;
+}

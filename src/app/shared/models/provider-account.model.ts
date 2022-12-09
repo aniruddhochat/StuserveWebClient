@@ -9,6 +9,7 @@ export interface ProviderAccount {
     lname: string,
     email: string,
     password: string,
+    isApproved: number,
     phone: string,
     schoolyear: string,
     address: string,

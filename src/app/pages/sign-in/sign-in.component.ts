@@ -1,8 +1,10 @@
 import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AdminLoginComponent } from 'src/app/shared/components/admin-login/admin-login.component';
 import { ConsumerRequest } from 'src/app/shared/models/consumer-request.model';
 import { ProviderRequest } from 'src/app/shared/models/provider-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
@@ -27,7 +29,7 @@ export class SignInComponent implements OnInit {
 
   isLoggedin?: boolean;
 
-  constructor(private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private socialAuthService: SocialAuthService) { }
+  constructor(public dialog: MatDialog, private apiClient: ApiClientService, private snackBar: MatSnackBar, private router: Router, private socialAuthService: SocialAuthService) { }
 
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
@@ -40,6 +42,14 @@ export class SignInComponent implements OnInit {
 
   radioGroupValueChanged(e: any) {
     this.accountType = e.value;
+  }
+
+
+  openAdminLogin() {
+    let dialogRef = this.dialog.open(AdminLoginComponent, {
+      height: 'fit-content',
+      width: '500px',
+    });
   }
 
 
