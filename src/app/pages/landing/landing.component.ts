@@ -29,11 +29,11 @@ export class LandingComponent implements OnInit {
   }
 
   loadTopServices() {
-    this.topServices = this.apiClient.services.filter(p => p.type == "service").sort((a, b) => {return b.ratings - a.ratings}).slice(0, 3);
+    this.topServices = this.apiClient.approvedServices.filter(p => p.type == "service").sort((a, b) => {return b.ratings - a.ratings}).slice(0, 3);
   }
 
   loadTopRentals() {
-    this.topRentals = this.apiClient.services.filter(p => p.type == "rental").sort((a, b) => {return b.ratings - a.ratings}).slice(0, 3);
+    this.topRentals = this.apiClient.approvedServices.filter(p => p.type == "rental").sort((a, b) => {return b.ratings - a.ratings}).slice(0, 3);
   }
 
   signUpClick() {

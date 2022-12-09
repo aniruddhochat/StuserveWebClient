@@ -73,6 +73,8 @@ import { ProviderPendingComponent } from './pages/provider-pending/provider-pend
 import {CloudinaryModule} from '@cloudinary/ng';
 import { AdminLoginComponent } from './shared/components/admin-login/admin-login.component';
 import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
+import { AdminApproveProvidersComponent } from './pages/admin-approve-providers/admin-approve-providers.component';
+import { AdminApproveServicesComponent } from './pages/admin-approve-services/admin-approve-services.component';
 
 
 
@@ -106,6 +108,8 @@ import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
     ProviderPendingComponent,
     AdminLoginComponent,
     AdminHomeComponent,
+    AdminApproveProvidersComponent,
+    AdminApproveServicesComponent
   ],
   imports: [
     BrowserModule,

@@ -30,7 +30,7 @@ export class ConsumerViewAllComponent implements OnInit {
 
 
   loadServices() {
-    this.sortedServices = this.apiClient.services; 
+    this.sortedServices = this.apiClient.approvedServices; 
   }
 
   /**
@@ -92,7 +92,7 @@ export class ConsumerViewAllComponent implements OnInit {
 
 
   filterServices() {
-    this.sortedServices = this.apiClient.services;
+    this.sortedServices = this.apiClient.approvedServices;
     if(this.filterData && this.filterData.category.length > 0) {
       this.sortedServices = this.sortedServices.filter(p => p.category == this.filterData.category);
     }
@@ -106,7 +106,7 @@ export class ConsumerViewAllComponent implements OnInit {
 
 
   searchChange(e: any) {
-    this.apiClient.getServices().subscribe({
+    this.apiClient.getApprovedServices().subscribe({
       next: (res: ServicesRequest) => {
         // Make sure request returned success
         if(res.success) {

@@ -120,7 +120,8 @@ export class AddServiceComponent implements OnInit, AfterViewInit{
             numOfReviews: '0', 
             location: this.placesInput.nativeElement.value,
             reviews: [], // Currently empty because the API does not have a reviews endpoint ready
-            user: this.apiClient.providerAccount._id!
+            user: this.apiClient.providerAccount._id!,
+            isApproved: 0
           }
           console.log(newService);
           // Now attempt to post the new service object through the API to the backend database
@@ -130,7 +131,6 @@ export class AddServiceComponent implements OnInit, AfterViewInit{
               setTimeout(() => {
                 // Make sure the request sent back a success
                 if(res.success) {
-                  this.apiClient.services.push(res.service);
                   // Done loading
                   this.isLoading = false;
                   // Present popup to inform user that the service was succesfully posted, and prompt if they would like to enter another

@@ -49,4 +49,12 @@ export class SideNavComponent implements OnInit {
   navigateViewProviderPending() {
     this.router.navigate(['provider-pending'], {relativeTo: this.route});
   }
+
+  navigateApproveProviders() {
+    this.router.navigate(['admin-approve-providers'], {relativeTo: this.route});
+  }
+
+  navigateApproveServices() {
+    this.router.navigate(['admin-approve-services'], {relativeTo: this.route});
+  }
 }

@@ -98,7 +98,7 @@ export class ServiceDetailsComponent implements OnInit {
     });
     
     dialogRef.afterClosed().subscribe(result => {
-      this.service = this.apiClient.services.find(p => p._id == this.service._id) as Service;
+      this.service = this.apiClient.approvedServices.find(p => p._id == this.service._id) as Service;
     });
   }
 

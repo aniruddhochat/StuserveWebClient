@@ -21,6 +21,8 @@ import { ProviderHistoryComponent } from './pages/provider-history/provider-hist
 import { ProviderPendingComponent } from './pages/provider-pending/provider-pending.component';
 import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
 import { AdminGuard } from './shared/guards/admin.guard';
+import { AdminApproveProvidersComponent } from './pages/admin-approve-providers/admin-approve-providers.component';
+import { AdminApproveServicesComponent } from './pages/admin-approve-services/admin-approve-services.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent},
@@ -42,6 +44,8 @@ const routes: Routes = [
     { path: 'provider-history', component: ProviderHistoryComponent, canActivate: [ProviderGuard] },
     { path: 'provider-pending', component: ProviderPendingComponent, canActivate: [ProviderGuard] },
     { path: 'admin-home', component: AdminHomeComponent, canActivate: [AdminGuard] },
+    { path: 'admin-approve-providers', component: AdminApproveProvidersComponent, canActivate: [AdminGuard] },
+    { path: 'admin-approve-services', component: AdminApproveServicesComponent, canActivate: [AdminGuard] },
   ] }
 ];
 

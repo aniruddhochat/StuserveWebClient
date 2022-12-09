@@ -36,7 +36,7 @@ export class ApiClientService {
   password: string = "";
   providers: ProviderAccount[] = [];
   consumers: ConsumerAccount[] = [];
-  services: Service[] = [];
+  approvedServices: Service[] = [];
   categories: Category[] = [];
   // Starts as true because the initial data loading will always be invoked at the startup of the application
   isLoading: boolean = true;
@@ -47,7 +47,7 @@ export class ApiClientService {
 
   initializeData() {
     this.isLoading = true;
-    this.getServices().subscribe({
+    this.getApprovedServices().subscribe({
       next: (res1) => {
         // Make sure API returned success
         if(res1.success) {
@@ -64,7 +64,7 @@ export class ApiClientService {
                           // Make sure API returned success
                           if(res4.success) {
                             // Set global variables
-                            this.services = res1.services;
+                            this.approvedServices = res1.services;
                             this.providers = res2.providers;
                             this.categories = res3.category;
                             this.consumers = res4.users;
@@ -73,8 +73,9 @@ export class ApiClientService {
                             // Set initialze data to true
                             this.hasDoneInitialSetup = true;
                           }
-                        }, error: (err) => {
+                        }, error: (err: any) => {
                           alert("Error initializing application data. The error occured when attempting to load all consumers details. Check the console for error details");
+                          console.log(err);
                           // Done loading 
                           this.isLoading = false;
                         }
@@ -83,8 +84,9 @@ export class ApiClientService {
                       // Done loading 
                       this.isLoading = false;
                     }
-                  }, error: (err) => {
+                  }, error: (err: any) => {
                     alert("Error initializing application data. The error occured when attempting to load all category objects. Check the console for error details");
+                    console.log(err);
                     // Done loading 
                     this.isLoading = false;
                   }
@@ -94,8 +96,9 @@ export class ApiClientService {
                 // Done loading 
                 this.isLoading = false;
               }
-            }, error: (err) => {
+            }, error: (err: any) => {
               alert("Error initializing application data. The error occured when attempting to load all providers details. Check the console for error details");
+              console.log(err);
               // Done loading 
               this.isLoading = false;
             }
@@ -105,8 +108,9 @@ export class ApiClientService {
           // Done loading 
           this.isLoading = false;
         }
-      }, error: (err) => {
+      }, error: (err: any) => {
         alert("Error initializing application data. The error occured when attempting to load all services. Check the console for error details");
+        console.log(err);
         // Done loading 
         this.isLoading = false;
       }
@@ -183,9 +187,19 @@ export class ApiClientService {
     return this.httpClient.post<ProviderRequest>(environment.apiUrl + "/v1/loginprovider", body, {withCredentials:true}).pipe(map((val) => {return val.success}));
   }
 
-  getServices() {
+  getAllServices() {
     // Call the API, and return the observable
     return this.httpClient.get<ServicesRequest>(environment.apiUrl + "/v1/services", {withCredentials:true});
+  }
+
+  getApprovedServices() {
+    // Call the API, and return the observable
+    return this.httpClient.get<ServicesRequest>(environment.apiUrl + "/v1/getApprovedServices", {withCredentials:true});
+  }
+
+  getPendingServices() {
+    // Call the API, and return the observable
+    return this.httpClient.get<ServicesRequest>(environment.apiUrl + "/v1/adminGetAllServicesApproval", {withCredentials:true});
   }
 
   postServiceAdmin(service: Service) {
@@ -300,5 +314,11 @@ export class ApiClientService {
   approveProvider(_provider: ProviderAccount) {
     // Call the API, and return the observable
     return this.httpClient.post<any>(environment.apiUrl + "/v1/approveProvider/" + _provider._id, {withCredentials:true});
+  }
+
+
+  approveService(_service: Service) {
+    // Call the API, and return the observable
+    return this.httpClient.post<any>(environment.apiUrl + "/v1/approveService/" + _service._id, {withCredentials:true});
   }
 }

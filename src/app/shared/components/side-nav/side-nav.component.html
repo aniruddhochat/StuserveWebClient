@@ -13,6 +13,8 @@
            <button *ngIf="apiClient.providerAccount" mat-button class="navButton" (click)="navigateViewProviderHistory()">VIEW HISTORY</button>
            <button *ngIf="apiClient.providerAccount" mat-button class="navButton" (click)="navigateViewProviderPending()">VIEW PENDING</button>
            <button *ngIf="apiClient.providerAccount || apiClient.consumerAccount" mat-button class="navButton" (click)="navigateProfile()">PROFILE</button>
+           <button *ngIf="apiClient.adminAccount" mat-button class="navButton" (click)="navigateApproveProviders()">APPROVE PROVIDERS</button>
+           <button *ngIf="apiClient.adminAccount" mat-button class="navButton" (click)="navigateApproveServices()">APPROVE SERVICES</button>
         </div>
     </mat-sidenav>
     <mat-sidenav-content>

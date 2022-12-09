@@ -21,7 +21,7 @@ export class ConsumerHomeComponent implements OnInit {
   }
 
   loadServices() {
-    this.filteredServices = this.apiClient.services.filter(p => {
+    this.filteredServices = this.apiClient.approvedServices.filter(p => {
       for(let obj of this.apiClient.consumerAccount.interests!) {
         if(p.tags.includes(obj)) {
           return true;

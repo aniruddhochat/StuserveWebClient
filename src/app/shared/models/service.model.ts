@@ -6,6 +6,7 @@ export interface Service {
     price: number,
     ratings: number,
     tags: string[],
+    isApproved: number,
     images: 
     {
         public_id: string,

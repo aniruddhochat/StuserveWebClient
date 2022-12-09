@@ -19,7 +19,7 @@ export class ProviderHomeComponent implements OnInit {
   }
 
   loadServices() {
-    this.services = this.apiClient.services.filter(p => p.user == this.apiClient.providerAccount._id);
+    this.services = this.apiClient.approvedServices.filter(p => p.user == this.apiClient.providerAccount._id);
   }
 
   /**
