@@ -1,6 +1,6 @@
 import { Category } from "./category.model";
 
-export interface CategoryRequest {
+export interface CategoriesRequest {
     success: boolean,
-    category: Category
+    category: Category[]
 }

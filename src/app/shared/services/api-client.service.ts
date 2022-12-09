@@ -23,6 +23,7 @@ import { OrdersRequest } from '../models/orders-request.model';
 import { ConsumersRequest } from '../models/consumers-request.model';
 import { AdminRequest } from '../models/admin-request.model';
 import { Admin } from '../models/admin.model';
+import { CategoriesRequest } from '../models/categories-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -243,9 +244,15 @@ export class ApiClientService {
     return this.httpClient.get<ConsumersRequest>(environment.apiUrl + "/v1/userdetails", {withCredentials:true});
   }
 
+
+  addCategory(_category: Category) {
+    // Call the API, and return the observable
+    return this.httpClient.post<CategoryRequest>(environment.apiUrl + "/v1/admin/category/new", _category, {withCredentials:true});
+  }
+
   getCategories() {
     // Call the API, and return the observable
-    return this.httpClient.get<CategoryRequest>(environment.apiUrl + "/v1/getcategory", {withCredentials:true});
+    return this.httpClient.get<CategoriesRequest>(environment.apiUrl + "/v1/getcategory", {withCredentials:true});
   }
 
 
@@ -284,6 +291,9 @@ export class ApiClientService {
     return this.httpClient.post<OrdersRequest>(environment.apiUrl + "/v1/orders/provider", this.providerAccount, {withCredentials:true});
   }
 
+  getAllOrders() {
+    return this.httpClient.get<OrdersRequest>(environment.apiUrl + "/v1/provider/orders", {withCredentials:true});
+  }
 
   approveOrder(_orderId: string, _chargeId: string) {
     let body = {
@@ -320,5 +330,26 @@ export class ApiClientService {
   approveService(_service: Service) {
     // Call the API, and return the observable
     return this.httpClient.post<any>(environment.apiUrl + "/v1/approveService/" + _service._id, {withCredentials:true});
+  }
+
+
+  deleteService(_service: Service) {
+    return this.httpClient.delete<any>(environment.apiUrl + "/v1/adminDeleteService/" + _service._id, {withCredentials:true});
+  }
+
+  deleteProvider(_provider: ProviderAccount) {
+    return this.httpClient.delete<any>(environment.apiUrl + "/v1/adminDeleteProvider/" + _provider._id, {withCredentials:true});
+  }
+
+  deleteConsumer(_consumer: ConsumerAccount) {
+    return this.httpClient.delete<any>(environment.apiUrl + "/v1/adminDeleteConsumer/" + _consumer._id, {withCredentials:true});
+  }
+
+  deleteCategory(_category: Category) {
+    return this.httpClient.delete<any>(environment.apiUrl + "/v1/admin/deleteCategory/" + _category._id, {withCredentials:true});
+  }
+
+  deleteOrder(_order: Order) {
+    return this.httpClient.delete<any>(environment.apiUrl + "/v1/adminDeleteOrder/" + _order._id, {withCredentials:true});
   }
 }

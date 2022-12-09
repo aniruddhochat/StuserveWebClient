@@ -1,0 +1,25 @@
+
+<div id="container">
+    <p id="card-title">Admin Login</p>
+    <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+        <div id="form-fields-container">
+            <p class="field-caption">Name:</p>
+            <mat-form-field style="width: 75%" appearance="fill">
+                <input required formControlName="nameControl" matInput placeholder="Type response...">
+                <mat-error *ngIf="formData.controls['nameControl'].hasError('required')">Name is required</mat-error>
+            </mat-form-field>
+            <p class="field-caption">Username or Email:</p>
+            <mat-form-field style="width: 75%" appearance="fill">
+                <textarea required formControlName="descriptionControl" matInput placeholder="Type response..."></textarea>
+                <mat-error *ngIf="formData.controls['descriptionControl'].hasError('required')">Description is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div *ngIf="!isLoading">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; margin-top: 25px; margin-bottom: 50px;">
+                <button style="width: 25%!important;" height="100" mat-raised-button>Add</button>
+            </div>
+        </div>
+        <mat-spinner *ngIf="isLoading" style="margin-left: auto; margin-right: auto; margin-top: 50px; margin-bottom: 50px;" class="red-spinner"></mat-spinner>
+    </form>
+</div>

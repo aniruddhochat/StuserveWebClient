@@ -16,7 +16,7 @@ export class AdminApproveProvidersComponent {
   isLoading: boolean = true;
   providers: ProviderAccount[] = [];
   displayedColumns: string[] = ['icon', 'id', 'username', 'fname', 'lname', 'button'];
-  avatars: ProviderCloudImage[] = [];
+  avatars: AccountCloudImage[] = [];
 
   constructor(private apiClient: ApiClientService, private cloudService: CloudinaryService, private snackBar: MatSnackBar) {}
 
@@ -33,8 +33,8 @@ export class AdminApproveProvidersComponent {
       next: (res: ProvidersRequest) => {
         this.providers = res.providers;
         res.providers.forEach(obj => {
-          let temp: ProviderCloudImage = {
-            providerId: obj._id!,
+          let temp: AccountCloudImage = {
+            accountId: obj._id!,
             img: this.cloudService.getImage(obj.avatar!.public_id, 50, 50)
           };
           this.avatars.push(temp);
@@ -67,7 +67,7 @@ export class AdminApproveProvidersComponent {
   }
 
   getProviderIcon(provider: ProviderAccount) {
-    return this.avatars.find(p => p.providerId === provider._id)!.img;;
+    return this.avatars.find(p => p.accountId === provider._id)!.img;;
   }
 }
 
@@ -75,7 +75,7 @@ export class AdminApproveProvidersComponent {
 
 
 
-export interface ProviderCloudImage {
-  providerId: string,
+export interface AccountCloudImage {
+  accountId: string,
   img: CloudinaryImage
 }

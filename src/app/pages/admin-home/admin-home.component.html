@@ -3,7 +3,279 @@
     <div id="container">
         <p id="header">Admin Home</p>
         <mat-card-content>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <mat-button-toggle-group [value]="section" (change)="sectionChanged($event)" name="fontStyle" aria-label="Font Style">
+                    <mat-button-toggle value="services">Services</mat-button-toggle>
+                    <mat-button-toggle value="consumers">Consumers</mat-button-toggle>
+                    <mat-button-toggle value="providers">Providers</mat-button-toggle>
+                    <mat-button-toggle value="orders">Orders</mat-button-toggle>
+                    <mat-button-toggle value="categories">Categories</mat-button-toggle>
+                </mat-button-toggle-group>
+
+
+                <button *ngIf="section == 'categories'" mat-button (click)="addCategory()">+ Add category</button>
+            </div>
             
+
+
+            <div *ngIf="!isLoading">
+                <div *ngIf="section == 'services'">
+                    <table mat-table [dataSource]="services" class="mat-elevation-z8">
+                        <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
+                    
+
+                        <!-- Icon Column -->
+                        <!-- <ng-container matColumnDef="icon">
+                            <th mat-header-cell *matHeaderCellDef> Avatar </th>
+                            <td mat-cell *matCellDef="let element"> <advanced-image size="15px" [cldImg]="getProviderIcon(element)"> </advanced-image>
+                            </td>
+                        </ng-container> -->
+
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> id </th>
+                        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+
+                        <!-- Type Column -->
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef> Type </th>
+                            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+                        </ng-container>
+
+                        <!-- Category Column -->
+                        <ng-container matColumnDef="category">
+                            <th mat-header-cell *matHeaderCellDef> Category </th>
+                            <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+                        </ng-container>
+
+                        <!-- Created at Column -->
+                        <ng-container matColumnDef="createdAt">
+                            <th mat-header-cell *matHeaderCellDef> Created At </th>
+                            <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
+                        </ng-container>
+        
+                        <!-- Button Column -->
+                        <ng-container matColumnDef="button">
+                            <th mat-header-cell *matHeaderCellDef>  </th>
+                            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="deleteService(element)">Delete</button> </td>
+                        </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedServiceColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedServiceColumns;"></tr>
+                    </table>
+                </div>
+
+
+
+
+                <div *ngIf="section == 'consumers'">
+                    <table mat-table [dataSource]="consumers" class="mat-elevation-z8">
+                        <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
+                        <!-- Icon Column -->
+                        <ng-container matColumnDef="icon">
+                            <th mat-header-cell *matHeaderCellDef> Avatar </th>
+                            <td mat-cell *matCellDef="let element"> <advanced-image size="15px" [cldImg]="getAccountIcon(element._id)"> </advanced-image>
+                            </td>
+                        </ng-container>
+
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> id </th>
+                        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                        </ng-container>
+
+                        <!-- Username Column -->
+                        <ng-container matColumnDef="username">
+                            <th mat-header-cell *matHeaderCellDef> Username </th>
+                            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                        </ng-container>
+
+                        <!-- Email Column -->
+                        <ng-container matColumnDef="email">
+                            <th mat-header-cell *matHeaderCellDef> Email </th>
+                            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                        </ng-container>
+
+                        <!-- First name Column -->
+                        <ng-container matColumnDef="fname">
+                            <th mat-header-cell *matHeaderCellDef> First Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.fname}} </td>
+                        </ng-container>
+
+                        <!-- Last name Column -->
+                        <ng-container matColumnDef="lname">
+                            <th mat-header-cell *matHeaderCellDef> Last Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.lname}} </td>
+                        </ng-container>
+        
+                        <!-- Button Column -->
+                        <ng-container matColumnDef="button">
+                            <th mat-header-cell *matHeaderCellDef>  </th>
+                            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="deleteConsumer(element)">Delete</button> </td>
+                        </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedAccountColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedAccountColumns;"></tr>
+                    </table>
+                </div>
+
+
+
+
+                <div *ngIf="section == 'providers'">
+                    <table mat-table [dataSource]="providers" class="mat-elevation-z8">
+                        <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
+                        <!-- Icon Column -->
+                        <ng-container matColumnDef="icon">
+                            <th mat-header-cell *matHeaderCellDef> Avatar </th>
+                            <td mat-cell *matCellDef="let element"> <advanced-image size="15px" [cldImg]="getAccountIcon(element._id)"> </advanced-image>
+                            </td>
+                        </ng-container>
+
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> id </th>
+                        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                        </ng-container>
+
+                        <!-- Username Column -->
+                        <ng-container matColumnDef="username">
+                            <th mat-header-cell *matHeaderCellDef> Username </th>
+                            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                        </ng-container>
+
+                        <!-- Email Column -->
+                        <ng-container matColumnDef="email">
+                            <th mat-header-cell *matHeaderCellDef> Email </th>
+                            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                        </ng-container>
+
+                        <!-- First name Column -->
+                        <ng-container matColumnDef="fname">
+                            <th mat-header-cell *matHeaderCellDef> First Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.fname}} </td>
+                        </ng-container>
+
+                        <!-- Last name Column -->
+                        <ng-container matColumnDef="lname">
+                            <th mat-header-cell *matHeaderCellDef> Last Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.lname}} </td>
+                        </ng-container>
+        
+                        <!-- Button Column -->
+                        <ng-container matColumnDef="button">
+                            <th mat-header-cell *matHeaderCellDef>  </th>
+                            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="deleteProvider(element)">Delete</button> </td>
+                        </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedAccountColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedAccountColumns;"></tr>
+                    </table>
+                </div>
+
+
+
+
+                <div *ngIf="section == 'orders'">
+                    <table mat-table [dataSource]="orders" class="mat-elevation-z8">
+                        <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
+                    
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> ID </th>
+                        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                        </ng-container>
+        
+                        <!-- Service Name Column -->
+                        <ng-container matColumnDef="serviceName">
+                            <th mat-header-cell *matHeaderCellDef> Service Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.orderService[0].name}} </td>
+                        </ng-container>
+        
+                        <!-- Provider Column -->
+                        <ng-container matColumnDef="provider">
+                            <th mat-header-cell *matHeaderCellDef> Provider </th>
+                            <td mat-cell *matCellDef="let element"> {{getProviderEmail(element.provider)}} </td>
+                        </ng-container>
+
+                        <!-- Consumer Column -->
+                        <ng-container matColumnDef="consumer">
+                            <th mat-header-cell *matHeaderCellDef> Consumer </th>
+                            <td mat-cell *matCellDef="let element"> {{getConsumerEmail(element.user)}} </td>
+                        </ng-container>
+        
+                        <!-- Price Column -->
+                        <ng-container matColumnDef="price">
+                            <th mat-header-cell *matHeaderCellDef> Price </th>
+                            <td mat-cell *matCellDef="let element"> ${{element.servicePrice}} </td>
+                        </ng-container>
+
+                        <!-- Status Column -->
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef> Status </th>
+                            <td mat-cell *matCellDef="let element"> {{element.orderStatus}} </td>
+                        </ng-container>
+        
+                        <!-- Button Column -->
+                        <ng-container matColumnDef="button">
+                            <th mat-header-cell *matHeaderCellDef>  </th>
+                            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="deleteOrder(element)">Delete</button> </td>
+                          </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedOrderColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedOrderColumns;"></tr>
+                    </table>
+                </div>
+
+
+
+
+                <div *ngIf="section == 'categories'">
+                    <table mat-table [dataSource]="categories" class="mat-elevation-z8">
+                        <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
+                    
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> id </th>
+                            <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                        </ng-container>
+
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+
+                        <!-- Desc Column -->
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef> Description </th>
+                            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                            </ng-container>
+                
+                        <!-- Button Column -->
+                        <ng-container matColumnDef="button">
+                            <th mat-header-cell *matHeaderCellDef>  </th>
+                            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="deleteCategory(element)">Delete</button> </td>
+                          </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedCategoryColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedCategoryColumns;"></tr>
+                    </table>
+                </div>
+            </div>
         </mat-card-content>
     </div>
 </mat-card>

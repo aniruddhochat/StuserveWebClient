@@ -7,7 +7,6 @@ import { Service } from 'src/app/shared/models/service.model';
 import { ServicesRequest } from 'src/app/shared/models/services-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
 import { CloudinaryService } from 'src/app/shared/services/cloudinary.service';
-import { ProviderCloudImage } from '../admin-approve-providers/admin-approve-providers.component';
 
 @Component({
   selector: 'app-admin-approve-services',

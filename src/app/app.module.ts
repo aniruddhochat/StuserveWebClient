@@ -75,6 +75,7 @@ import { AdminLoginComponent } from './shared/components/admin-login/admin-login
 import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
 import { AdminApproveProvidersComponent } from './pages/admin-approve-providers/admin-approve-providers.component';
 import { AdminApproveServicesComponent } from './pages/admin-approve-services/admin-approve-services.component';
+import { AddCategoryComponent } from './shared/components/add-category/add-category.component';
 
 
 
@@ -109,7 +110,8 @@ import { AdminApproveServicesComponent } from './pages/admin-approve-services/ad
     AdminLoginComponent,
     AdminHomeComponent,
     AdminApproveProvidersComponent,
-    AdminApproveServicesComponent
+    AdminApproveServicesComponent,
+    AddCategoryComponent
   ],
   imports: [
     BrowserModule,

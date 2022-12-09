@@ -36,7 +36,7 @@ export class AdminLoginComponent {
           this.dialogRef.close();
           this.router.navigateByUrl('home/admin-home');
         }, error: (err: any) => {
-          alert('Error logging in provider, see console for details');
+          alert('Error logging in admin, see console for details');
           console.log(err);
         }
       })
