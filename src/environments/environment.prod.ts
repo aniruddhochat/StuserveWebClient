@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: "http://localhost:5100/api"
+  apiUrl: "https://stormy-plateau-47451.herokuapp.com/api",
+  cloudinaryName: 'dw1a14crt'
 };
