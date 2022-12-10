@@ -40,7 +40,7 @@ export class ChatHubComponent implements OnInit{
       if(this.account.sentChat) {
         this.account.sentChat.forEach(x => {
           const foundIndex = this.groupedMessages.findIndex(p => p.person === x.provider);
-          if(foundIndex > 0){
+          if(foundIndex >= 0){
             this.groupedMessages[foundIndex].sent.push(x);
           } else {
             this.groupedMessages.push({
@@ -55,7 +55,7 @@ export class ChatHubComponent implements OnInit{
       if(this.account.receivedChat) {
         this.account.receivedChat.forEach(x => {
           const foundIndex = this.groupedMessages.findIndex(p => p.person === x.provider);
-          if(foundIndex > 0){
+          if(foundIndex >= 0){
             this.groupedMessages[foundIndex].received.push(x);
           } else {
             this.groupedMessages.push({
@@ -71,7 +71,7 @@ export class ChatHubComponent implements OnInit{
       if(this.account.sentChat) {
         this.account.sentChat.forEach(x => {
           const foundIndex = this.groupedMessages.findIndex(p => p.person === x.user);
-          if(foundIndex > 0){
+          if(foundIndex >= 0){
             this.groupedMessages[foundIndex].sent.push(x);
           } else {
             this.groupedMessages.push({
@@ -86,7 +86,7 @@ export class ChatHubComponent implements OnInit{
       if(this.account.receivedChat) {
         this.account.receivedChat.forEach(x => {
           const foundIndex = this.groupedMessages.findIndex(p => p.person === x.user);
-          if(foundIndex > 0){
+          if(foundIndex >= 0){
             this.groupedMessages[foundIndex].received.push(x);
           } else {
             this.groupedMessages.push({

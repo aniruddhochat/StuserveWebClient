@@ -40,11 +40,32 @@ export class NewMessageComponent {
       console.log(newChat);
       // Call correct new message endpoint based on what type of user is sending the message
       if(this.isUser) {
-        this.apiClient.createChatConsumer(newChat).subscribe();
+        this.apiClient.createChatConsumer(newChat).subscribe({
+          next: (res: any) => {
+            this.snackBar.open('Sucess', '', {
+              duration: 1000
+            })
+            this.dialogRef.close();
+          }, error: (err:any) => {
+            alert('Error sending message, check console.');
+            console.log(err);
+            this.dialogRef.close();
+          }
+        });
       } else {
-        this.apiClient.createChatProvider(newChat).subscribe();
+        this.apiClient.createChatProvider(newChat).subscribe({
+          next: (res: any) => {
+            this.snackBar.open('Sucess', '', {
+              duration: 1000
+            })
+            this.dialogRef.close();
+          }, error: (err:any) => {
+            alert('Error sending message, check console.');
+            console.log(err);
+            this.dialogRef.close();
+          }
+        });
       }
-      
     } else {
       alert("Form is invalid");
     }
