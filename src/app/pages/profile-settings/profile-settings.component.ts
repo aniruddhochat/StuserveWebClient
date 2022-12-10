@@ -107,8 +107,8 @@ export class ProfileSettingsComponent implements OnInit {
             this.apiClient.updateProvider(newAccount).subscribe({
               next: (res: ProviderRequest) => {
                 console.log(res);
-                this.apiClient.providerAccount = res.user;
-                this.account = res.user;
+                this.apiClient.providerAccount = res.provider;
+                this.account = res.provider;
                 this.isLoading = false;
                 this.snackBar.open('Success', '', {
                   duration: 1000
