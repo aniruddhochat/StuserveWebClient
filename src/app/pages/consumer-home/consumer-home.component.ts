@@ -83,6 +83,7 @@ export class ConsumerHomeComponent implements OnInit {
           this.interestsLoading = false;
           // Clear the input value
           event.chipInput!.clear();
+          this.loadServices();
         }, error: (err: any) => {
           alert('Error updating account with new interest. Check console.');
           console.log(err);
@@ -105,6 +106,7 @@ export class ConsumerHomeComponent implements OnInit {
       this.apiClient.updateConsumer(this.apiClient.consumerAccount).subscribe({
         next: (res: any) => {
           this.interestsLoading = false;
+          this.loadServices();
         }, error: (err: any) => {
           alert('Error updating account with removal of interest. Check console.');
           console.log(err);
