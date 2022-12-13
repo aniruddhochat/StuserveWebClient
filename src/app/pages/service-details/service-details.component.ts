@@ -5,6 +5,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { CloudinaryImage } from '@cloudinary/url-gen';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { ReviewPopupComponent } from 'src/app/shared/components/review-popup/review-popup.component';
@@ -15,6 +16,7 @@ import { PayementRequest } from 'src/app/shared/models/payement-request.model';
 import { Service } from 'src/app/shared/models/service.model';
 import { ServicesRequest } from 'src/app/shared/models/services-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
+import { CloudinaryService } from 'src/app/shared/services/cloudinary.service';
 import { GeocodeService } from 'src/app/shared/services/geocode.service';
 
 
@@ -34,8 +36,10 @@ export class ServiceDetailsComponent implements OnInit, AfterViewInit {
 
   @ViewChild('paginator') paginator!: MatPaginator;
 
+  avatar?: CloudinaryImage;
+
   
-  constructor(private router: Router, public dialog: MatDialog, private apiClient: ApiClientService, private geoService: GeocodeService) { 
+  constructor(private router: Router, public dialog: MatDialog, private apiClient: ApiClientService, private geoService: GeocodeService, private cloudService: CloudinaryService) { 
     
   }
 
@@ -55,6 +59,13 @@ export class ServiceDetailsComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
+    const user = this.apiClient.providers.find(p => p._id == this.service.user);
+    if(user && user.avatar) {
+      this.avatar = this.cloudService.getImage(user.avatar.public_id, 25, 25);
+    } else {
+      this.avatar = this.cloudService.getDefaultImage(25, 25);
+    }
+    
     //this.stripePayment();
     // Check if user is authenticated and set corresponding variable
     this.checkAuthenticated();
@@ -184,7 +195,8 @@ export class ServiceDetailsComponent implements OnInit, AfterViewInit {
 
 
   getUser(userID: string) {
-    return this.apiClient.providers.find(p => p._id == userID);
+    const user = this.apiClient.providers.find(p => p._id == userID);
+    return user;
   }
 
 

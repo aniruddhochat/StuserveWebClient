@@ -4,7 +4,7 @@
     <div id="container">
         <div class="row">
             <p id="service-name">{{service.name}}</p>
-            <p style="display: inline-flex; vertical-align: center;"><mat-icon>person</mat-icon><span style="color: grey;">{{getUser(service.user)?.email}}</span></p>
+            <p style="display: inline-flex; vertical-align: center;"><advanced-image size="15px" *ngIf="avatar" [cldImg]="avatar"></advanced-image><span style="color: grey;">{{getUser(service.user)?.email}}</span></p>
         </div>
         <div style="display: flex; justify-content: space-between">
             <p style="color: grey; font-style: italic">{{service.type}}</p>
