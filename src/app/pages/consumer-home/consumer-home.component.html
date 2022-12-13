@@ -4,11 +4,27 @@
         <p id="header">FOR YOU</p>
         <mat-card-content>
             <p class="section-header">Interests</p>
-            <mat-chip-listbox #chipList aria-label="Interests selection">
+            <!-- <mat-chip-listbox #chipList aria-label="Interests selection">
                 <mat-chip-option disabled *ngFor="let tag of apiClient.consumerAccount.interests">
                     {{tag}}
                 </mat-chip-option>
             </mat-chip-listbox>
+            <button mat-raised-button>+</button> -->
+            <mat-form-field style="min-width: 25%" class="interests-chip-list" appearance="outline">
+                <mat-chip-grid [disabled]="interestsLoading" #chipList aria-label="Interests selection">
+                    <mat-chip-row *ngFor="let tag of apiClient.consumerAccount.interests" (removed)="remove(tag)">
+                        {{tag}}
+                        <button matChipRemove>
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-chip-row>
+                    <input placeholder="New..."
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="add($event)">
+                </mat-chip-grid>
+            </mat-form-field>
 
             <!-- Services Section -->
             <p class="section-header">Related Services</p>

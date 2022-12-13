@@ -1,4 +1,7 @@
+import { throwDialogContentAlreadyAttachedError } from '@angular/cdk/dialog';
+import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import { Component, OnInit } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { Chat } from 'src/app/shared/models/chat.model';
@@ -13,7 +16,12 @@ import { CloudinaryService } from 'src/app/shared/services/cloudinary.service';
 })
 export class ConsumerHomeComponent implements OnInit {
 
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
+
   filteredServices: Service[] = [];
+
+  interestsLoading: boolean = false;
 
   constructor(public apiClient: ApiClientService, private router: Router, private cloudService: CloudinaryService) { }
 
@@ -58,5 +66,51 @@ export class ConsumerHomeComponent implements OnInit {
 
   roundRating(x: number) {
     return Math.round(x * 100) / 100;
+  }
+
+
+  /**
+   * Add function for the chip list
+   */
+   add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim().toLowerCase();
+    // Add the input string
+    if (value) {
+      this.interestsLoading = true;
+      this.apiClient.consumerAccount.interests!.push(value);
+      this.apiClient.updateConsumer(this.apiClient.consumerAccount).subscribe({
+        next: (res: any) => {
+          this.interestsLoading = false;
+          // Clear the input value
+          event.chipInput!.clear();
+        }, error: (err: any) => {
+          alert('Error updating account with new interest. Check console.');
+          console.log(err);
+          this.interestsLoading = false;
+          // Clear the input value
+          event.chipInput!.clear();
+        }
+      })
+    }
+  }
+
+  /**
+   * Remove function for the chip list
+   */
+  remove(value: string): void {
+    const index = this.apiClient.consumerAccount.interests!.indexOf(value);
+    if (index >= 0) {
+      this.interestsLoading = true;
+      this.apiClient.consumerAccount.interests!.splice(index, 1);
+      this.apiClient.updateConsumer(this.apiClient.consumerAccount).subscribe({
+        next: (res: any) => {
+          this.interestsLoading = false;
+        }, error: (err: any) => {
+          alert('Error updating account with removal of interest. Check console.');
+          console.log(err);
+          this.interestsLoading = false;
+        }
+      })
+    }
   }
 }
