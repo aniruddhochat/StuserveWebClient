@@ -17,7 +17,7 @@ export class AdminApproveServicesComponent {
  
   isLoading: boolean = true;
   services: Service[] = [];
-  displayedColumns: string[] = ['id', 'name', 'type', 'category', 'createdAt', 'button'];
+  displayedColumns: string[] = ['id', 'name', 'type', 'category', 'createdAt', 'approve', 'deny'];
   //avatars: ProviderCloudImage[] = [];
 
   constructor(private apiClient: ApiClientService, private cloudService: CloudinaryService, private snackBar: MatSnackBar) {}
@@ -63,6 +63,23 @@ export class AdminApproveServicesComponent {
         });
       }, error: (err: any) => {
         alert('Error approving service, see console for details.');
+        console.log(err);
+      }
+    })
+  }
+
+  denyService(obj: Service) {
+    this.apiClient.deleteService(obj).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.snackBar.open("Delete Success", "", {
+          duration: 1000,
+          panelClass: ['green-snackbar'],
+        }).afterDismissed().subscribe(() => {
+          this.loadData();
+        });
+      }, error: (err: any) => {
+        alert('Error deleting/denying service, see console for details.');
         console.log(err);
       }
     })

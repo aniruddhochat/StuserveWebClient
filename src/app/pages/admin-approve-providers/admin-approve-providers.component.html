@@ -41,10 +41,16 @@
                         <td mat-cell *matCellDef="let element"> {{element.lname}} </td>
                     </ng-container>
     
-                    <!-- Button Column -->
-                    <ng-container matColumnDef="button">
+                    <!-- Approve Column -->
+                    <ng-container matColumnDef="approve">
                         <th mat-header-cell *matHeaderCellDef>  </th>
                         <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="approveProvider(element)">Approve</button> </td>
+                    </ng-container>
+
+                    <!-- Deny Column -->
+                    <ng-container matColumnDef="deny">
+                        <th mat-header-cell *matHeaderCellDef>  </th>
+                        <td mat-cell *matCellDef="let element"> <button mat-raised-button (click)="denyProvider(element)">Deny</button> </td>
                     </ng-container>
                 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

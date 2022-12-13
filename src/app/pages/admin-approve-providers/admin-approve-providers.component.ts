@@ -15,7 +15,7 @@ export class AdminApproveProvidersComponent {
   
   isLoading: boolean = true;
   providers: ProviderAccount[] = [];
-  displayedColumns: string[] = ['icon', 'id', 'username', 'fname', 'lname', 'button'];
+  displayedColumns: string[] = ['icon', 'id', 'username', 'fname', 'lname', 'approve', 'deny'];
   avatars: AccountCloudImage[] = [];
 
   constructor(private apiClient: ApiClientService, private cloudService: CloudinaryService, private snackBar: MatSnackBar) {}
@@ -61,6 +61,24 @@ export class AdminApproveProvidersComponent {
         });
       }, error: (err: any) => {
         alert('Error approving provider, see console for details.');
+        console.log(err);
+      }
+    })
+  }
+
+
+  denyProvider(obj: ProviderAccount) {
+    this.apiClient.deleteProvider(obj).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.snackBar.open("Delete Success", "", {
+          duration: 1000,
+          panelClass: ['green-snackbar'],
+        }).afterDismissed().subscribe(() => {
+          this.loadData();
+        });
+      }, error: (err: any) => {
+        alert('Error deleting/denying provider, see console for details.');
         console.log(err);
       }
     })
