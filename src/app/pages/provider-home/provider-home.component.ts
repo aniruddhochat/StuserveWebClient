@@ -26,7 +26,11 @@ export class ProviderHomeComponent implements OnInit {
    * Navigate to the service details page
    * @param selectedService The service data to send to the service details page
    */
- viewService(selectedService: Service) {
-  this.router.navigate(['/home/service-edit'], {state: selectedService});
-}
+  viewService(selectedService: Service) {
+    this.router.navigate(['/home/service-edit'], {state: selectedService});
+  }
+
+  roundRating(x: number) {
+    return Math.round(x * 100) / 100;
+  }
 }

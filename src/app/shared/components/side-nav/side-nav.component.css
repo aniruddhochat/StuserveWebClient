@@ -20,7 +20,7 @@
 
 #navContainer {
     padding: 15px;
-    width: 10vw;
+    width: 15vw;
     display: flex;
     flex-direction: column;
 }
@@ -36,6 +36,7 @@
 
 .navButton {
     font-size: 15px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-bottom: 10px;
 }
