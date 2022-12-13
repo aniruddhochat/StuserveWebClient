@@ -36,7 +36,7 @@
                 </mat-panel-title>
                 <mat-panel-description>
                     <div style="display: flex; width: 100%; justify-content: space-between;">
-                        <p><span style="color: black;">Rating: </span>{{service.ratings}}/5</p>
+                        <p><span style="color: black;">Rating: </span>{{roundRating(service.ratings)}}/5</p>
                         <p>{{service.category}}</p>
                         <p>{{service.createdAt| date:'short'}}</p>
                     </div>

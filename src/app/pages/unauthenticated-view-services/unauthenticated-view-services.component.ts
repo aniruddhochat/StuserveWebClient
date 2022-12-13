@@ -73,6 +73,9 @@ export class UnauthenticatedViewServicesComponent implements OnInit {
     this.sortServices();
   }
 
+  roundRating(x: number) {
+    return Math.round(x * 100) / 100;
+  }
 
   sortServices() {
     if(this.sortSelected == "ratings") {

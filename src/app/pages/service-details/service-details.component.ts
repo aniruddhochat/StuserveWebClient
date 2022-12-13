@@ -1,7 +1,9 @@
 import { formatDate } from '@angular/common';
-import { Component, ElementRef, Inject, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MapMarker } from '@angular/google-maps';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -11,6 +13,7 @@ import { GeoLocation } from 'src/app/shared/models/location.model';
 import { Order } from 'src/app/shared/models/order.model';
 import { PayementRequest } from 'src/app/shared/models/payement-request.model';
 import { Service } from 'src/app/shared/models/service.model';
+import { ServicesRequest } from 'src/app/shared/models/services-request.model';
 import { ApiClientService } from 'src/app/shared/services/api-client.service';
 import { GeocodeService } from 'src/app/shared/services/geocode.service';
 
@@ -20,12 +23,17 @@ import { GeocodeService } from 'src/app/shared/services/geocode.service';
   templateUrl: './service-details.component.html',
   styleUrls: ['./service-details.component.css']
 })
-export class ServiceDetailsComponent implements OnInit {
+export class ServiceDetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('map',{static: false}) mapElement!: ElementRef;
 
   isAuthenticated: boolean = false;
 
   map!: google.maps.Map;
+
+  displayedColumns: string[] = ['rating', 'name', 'comment'];
+
+  @ViewChild('paginator') paginator!: MatPaginator;
+
   
   constructor(private router: Router, public dialog: MatDialog, private apiClient: ApiClientService, private geoService: GeocodeService) { 
     
@@ -33,6 +41,17 @@ export class ServiceDetailsComponent implements OnInit {
 
   // Assigning the passed service object through navigation
   service: Service = this.router.getCurrentNavigation()!.extras.state as Service;
+  dataSource = new MatTableDataSource<{
+    user: string,
+    rating: number,
+    comment: string,
+    name: string
+}>(this.service.reviews);
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    console.log(this.paginator);
+  }
 
 
   ngOnInit(): void {
@@ -86,12 +105,21 @@ export class ServiceDetailsComponent implements OnInit {
   openReview() {
     // Open dialog and send options
     const dialogRef = this.dialog.open(ReviewPopupComponent, {
-      width: '250px',
+      width: '500px',
       data: this.service
     });
     
     dialogRef.afterClosed().subscribe(result => {
-      this.service = this.apiClient.approvedServices.find(p => p._id == this.service._id) as Service;
+      this.apiClient.getApprovedServices().subscribe({
+        next: (res: ServicesRequest) => {
+          this.apiClient.approvedServices = res.services;
+          this.service = res.services.find(p => p._id == this.service._id) as Service;
+          this.dataSource.data = this.service.reviews;
+        }, error: (err: any) => {
+          alert('Error reloading service, check console.');
+          console.log(err);
+        }
+      })
     });
   }
 
@@ -157,5 +185,10 @@ export class ServiceDetailsComponent implements OnInit {
 
   getUser(userID: string) {
     return this.apiClient.providers.find(p => p._id == userID);
+  }
+
+
+  roundRating(x: number) {
+    return Math.round(x * 100) / 100;
   }
 }

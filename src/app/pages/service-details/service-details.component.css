@@ -47,12 +47,15 @@
 
 .rating-red {
     color: red;
+    font-weight: bold;
 }
 
 .rating-yellow {
     color: goldenrod;
+    font-weight: bold;
 }
 
 .rating-green {
     color: green;
+    font-weight: bold;
 }

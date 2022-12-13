@@ -54,4 +54,9 @@ export class ConsumerHomeComponent implements OnInit {
   viewService(selectedService: Service) {
     this.router.navigate(['/home/service-details'], {state: selectedService});
   }
+
+
+  roundRating(x: number) {
+    return Math.round(x * 100) / 100;
+  }
 }

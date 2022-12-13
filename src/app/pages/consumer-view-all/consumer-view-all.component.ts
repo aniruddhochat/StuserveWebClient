@@ -56,6 +56,9 @@ export class ConsumerViewAllComponent implements OnInit {
     });
   }
 
+  roundRating(x: number) {
+    return Math.round(x * 100) / 100;
+  }
 
   getUser(userID: string) {
     return this.apiClient.providers.find(p => p._id == userID);
